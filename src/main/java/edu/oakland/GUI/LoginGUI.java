@@ -31,8 +31,7 @@ public class LoginGUI {
     public void initialize() {
 
         usernameField.setText("testing");
-
-        loginButton.setOnAction(this::tryLogin);
+        
     }
 
     @FXML
