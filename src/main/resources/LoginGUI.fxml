@@ -31,7 +31,7 @@
                   <Font name="DokChampa" size="48.0" />
                </font>
             </Label>
-            <PasswordField fx:id="passwordField" promptText="Password" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+            <PasswordField fx:id="passwordField" onAction="#tryLogin" promptText="Password" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
             <Button fx:id="loginButton" mnemonicParsing="false" text="Login!" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
             <Button fx:id="createAccountButton" mnemonicParsing="false" text="Create Account..." GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
          </children>
