@@ -32,6 +32,30 @@ public class Account {
         return true;
     }
 
+    /**
+     * Checks if an account with the given username exists
+     * @param user Username
+     * @return True if an account with this username exists, else false
+     */
+    public static boolean accountExists(String user) {
+        return accounts.containsKey(user);
+    }
+
+    /**
+     * Checks if a given username and password combination exists in the System
+     * @param user Username
+     * @param pass Password
+     * @return True if the account exists and the information is correct, else false
+     */
+    public static boolean login(String user, String pass) {
+        Account acc = accounts.get(user);
+        return acc != null && acc.checkPassword(pass);
+    }
+
+    private boolean checkPassword(String password) {
+        return password.hashCode() == passwordHash; //Todo Security
+    }
+
     private int generatePasswordHash(String password) {
         return password.hashCode(); //Todo Security
     }
