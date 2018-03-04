@@ -1,10 +1,13 @@
 package edu.oakland;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Account {
-    private static HashMap<String, Account> accounts = new HashMap<>();
+public class Account implements Serializable {
+
+    private transient static HashMap<String, Account> accounts = new HashMap<>();
+
     private String userName;
     private String email;
     private int passwordHash;
@@ -19,6 +22,7 @@ public class Account {
 
     /**
      * Called when the System attempts to create a new account
+     *
      * @param user Account username
      * @param pass Account password
      * @return Returns true if successfully created, else false
@@ -27,13 +31,14 @@ public class Account {
         if (accounts.containsKey(user)) {
             return false;
         }
-        Account acc = new Account(user, pass, "", new String[] {}); //Todo manage email and questions
+        Account acc = new Account(user, pass, "", new String[]{}); //Todo manage email and questions
         accounts.put(user, acc);
         return true;
     }
 
     /**
      * Checks if an account with the given username exists
+     *
      * @param user Username
      * @return True if an account with this username exists, else false
      */
@@ -43,6 +48,7 @@ public class Account {
 
     /**
      * Checks if a given username and password combination exists in the System
+     *
      * @param user Username
      * @param pass Password
      * @return True if the account exists and the information is correct, else false
