@@ -31,9 +31,7 @@ public class LoginGUI {
     @FXML
     public void initialize() {
 
-        usernameField.setText("testing");
-        Account.createAccount("changeme", "123"); //Dummy account
-        
+//        Account.createAccount("changeme", "123"); //Dummy account
     }
 
     @FXML

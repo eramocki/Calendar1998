@@ -1,12 +1,23 @@
 package edu.oakland;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Account implements Serializable {
 
+    private transient static final Logger logger = Logger.getLogger(Account.class.getName());
+
     private transient static HashMap<String, Account> accounts = new HashMap<>();
+    private transient static final File ACCOUNT_FILE = new File(Main.DATA_DIR, "accounts.dat");
 
     private String userName;
     private String email;
@@ -33,6 +44,7 @@ public class Account implements Serializable {
         }
         Account acc = new Account(user, pass, "", new String[]{}); //Todo manage email and questions
         accounts.put(user, acc);
+        saveAccounts();
         return true;
     }
 
@@ -64,5 +76,52 @@ public class Account implements Serializable {
 
     private int generatePasswordHash(String password) {
         return password.hashCode(); //Todo Security
+    }
+
+    /**
+     * Load accounts from disk to the current HashMap of accounts, overwriting it
+     */
+    public static void loadAccounts() {
+        if (!ACCOUNT_FILE.exists()) {
+            logger.warning("Wanted to load accounts but the file didn't exist");
+            return;
+        }
+
+        try {
+            FileInputStream fis = new FileInputStream(ACCOUNT_FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            accounts = (HashMap<String, Account>) ois.readObject();
+            logger.finest("Loaded accounts");
+
+            fis.close();
+            ois.close();
+
+        } catch (IOException | ClassNotFoundException | ClassCastException e) {
+            logger.log(Level.SEVERE, "Could not load accounts", e);
+        }
+    }
+
+    /**
+     * Write the current HashMap of accounts to disk, overwriting the file
+     */
+    public static void saveAccounts() {
+        if (!ACCOUNT_FILE.exists()) {
+            logger.fine("Creating new account file");
+        }
+
+        try {
+            FileOutputStream fos = new FileOutputStream(ACCOUNT_FILE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(accounts);
+            logger.finer("Saved accounts");
+
+            fos.close();
+            oos.close();
+
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Could not save accounts", e);
+        }
     }
 }
