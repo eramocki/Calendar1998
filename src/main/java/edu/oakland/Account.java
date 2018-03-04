@@ -21,14 +21,20 @@ public class Account implements Serializable {
 
     private String userName;
     private String email;
-    private int passwordHash;
+    private String passwordHash;
     private String[] securityQuestions;
 
     private Account(String userName, String password, String email, String[] questions) {
         this.userName = userName;
-        passwordHash = generatePasswordHash(password);
         this.email = email;
         securityQuestions = questions;
+
+        try {
+            passwordHash = PasswordStorage.createHash(password);
+        } catch (PasswordStorage.CannotPerformOperationException e) {
+            logger.log(Level.SEVERE, "Can't make password hash", e);
+            //todo If the hash can't be made it will probably end up being written to disk as null
+        }
     }
 
     /**
@@ -71,11 +77,12 @@ public class Account implements Serializable {
     }
 
     private boolean checkPassword(String password) {
-        return password.hashCode() == passwordHash; //Todo Security
-    }
-
-    private int generatePasswordHash(String password) {
-        return password.hashCode(); //Todo Security
+        try {
+            return PasswordStorage.verifyPassword(password, passwordHash);
+        } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException e) {
+            logger.log(Level.SEVERE, "Can't check password hash", e);
+        }
+        return false;
     }
 
     /**
