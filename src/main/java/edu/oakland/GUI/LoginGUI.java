@@ -75,4 +75,36 @@ public class LoginGUI {
         }
     }
 
+    @FXML
+    private void tryCreateAccount() {
+        if (Account.accountExists(usernameField.getText())) {
+            errorAlert("Creation Failed", "Account Creation Failed",
+                    "Account with that name already exists");
+        } else if (passwordField.getText().equals("")) {
+             errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
+                     "empty!");
+        } else { //Attempt to create account
+            if (Account.createAccount(usernameField.getText(), passwordField.getText())) {
+                alert("Account Created", "Account Successfully Created", "You can now login with" +
+                        " the provided information", Alert.AlertType.CONFIRMATION);
+            } else {
+                errorAlert("Creation Failed", "Account Creation Failed", "Account creation " +
+                        "failed for an unknown reason.");
+            }
+        }
+    }
+
+    //To clean up the code a bit
+    private void errorAlert(String title, String header, String content) {
+        alert(title, header, content, Alert.AlertType.ERROR);
+    }
+
+    private void alert(String title, String header, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 }
