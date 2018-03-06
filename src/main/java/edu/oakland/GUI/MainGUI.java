@@ -90,6 +90,7 @@ public class MainGUI {
         this.accountName=accountName;
     }
 
+    @FXML
     private void changePassword(ActionEvent event) {
         if (Account.login((accountName), oldPasswordField.getText())) {
             if (newPasswordField.getText() == verifyPasswordField.getText()) {
