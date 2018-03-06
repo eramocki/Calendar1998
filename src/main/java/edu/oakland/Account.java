@@ -54,6 +54,15 @@ public class Account implements Serializable {
         return true;
     }
 
+    public static boolean passwordChange(String user, String pass) {
+
+        accounts.remove(user); //Todo, carry over the other pending fields
+        Account acc = new Account(user, pass, "", new String[]{});
+        accounts.put(user, acc);
+        saveAccounts();
+        return true;
+    }
+
     /**
      * Checks if an account with the given username exists
      *

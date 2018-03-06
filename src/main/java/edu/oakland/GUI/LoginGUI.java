@@ -39,6 +39,8 @@ public class LoginGUI {
         if (Account.accountExists(usernameField.getText())) {
             if (Account.login(usernameField.getText(), passwordField.getText())) {
                 try {
+                    MainGUI mainGUI=new MainGUI();
+                    mainGUI.setAccountName(usernameField.getText());
                     Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainGUI.fxml"));
                     Stage stage = new Stage();
                     stage.setTitle("Calendar 1998");
