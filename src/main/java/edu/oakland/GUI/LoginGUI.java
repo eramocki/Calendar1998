@@ -40,7 +40,7 @@ public class LoginGUI {
             if (Account.login(usernameField.getText(), passwordField.getText())) {
                 try {
                     MainGUI mainGUI=new MainGUI();
-                    mainGUI.setAccountName(usernameField.getText());
+                    mainGUI.setCurrentAccount(Account.getAccount(usernameField.getText()));
 
                     java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
                     if (resource == null) {

@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class MainGUI {
 
-    private String accountName;
+    private Account currentAccount;
 
 
     @FXML
@@ -85,33 +85,26 @@ public class MainGUI {
     }
 
 
-
-    public void setAccountName(String accountName){
-        this.accountName=accountName;
-    }
-
     @FXML
     private void changePassword(ActionEvent event) {
-        if (Account.login((accountName), oldPasswordField.getText())) {
-            if (newPasswordField.getText() == verifyPasswordField.getText()) {
-                try {
-                        Account.passwordChange(accountName,newPasswordField.getText());
+        if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
+            boolean success = false;
+            try {
+                success = getCurrentAccount().changePassword(oldPasswordField.getText(), newPasswordField.getText());
 
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Oh no. There was an error changing the password!");
+                alert.setContentText(e.getMessage());
 
-
-                } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("This will not do.");
-                    alert.setHeaderText("Oh no. There was an error changing the password!");
-                    alert.setContentText(e.getMessage());
-
-                    alert.showAndWait();
-                }
-            } else {
+                alert.showAndWait();
+            }
+            if (!success) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("This will not do.");
                 alert.setHeaderText("Try again, friend.");
-                alert.setContentText("Passwords do not match");
+                alert.setContentText("Incorrect Current Password");
 
                 alert.showAndWait();
             }
@@ -119,10 +112,17 @@ public class MainGUI {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Incorrect Current Password");
+            alert.setContentText("Passwords do not match");
 
             alert.showAndWait();
         }
     }
 
+    public Account getCurrentAccount() {
+        return currentAccount;
+    }
+
+    public void setCurrentAccount(Account currentAccount) {
+        this.currentAccount = currentAccount;
+    }
 }

@@ -54,13 +54,18 @@ public class Account implements Serializable {
         return true;
     }
 
-    public static boolean passwordChange(String user, String pass) {
-
-        accounts.remove(user); //Todo, carry over the other pending fields
-        Account acc = new Account(user, pass, "", new String[]{});
-        accounts.put(user, acc);
-        saveAccounts();
-        return true;
+    public boolean changePassword(String oldPassword, String newPassword) {
+        try {
+            String oldPasswordHash = PasswordStorage.createHash(oldPassword);
+            if (this.passwordHash.equals(oldPasswordHash)) {
+                this.passwordHash = PasswordStorage.createHash(newPassword);
+                saveAccounts();
+                return true;
+            }
+        } catch (PasswordStorage.CannotPerformOperationException e) {
+            logger.log(Level.SEVERE, "Can't make password hash", e);
+        }
+        return false;
     }
 
     /**
@@ -71,6 +76,18 @@ public class Account implements Serializable {
      */
     public static boolean accountExists(String user) {
         return accounts.containsKey(user);
+    }
+
+    /**
+     * Get the account object for the given username, or null if one does not exist.
+     *
+     * @param userName the userName of the account
+     * @return the Account
+     */
+    public static Account getAccount(String userName) {
+        if (!accountExists(userName)) return null;
+
+        return accounts.get(userName);
     }
 
     /**
