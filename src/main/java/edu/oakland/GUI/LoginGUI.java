@@ -41,7 +41,12 @@ public class LoginGUI {
                 try {
                     MainGUI mainGUI=new MainGUI();
                     mainGUI.setAccountName(usernameField.getText());
-                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainGUI.fxml"));
+
+                    java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
+                    if (resource == null) {
+                        resource = getClass().getResource("MainGUI.fxml");
+                    }
+                    Parent root = FXMLLoader.load(resource);
                     Stage stage = new Stage();
                     stage.setTitle("Calendar 1998");
                     stage.setScene(new Scene(root, 650, 650));

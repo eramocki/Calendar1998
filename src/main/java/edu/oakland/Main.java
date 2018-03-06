@@ -28,7 +28,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LoginGUI.fxml"));
+        java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
+        if (resource == null) {
+            resource = getClass().getResource("LoginGUI.fxml");
+        }
+        Parent root = FXMLLoader.load(resource);
         primaryStage.setTitle("Calendar1998");
         primaryStage.setScene(new Scene(root, 600, 300));
         primaryStage.show();
