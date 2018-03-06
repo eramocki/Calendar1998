@@ -14,8 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginGUI {
+
+    private transient static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
 
     @FXML
     private TextField usernameField;
@@ -52,6 +56,7 @@ public class LoginGUI {
                     alert.setTitle("This will not do.");
                     alert.setHeaderText("Woah! There was a problem logging in!");
                     alert.setContentText(e.getMessage());
+                    logger.log(Level.SEVERE, "Error logging in", e);
 
                     alert.showAndWait();
                 }

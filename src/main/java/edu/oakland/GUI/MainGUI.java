@@ -15,8 +15,13 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainGUI {
+
+
+    private transient static final Logger logger = Logger.getLogger(MainGUI.class.getName());
 
     @FXML
     private GridPane calendarGridPane;
@@ -55,5 +60,4 @@ public class MainGUI {
             current = current.plusDays(1);
         }
     }
-
 }
