@@ -34,13 +34,13 @@ public class MainGUI {
 
 
     @FXML
-    private PasswordField oldPasswordField;
+    private TextField oldPasswordField;
 
     @FXML
-    private PasswordField newPasswordField;
+    private TextField newPasswordField;
 
     @FXML
-    private PasswordField verifyPasswordField;
+    private TextField verifyPasswordField;
 
     @FXML
     private Button updatePasswordButton;
