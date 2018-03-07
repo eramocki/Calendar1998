@@ -20,14 +20,14 @@ public class Account implements Serializable {
     private transient static final File ACCOUNT_FILE = new File(Main.DATA_DIR, "accounts.dat");
 
     private String userName;
-    private String email;
+    private String name;
     private String passwordHash;
     private String[] securityQuestions;
 
-    private Account(String userName, String password, String email, String[] questions) {
+    private Account(String userName, String password, String name, String[] securityQuestions) {
         this.userName = userName;
-        this.email = email;
-        securityQuestions = questions;
+        this.name = name;
+        this.securityQuestions = securityQuestions;
 
         try {
             passwordHash = PasswordStorage.createHash(password);
@@ -44,11 +44,11 @@ public class Account implements Serializable {
      * @param pass Account password
      * @return Returns true if successfully created, else false
      */
-    public static boolean createAccount(String user, String pass) {
+    public static boolean createAccount(String user, String pass, String name, String[] securityQuestions) {
         if (accounts.containsKey(user)) {
             return false;
         }
-        Account acc = new Account(user, pass, "", new String[]{}); //Todo manage email and questions
+        Account acc = new Account(user, pass, name, securityQuestions); //Todo manage email and questions
         accounts.put(user, acc);
         saveAccounts();
         return true;
@@ -92,8 +92,19 @@ public class Account implements Serializable {
      */
     public static Account getAccount(String userName) {
         if (!accountExists(userName)) return null;
-
         return accounts.get(userName);
+    }
+
+    /**
+     * Gets the user account's real name
+     *
+     * @param userName the userName of the account
+     * @return real name
+     */
+    public static String getName(String userName) {
+        if (!accountExists(userName)) return null;
+        Account acc = accounts.get(userName);
+        return acc.name;
     }
 
     /**
