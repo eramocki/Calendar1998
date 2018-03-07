@@ -67,7 +67,6 @@ public class LoginGUI {
                     alert.setHeaderText("Woah! There was a problem logging in!");
                     alert.setContentText(e.getMessage());
                     logger.log(Level.SEVERE, "Error logging in", e);
-
                     alert.showAndWait();
                 }
             } else {
@@ -75,7 +74,6 @@ public class LoginGUI {
                 alert.setTitle("This will not do.");
                 alert.setHeaderText("Try again, friend.");
                 alert.setContentText("Incorrect username / password combination");
-
                 alert.showAndWait();
             }
         } else {
@@ -83,7 +81,6 @@ public class LoginGUI {
             alert.setTitle("This will not do.");
             alert.setHeaderText("Account not found.");
             alert.setContentText("No such account found. You can create one using the button below.");
-
             alert.showAndWait();
         }
     }
@@ -91,7 +88,6 @@ public class LoginGUI {
     @FXML
     public void openCreate(ActionEvent event) {
         Stage stage;
-
             try {
                 stage = new Stage();
                 java.net.URL resource = getClass().getClassLoader().getResource("CreateGUI.fxml");
@@ -131,8 +127,7 @@ public class LoginGUI {
         } else if (!passwordField.getText().matches(".*\\d+.*")){
             errorAlert("Creation Failed", "Account Creation Failed", "Password must contain at " +
                     "least one number");
-        }
-        else {
+        } else {
             //Trys to create account, passes all fields to be stored in map
             if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
                 alert("Account Created", "Account Successfully Created", "You can now login with" +
