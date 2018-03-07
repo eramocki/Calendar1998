@@ -74,6 +74,18 @@ public class Account implements Serializable {
         return false;
     }
 
+    public Boolean resetPassword(String newPassword) {
+        try {
+            this.passwordHash = PasswordStorage.createHash(newPassword);
+            saveAccounts();
+            return true;
+        }
+        catch (PasswordStorage.CannotPerformOperationException  e) {
+            logger.log(Level.SEVERE, "Can't make password hash", e);
+        }
+        return false;
+    }
+
     /**
      * Checks if an account with the given username exists
      *
