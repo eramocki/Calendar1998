@@ -54,13 +54,14 @@ public class Account implements Serializable {
         return true;
     }
 
-    public static boolean passwordChange(String user, String pass) {
-
-        accounts.remove(user); //Todo, carry over the other pending fields
-        Account acc = new Account(user, pass, "", new String[]{});
-        accounts.put(user, acc);
+    public static void passwordChange(String user, String pass) {
+        Account acc = accounts.get(user);
+        try {
+            acc.passwordHash = PasswordStorage.createHash(pass);
+        } catch (PasswordStorage.CannotPerformOperationException e) {
+            logger.log(Level.SEVERE, "Can't make password hash", e);
+        }
         saveAccounts();
-        return true;
     }
 
     /**

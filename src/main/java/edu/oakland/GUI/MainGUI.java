@@ -30,17 +30,17 @@ import java.util.Locale;
 
 public class MainGUI {
 
-    private String accountName;
+    private static String accountName;
 
 
     @FXML
-    private TextField oldPasswordField;
+    private PasswordField oldPasswordField;
 
     @FXML
-    private TextField newPasswordField;
+    private PasswordField newPasswordField;
 
     @FXML
-    private TextField verifyPasswordField;
+    private PasswordField verifyPasswordField;
 
     @FXML
     private Button updatePasswordButton;
@@ -86,17 +86,24 @@ public class MainGUI {
 
 
 
-    public void setAccountName(String accountName){
-        this.accountName=accountName;
+    public static void setAccountName(String name){
+        accountName=name;
+    }
+
+    public String getAccountName(){
+        return accountName;
     }
 
     @FXML
     private void changePassword(ActionEvent event) {
-        if (Account.login((accountName), oldPasswordField.getText())) {
-            if (newPasswordField.getText() == verifyPasswordField.getText()) {
+        if (Account.login(getAccountName(), oldPasswordField.getText())) {
+            if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
                 try {
                         Account.passwordChange(accountName,newPasswordField.getText());
-
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Woo-hoo!");
+                    alert.setHeaderText("Your password has been changed!");
+                    alert.showAndWait();
 
 
                 } catch (Exception e) {

@@ -39,8 +39,7 @@ public class LoginGUI {
         if (Account.accountExists(usernameField.getText())) {
             if (Account.login(usernameField.getText(), passwordField.getText())) {
                 try {
-                    MainGUI mainGUI=new MainGUI();
-                    mainGUI.setAccountName(usernameField.getText());
+                    MainGUI.setAccountName(usernameField.getText());
 
                     java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
                     if (resource == null) {
