@@ -41,7 +41,7 @@ public class LoginGUI {
     @FXML
     private void tryLogin(ActionEvent event) {
         if (Account.accountExists(usernameField.getText())) {
-            if (Account.login(usernameField.getText(), passwordField.getText())) {
+            if (Account.checkCredentials(usernameField.getText(), passwordField.getText())) {
                 try {
                     MainGUI.setAccountName(usernameField.getText());
 

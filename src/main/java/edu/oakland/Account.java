@@ -81,7 +81,7 @@ public class Account implements Serializable {
      * @param pass Password
      * @return True if the account exists and the information is correct, else false
      */
-    public static boolean login(String user, String pass) {
+    public static boolean checkCredentials(String user, String pass) {
         Account acc = accounts.get(user);
         return acc != null && acc.checkPassword(pass);
     }

@@ -100,7 +100,7 @@ public class MainGUI {
 
     @FXML
     private void changePassword(ActionEvent event) {
-        if (Account.login(getAccountName(), oldPasswordField.getText())) {
+        if (Account.checkCredentials(getAccountName(), oldPasswordField.getText())) {
             if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
                 try {
                         Account.passwordChange(accountName,newPasswordField.getText());
