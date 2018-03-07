@@ -32,7 +32,7 @@ public class LoginGUI {
     public void initialize() {
 
         //TODO Remove?
-//        Account.createAccount("changeme", "123"); //Dummy account
+        //Account.createAccount("changeme", "123"); //Dummy account
     }
 
     @FXML
@@ -107,7 +107,6 @@ public class LoginGUI {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
     }
 
     @FXML
@@ -150,5 +149,4 @@ public class LoginGUI {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
 }
