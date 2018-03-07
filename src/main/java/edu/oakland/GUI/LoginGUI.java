@@ -54,7 +54,7 @@ public class LoginGUI {
 
                     //Create the window
                     Stage stage = new Stage();
-                    stage.setTitle(Account.getName(userField.getText()));
+                    stage.setTitle(Account.getName(userField.getText()) + "'s Calendar");
                     stage.setScene(new Scene(root, 650, 650));
                     stage.show();
 
