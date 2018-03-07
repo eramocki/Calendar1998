@@ -79,9 +79,11 @@ public class MainGUI {
 
     @FXML
     private void changePassword(ActionEvent event) {
+        //Check that new password boxes match
         if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
             boolean success = false;
             try {
+                //Try and change the password
                 success = getCurrentAccount().changePassword(oldPasswordField.getText(), newPasswordField.getText());
 
             } catch (Exception e) {
@@ -108,7 +110,7 @@ public class MainGUI {
                 alert.showAndWait();
             }
 
-        } else {
+        } else { //New passwords didn't match
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");

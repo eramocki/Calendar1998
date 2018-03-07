@@ -43,6 +43,7 @@ public class LoginGUI {
         if (Account.accountExists(usernameField.getText())) {
             if (Account.checkCredentials(usernameField.getText(), passwordField.getText())) {
                 try {
+                    //Get resource for FXML file
                     java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
                     if (resource == null) {
                         resource = getClass().getResource("MainGUI.fxml");
@@ -50,14 +51,17 @@ public class LoginGUI {
                     FXMLLoader fxmlLoader = new FXMLLoader(resource);
                     Parent root = fxmlLoader.load();
 
+                    //Get a reference to the instance of MainGUI
                     MainGUI mainGUI = fxmlLoader.getController();
                     mainGUI.setCurrentAccount(Account.getAccount(usernameField.getText()));
 
+                    //Create the window
                     Stage stage = new Stage();
                     stage.setTitle("Calendar 1998");
                     stage.setScene(new Scene(root, 650, 650));
                     stage.show();
 
+                    //Hide login window
                     ((Node) (event.getSource())).getScene().getWindow().hide();
 
                 } catch (IOException e) {
