@@ -44,6 +44,7 @@ public class LoginGUI {
 =======
                     MainGUI mainGUI=new MainGUI();
                     mainGUI.setAccountName(usernameField.getText());
+<<<<<<< HEAD
 >>>>>>> parent of 5619219... Refactor changePassword method to be non static
 
                     java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
@@ -51,6 +52,9 @@ public class LoginGUI {
                         resource = getClass().getResource("MainGUI.fxml");
                     }
                     Parent root = FXMLLoader.load(resource);
+=======
+                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainGUI.fxml"));
+>>>>>>> parent of 52b53c2... Change resource loading
                     Stage stage = new Stage();
                     stage.setTitle("Calendar 1998");
                     stage.setScene(new Scene(root, 650, 650));
