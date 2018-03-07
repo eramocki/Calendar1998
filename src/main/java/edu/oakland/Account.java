@@ -108,6 +108,18 @@ public class Account implements Serializable {
     }
 
     /**
+     * Gets the user account's security question answers
+     *
+     * @param userName the userName of the account
+     * @return answers to the security questions
+     */
+    public static String[] getSecurityQuestions(String userName) {
+        if (!accountExists(userName)) return null;
+        Account acc = accounts.get(userName);
+        return acc.securityQuestions;
+    }
+
+    /**
      * Checks if a given username and password combination exists in the System
      *
      * @param user Username

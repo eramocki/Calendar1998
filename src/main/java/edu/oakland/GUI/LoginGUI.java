@@ -35,6 +35,10 @@ public class LoginGUI {
         //Account.createAccount("changeme", "123"); //Dummy account
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     private void tryLogin(ActionEvent event) {
         if (Account.accountExists(userField.getText())) {
@@ -85,6 +89,10 @@ public class LoginGUI {
         }
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     public void openCreate(ActionEvent event) {
         Stage stage;
@@ -105,6 +113,68 @@ public class LoginGUI {
             }
     }
 
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    public void openReset(ActionEvent event) {
+        Stage stage;
+        try {
+            stage = new Stage();
+            java.net.URL resource = getClass().getClassLoader().getResource("ResetGUI.fxml");
+            if (resource == null) {
+                resource = getClass().getResource("ResetGUI.fxml");
+            }
+            Parent root3 = FXMLLoader.load(resource);
+            stage.setScene(new Scene(root3));
+            stage.setTitle("Reset Account");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(createAccountButton.getScene().getWindow());
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void tryResetAccount(ActionEvent event){
+        if (Account.accountExists(userField.getText())) {
+            if(!sq1.getText().equals(Account.getSecurityQuestions(userField.getText())) ||
+                    !sq2.getText().equals(Account.getSecurityQuestions(userField.getText())) ||
+                    !sq3.getText().equals(Account.getSecurityQuestions(userField.getText()))){
+                errorAlert("Reset Failed", "Account Reset Failed",
+                        "One or more security questions are incorrect");
+                if (!passwordField_confirm.getText().equals(passwordField.getText())) {
+                    errorAlert("Reset Failed", "Account Reset Failed", "Your confirmation " +
+                            "password did not match!");
+                } else if (passwordField.getText().length() < 8) {
+                    errorAlert("Reset Failed", "Account Reset Failed", "Password must be at least " +
+                            "8 characters long");
+                } else if (!passwordField.getText().matches(".*\\d+.*")) {
+                    errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
+                } else {
+                            //update password here
+                }
+
+            } else {
+                errorAlert("Reset Failed", "Account Reset Failed",
+                        "Account doesn't exist");
+            }
+        } else {
+            errorAlert("Reset Failed", "Account Reset Failed", "Account reset " +
+                    "failed for an unknown reason.");
+        }
+    }
+
+    /**
+     *
+     * @param event
+     */
     @FXML
     private void tryCreateAccount(ActionEvent event) {
         if (Account.accountExists(userField.getText())) {
@@ -141,10 +211,24 @@ public class LoginGUI {
     }
 
     //To clean up the code a bit
+
+    /**
+     *
+     * @param title
+     * @param header
+     * @param content
+     */
     private void errorAlert(String title, String header, String content) {
         alert(title, header, content, Alert.AlertType.ERROR);
     }
 
+    /**
+     *
+     * @param title
+     * @param header
+     * @param content
+     * @param type
+     */
     private void alert(String title, String header, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
