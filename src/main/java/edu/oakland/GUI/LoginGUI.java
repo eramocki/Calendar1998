@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,7 +31,6 @@ public class LoginGUI {
     private Button loginButton;
     @FXML
     private Button createAccountButton;
-
 
     @FXML
     public void initialize() {
@@ -88,6 +88,36 @@ public class LoginGUI {
             alert.setContentText("No such account found. You can create one using the button below.");
 
             alert.showAndWait();
+        }
+    }
+
+    @FXML
+    public void helpME(ActionEvent event) {
+        Stage stage;
+        if(event.getSource() ==  createAccountButton)
+        {
+
+            try {
+                stage = new Stage();
+                java.net.URL resource = getClass().getClassLoader().getResource("CreateGUI.fxml");
+                if (resource == null) {
+                    resource = getClass().getResource("CreateGUI.fxml");
+                }
+                Parent root2 = FXMLLoader.load(resource);
+                stage.setScene(new Scene(root2));
+                stage.setTitle("aaa");
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(createAccountButton.getScene().getWindow());
+                stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else
+        {
+            stage = (Stage)createAccountButton.getScene().getWindow();
+            stage.close();
         }
     }
 

@@ -20,13 +20,13 @@ public class Account implements Serializable {
     private transient static final File ACCOUNT_FILE = new File(Main.DATA_DIR, "accounts.dat");
 
     private String userName;
-    private String email;
+    private String fName;
     private String passwordHash;
     private String[] securityQuestions;
 
-    private Account(String userName, String password, String email, String[] questions) {
+    private Account(String userName, String password, String fName, String[] questions) {
         this.userName = userName;
-        this.email = email;
+        this.fName = fName;
         securityQuestions = questions;
 
         try {
