@@ -112,32 +112,21 @@ public class LoginGUI {
 
     @FXML
     private void tryCreateAccount() {
-        if (Account.accountExists(userField.getText()))
-        {
+        if (Account.accountExists(userField.getText())) {
             errorAlert("Creation Failed", "Account Creation Failed",
                     "Account with that name already exists");
-        }
-        else if (passwordField.getText().equals("") || passwordField_confirm.getText().equals(""))
-        {
+        } else if (passwordField.getText().equals("") || passwordField_confirm.getText().equals("")) {
              errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
                      "empty!");
-        }
-        else if (sq1.getText().equals("") || sq2.getText().equals("") || sq3.getText().equals(""))
-        {
+        } else if (sq1.getText().equals("") || sq2.getText().equals("") || sq3.getText().equals("")) {
             errorAlert("Creation Failed", "Account Creation Failed", "Security question fields " +
                     "cannot be empty!");
-        }
-        else if (!passwordField_confirm.getText().equals(passwordField.getText()))
-        {
+        } else if (!passwordField_confirm.getText().equals(passwordField.getText())) {
             errorAlert("Creation Failed", "Account Creation Failed", "Your confirmation " +
                     "password did not match!");
-        }
-        else if (nameField.getText().equals(""))
-        {
+        } else if (nameField.getText().equals("")) {
             errorAlert("Creation Failed", "Account Creation Failed", "Your name cannot be blank!");
-        }
-        else
-        {
+        } else {
             if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
                 alert("Account Created", "Account Successfully Created", "You can now login with" +
                         " the provided information", Alert.AlertType.CONFIRMATION);
