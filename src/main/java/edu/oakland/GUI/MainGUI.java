@@ -3,40 +3,27 @@ package edu.oakland.GUI;
 import edu.oakland.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.MonthDay;
-import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainGUI {
 
-
     private transient static final Logger logger = Logger.getLogger(MainGUI.class.getName());
 
     private static String accountName;
-
 
     @FXML
     private PasswordField oldPasswordField;
