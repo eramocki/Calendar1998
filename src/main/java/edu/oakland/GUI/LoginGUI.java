@@ -15,7 +15,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +31,7 @@ public class LoginGUI {
     @FXML
     public void initialize() {
 
+        //TODO Remove?
 //        Account.createAccount("changeme", "123"); //Dummy account
     }
 
@@ -127,10 +127,10 @@ public class LoginGUI {
         } else if (nameField.getText().equals("")) {
             errorAlert("Creation Failed", "Account Creation Failed", "Your name cannot be blank!");
         } else {
+            //Trys to create account, passes all fields to be stored in map
             if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
                 alert("Account Created", "Account Successfully Created", "You can now login with" +
                         " the provided information", Alert.AlertType.CONFIRMATION);
-
             } else {
                 errorAlert("Creation Failed", "Account Creation Failed", "Account creation " +
                         "failed for an unknown reason.");

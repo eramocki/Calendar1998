@@ -92,10 +92,15 @@ public class Account implements Serializable {
      */
     public static Account getAccount(String userName) {
         if (!accountExists(userName)) return null;
-
         return accounts.get(userName);
     }
 
+    /**
+     * Gets the user account's real name
+     *
+     * @param userName the userName of the account
+     * @return real name
+     */
     public static String getName(String userName) {
         if (!accountExists(userName)) return null;
         Account acc = accounts.get(userName);
