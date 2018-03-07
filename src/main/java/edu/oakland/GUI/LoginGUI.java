@@ -43,13 +43,16 @@ public class LoginGUI {
         if (Account.accountExists(usernameField.getText())) {
             if (Account.checkCredentials(usernameField.getText(), passwordField.getText())) {
                 try {
-                    MainGUI.setAccountName(usernameField.getText());
-
                     java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
                     if (resource == null) {
                         resource = getClass().getResource("MainGUI.fxml");
                     }
-                    Parent root = FXMLLoader.load(resource);
+                    FXMLLoader fxmlLoader = new FXMLLoader(resource);
+                    Parent root = fxmlLoader.load();
+
+                    MainGUI mainGUI = fxmlLoader.getController();
+                    mainGUI.setCurrentAccount(Account.getAccount(usernameField.getText()));
+
                     Stage stage = new Stage();
                     stage.setTitle("Calendar 1998");
                     stage.setScene(new Scene(root, 650, 650));

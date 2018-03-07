@@ -54,14 +54,24 @@ public class Account implements Serializable {
         return true;
     }
 
-    public static void passwordChange(String user, String pass) {
-        Account acc = accounts.get(user);
+    /**
+     * Try and change this Account's password.
+     *
+     * @param oldPassword the old password (not hash)
+     * @param newPassword the new password (not hash)
+     * @return True if the password was changed
+     */
+    public boolean changePassword(String oldPassword, String newPassword) {
         try {
-            acc.passwordHash = PasswordStorage.createHash(pass);
-        } catch (PasswordStorage.CannotPerformOperationException e) {
+            if (PasswordStorage.verifyPassword(oldPassword, passwordHash)) {
+                this.passwordHash = PasswordStorage.createHash(newPassword);
+                saveAccounts();
+                return true;
+            }
+        } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException e) {
             logger.log(Level.SEVERE, "Can't make password hash", e);
         }
-        saveAccounts();
+        return false;
     }
 
     /**
