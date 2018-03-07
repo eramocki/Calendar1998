@@ -17,6 +17,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainGUI {
@@ -90,7 +91,7 @@ public class MainGUI {
         if (Account.checkCredentials(getAccountName(), oldPasswordField.getText())) {
             if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
                 try {
-                        Account.passwordChange(accountName,newPasswordField.getText());
+                    Account.passwordChange(accountName,newPasswordField.getText());
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Woo-hoo!");
                     alert.setHeaderText("Your password has been changed!");
@@ -102,6 +103,7 @@ public class MainGUI {
                     alert.setTitle("This will not do.");
                     alert.setHeaderText("Oh no. There was an error changing the password!");
                     alert.setContentText(e.getMessage());
+                    logger.log(Level.SEVERE, "Error changing password", e);
 
                     alert.showAndWait();
                 }
