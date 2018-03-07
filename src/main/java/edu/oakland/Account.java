@@ -54,6 +54,7 @@ public class Account implements Serializable {
         return true;
     }
 
+<<<<<<< HEAD
     public static void passwordChange(String user, String pass) {
         Account acc = accounts.get(user);
         try {
@@ -62,6 +63,15 @@ public class Account implements Serializable {
             logger.log(Level.SEVERE, "Can't make password hash", e);
         }
         saveAccounts();
+=======
+    public static boolean passwordChange(String user, String pass) {
+
+        accounts.remove(user); //Todo, carry over the other pending fields
+        Account acc = new Account(user, pass, "", new String[]{});
+        accounts.put(user, acc);
+        saveAccounts();
+        return true;
+>>>>>>> parent of 5619219... Refactor changePassword method to be non static
     }
 
     /**

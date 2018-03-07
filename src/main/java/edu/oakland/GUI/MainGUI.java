@@ -30,7 +30,11 @@ import java.util.Locale;
 
 public class MainGUI {
 
+<<<<<<< HEAD
     private static String accountName;
+=======
+    private String accountName;
+>>>>>>> parent of 5619219... Refactor changePassword method to be non static
 
 
     @FXML
@@ -85,6 +89,7 @@ public class MainGUI {
     }
 
 
+<<<<<<< HEAD
 
     public static void setAccountName(String name){
         accountName=name;
@@ -105,6 +110,21 @@ public class MainGUI {
                     alert.setHeaderText("Your password has been changed!");
                     alert.showAndWait();
 
+=======
+
+    public void setAccountName(String accountName){
+        this.accountName=accountName;
+    }
+
+    @FXML
+    private void changePassword(ActionEvent event) {
+        if (Account.login((accountName), oldPasswordField.getText())) {
+            if (newPasswordField.getText() == verifyPasswordField.getText()) {
+                try {
+                        Account.passwordChange(accountName,newPasswordField.getText());
+
+
+>>>>>>> parent of 5619219... Refactor changePassword method to be non static
 
                 } catch (Exception e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
