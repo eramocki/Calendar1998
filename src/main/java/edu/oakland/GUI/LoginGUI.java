@@ -110,7 +110,7 @@ public class LoginGUI {
     }
 
     @FXML
-    private void tryCreateAccount() {
+    private void tryCreateAccount(ActionEvent event) {
         if (Account.accountExists(userField.getText())) {
             errorAlert("Creation Failed", "Account Creation Failed",
                     "Account with that name already exists");
@@ -130,6 +130,7 @@ public class LoginGUI {
             if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
                 alert("Account Created", "Account Successfully Created", "You can now login with" +
                         " the provided information", Alert.AlertType.CONFIRMATION);
+                ((Node) (event.getSource())).getScene().getWindow().hide();
             } else {
                 errorAlert("Creation Failed", "Account Creation Failed", "Account creation " +
                         "failed for an unknown reason.");
