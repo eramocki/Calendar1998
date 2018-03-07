@@ -15,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,15 +24,11 @@ public class LoginGUI {
     private transient static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
 
     @FXML
-    private TextField usernameField;
+    private TextField userField, nameField;
     @FXML
-    private PasswordField passwordField;
-
+    private PasswordField passwordField, passwordField_confirm;
     @FXML
-    private Button loginButton;
-    @FXML
-    private Button createAccountButton;
-
+    private Button loginButton, createAccountButton;
     @FXML
     public void initialize() {
 
@@ -40,8 +37,8 @@ public class LoginGUI {
 
     @FXML
     private void tryLogin(ActionEvent event) {
-        if (Account.accountExists(usernameField.getText())) {
-            if (Account.checkCredentials(usernameField.getText(), passwordField.getText())) {
+        if (Account.accountExists(userField.getText())) {
+            if (Account.checkCredentials(userField.getText(), passwordField.getText())) {
                 try {
                     //Get resource for FXML file
                     java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
@@ -53,11 +50,11 @@ public class LoginGUI {
 
                     //Get a reference to the instance of MainGUI
                     MainGUI mainGUI = fxmlLoader.getController();
-                    mainGUI.setCurrentAccount(Account.getAccount(usernameField.getText()));
+                    mainGUI.setCurrentAccount(Account.getAccount(userField.getText()));
 
                     //Create the window
                     Stage stage = new Stage();
-                    stage.setTitle(usernameField.getText() + "'s Calendar");
+                    stage.setTitle(Account.getName(userField.getText()));
                     stage.setScene(new Scene(root, 650, 650));
                     stage.show();
 
@@ -92,10 +89,8 @@ public class LoginGUI {
     }
 
     @FXML
-    public void helpME(ActionEvent event) {
+    public void openCreate(ActionEvent event) {
         Stage stage;
-        if(event.getSource() ==  createAccountButton)
-        {
 
             try {
                 stage = new Stage();
@@ -105,34 +100,48 @@ public class LoginGUI {
                 }
                 Parent root2 = FXMLLoader.load(resource);
                 stage.setScene(new Scene(root2));
-                stage.setTitle("aaa");
+                stage.setTitle("Create Account");
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.initOwner(createAccountButton.getScene().getWindow());
                 stage.showAndWait();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        }
-        else
-        {
-            stage = (Stage)createAccountButton.getScene().getWindow();
-            stage.close();
-        }
     }
 
     @FXML
     private void tryCreateAccount() {
-        if (Account.accountExists(usernameField.getText())) {
+        if (Account.accountExists(userField.getText()))
+        {
             errorAlert("Creation Failed", "Account Creation Failed",
                     "Account with that name already exists");
-        } else if (passwordField.getText().equals("")) {
+        }
+        else if (passwordField.getText().equals(""))
+        {
              errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
                      "empty!");
-        } else { //Attempt to create account
-            if (Account.createAccount(usernameField.getText(), passwordField.getText())) {
+        }
+        else if (passwordField_confirm.getText().equals(""))
+        {
+            errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
+                    "empty!");
+        }
+        else if (!passwordField_confirm.getText().equals(passwordField.getText()))
+        {
+            errorAlert("Creation Failed", "Account Creation Failed", "Your confirmation " +
+                    "password did not match!");
+        }
+        else if (nameField.getText().equals(""))
+        {
+            errorAlert("Creation Failed", "Account Creation Failed", "Your name cannot be blank!");
+        }
+        else
+        {
+            if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText())) {
                 alert("Account Created", "Account Successfully Created", "You can now login with" +
                         " the provided information", Alert.AlertType.CONFIRMATION);
+
             } else {
                 errorAlert("Creation Failed", "Account Creation Failed", "Account creation " +
                         "failed for an unknown reason.");

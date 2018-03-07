@@ -20,14 +20,14 @@ public class Account implements Serializable {
     private transient static final File ACCOUNT_FILE = new File(Main.DATA_DIR, "accounts.dat");
 
     private String userName;
-    private String fName;
+    private String name;
     private String passwordHash;
     private String[] securityQuestions;
 
-    private Account(String userName, String password, String fName, String[] questions) {
+    private Account(String userName, String password, String name) {
         this.userName = userName;
-        this.fName = fName;
-        securityQuestions = questions;
+        this.name = name;
+        //securityQuestions = questions;
 
         try {
             passwordHash = PasswordStorage.createHash(password);
@@ -44,11 +44,11 @@ public class Account implements Serializable {
      * @param pass Account password
      * @return Returns true if successfully created, else false
      */
-    public static boolean createAccount(String user, String pass) {
+    public static boolean createAccount(String user, String pass, String name) {
         if (accounts.containsKey(user)) {
             return false;
         }
-        Account acc = new Account(user, pass, "", new String[]{}); //Todo manage email and questions
+        Account acc = new Account(user, pass, name); //Todo manage email and questions
         accounts.put(user, acc);
         saveAccounts();
         return true;
@@ -94,6 +94,12 @@ public class Account implements Serializable {
         if (!accountExists(userName)) return null;
 
         return accounts.get(userName);
+    }
+
+    public static String getName(String userName) {
+        if (!accountExists(userName)) return null;
+        Account acc = accounts.get(userName);
+        return acc.name;
     }
 
     /**
