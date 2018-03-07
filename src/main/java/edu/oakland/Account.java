@@ -63,12 +63,12 @@ public class Account implements Serializable {
      */
     public boolean changePassword(String oldPassword, String newPassword) {
         try {
-            if (PasswordStorage.verifyPassword(oldPassword, passwordHash)) {
+            if (checkPassword(oldPassword)) {
                 this.passwordHash = PasswordStorage.createHash(newPassword);
                 saveAccounts();
                 return true;
             }
-        } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException e) {
+        } catch (PasswordStorage.CannotPerformOperationException  e) {
             logger.log(Level.SEVERE, "Can't make password hash", e);
         }
         return false;
