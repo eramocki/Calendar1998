@@ -125,6 +125,9 @@ public class LoginGUI {
                     "password did not match!");
         } else if (nameField.getText().equals("")) {
             errorAlert("Creation Failed", "Account Creation Failed", "Your name cannot be blank!");
+        } else if (passwordField.getText().length() < 8) {
+            errorAlert("Creation Failed", "Account Creation Failed", "Password must be at least " +
+                    "8 characters long");
         } else {
             //Trys to create account, passes all fields to be stored in map
             if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
