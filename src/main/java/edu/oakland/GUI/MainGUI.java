@@ -1,12 +1,24 @@
 package edu.oakland.GUI;
 
+import edu.oakland.Account;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.MonthDay;
@@ -22,6 +34,22 @@ public class MainGUI {
 
 
     private transient static final Logger logger = Logger.getLogger(MainGUI.class.getName());
+
+    private static String accountName;
+
+
+    @FXML
+    private PasswordField oldPasswordField;
+
+    @FXML
+    private PasswordField newPasswordField;
+
+    @FXML
+    private PasswordField verifyPasswordField;
+
+    @FXML
+    private Button updatePasswordButton;
+
 
     @FXML
     private GridPane calendarGridPane;
@@ -58,6 +86,53 @@ public class MainGUI {
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
             current = current.plusDays(1);
+        }
+    }
+
+
+    public static void setAccountName(String name){
+        accountName=name;
+    }
+
+    public String getAccountName(){
+        return accountName;
+    }
+
+    @FXML
+    private void changePassword(ActionEvent event) {
+        if (Account.login(getAccountName(), oldPasswordField.getText())) {
+            if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
+                try {
+                        Account.passwordChange(accountName,newPasswordField.getText());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Woo-hoo!");
+                    alert.setHeaderText("Your password has been changed!");
+                    alert.showAndWait();
+
+
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("This will not do.");
+                    alert.setHeaderText("Oh no. There was an error changing the password!");
+                    alert.setContentText(e.getMessage());
+
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Try again, friend.");
+                alert.setContentText("Passwords do not match");
+
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("This will not do.");
+            alert.setHeaderText("Try again, friend.");
+            alert.setContentText("Incorrect Current Password");
+
+            alert.showAndWait();
         }
     }
 }

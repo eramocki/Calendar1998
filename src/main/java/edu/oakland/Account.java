@@ -54,6 +54,16 @@ public class Account implements Serializable {
         return true;
     }
 
+    public static void passwordChange(String user, String pass) {
+        Account acc = accounts.get(user);
+        try {
+            acc.passwordHash = PasswordStorage.createHash(pass);
+        } catch (PasswordStorage.CannotPerformOperationException e) {
+            logger.log(Level.SEVERE, "Can't make password hash", e);
+        }
+        saveAccounts();
+    }
+
     /**
      * Checks if an account with the given username exists
      *
