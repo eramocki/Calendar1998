@@ -75,6 +75,18 @@ public class Account implements Serializable {
     }
 
     /**
+     * Get the account object for the given username, or null if one does not exist.
+     *
+     * @param userName the userName of the account
+     * @return the Account
+     */
+    public static Account getAccount(String userName) {
+        if (!accountExists(userName)) return null;
+
+        return accounts.get(userName);
+    }
+
+    /**
      * Checks if a given username and password combination exists in the System
      *
      * @param user Username
