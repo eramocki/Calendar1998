@@ -33,7 +33,7 @@ public class Main extends Application {
             resource = getClass().getResource("LoginGUI.fxml");
         }
         Parent root = FXMLLoader.load(resource);
-        primaryStage.setTitle("Calendar1998");
+        primaryStage.setTitle("Cadmium Calendar");
         primaryStage.setScene(new Scene(root, 600, 300));
         primaryStage.show();
     }

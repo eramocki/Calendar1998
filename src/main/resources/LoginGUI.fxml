@@ -29,7 +29,7 @@
         </rowConstraints>
          <children>
             <TextField fx:id="userField" promptText="Username" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
-            <Label text="Calendar 1998" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
+            <Label text="Cadmium Calendar" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
                <font>
                   <Font name="DokChampa" size="48.0" />
                </font>
