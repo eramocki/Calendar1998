@@ -128,7 +128,11 @@ public class LoginGUI {
         } else if (passwordField.getText().length() < 8) {
             errorAlert("Creation Failed", "Account Creation Failed", "Password must be at least " +
                     "8 characters long");
-        } else {
+        } else if (!passwordField.getText().matches(".*\\d+.*")){
+            errorAlert("Creation Failed", "Account Creation Failed", "Password must contain at " +
+                    "least one number");
+        }
+        else {
             //Trys to create account, passes all fields to be stored in map
             if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
                 alert("Account Created", "Account Successfully Created", "You can now login with" +
