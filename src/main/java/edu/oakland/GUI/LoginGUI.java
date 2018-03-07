@@ -24,7 +24,7 @@ public class LoginGUI {
     private transient static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
 
     @FXML
-    private TextField userField, nameField;
+    private TextField userField, nameField, sq1, sq2, sq3;
     @FXML
     private PasswordField passwordField, passwordField_confirm;
     @FXML
@@ -117,15 +117,15 @@ public class LoginGUI {
             errorAlert("Creation Failed", "Account Creation Failed",
                     "Account with that name already exists");
         }
-        else if (passwordField.getText().equals(""))
+        else if (passwordField.getText().equals("") || passwordField_confirm.getText().equals(""))
         {
              errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
                      "empty!");
         }
-        else if (passwordField_confirm.getText().equals(""))
+        else if (sq1.getText().equals("") || sq2.getText().equals("") || sq3.getText().equals(""))
         {
-            errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
-                    "empty!");
+            errorAlert("Creation Failed", "Account Creation Failed", "Security question fields " +
+                    "cannot be empty!");
         }
         else if (!passwordField_confirm.getText().equals(passwordField.getText()))
         {
@@ -138,7 +138,7 @@ public class LoginGUI {
         }
         else
         {
-            if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText())) {
+            if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
                 alert("Account Created", "Account Successfully Created", "You can now login with" +
                         " the provided information", Alert.AlertType.CONFIRMATION);
 

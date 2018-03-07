@@ -24,10 +24,10 @@ public class Account implements Serializable {
     private String passwordHash;
     private String[] securityQuestions;
 
-    private Account(String userName, String password, String name) {
+    private Account(String userName, String password, String name, String[] securityQuestions) {
         this.userName = userName;
         this.name = name;
-        //securityQuestions = questions;
+        this.securityQuestions = securityQuestions;
 
         try {
             passwordHash = PasswordStorage.createHash(password);
@@ -44,11 +44,11 @@ public class Account implements Serializable {
      * @param pass Account password
      * @return Returns true if successfully created, else false
      */
-    public static boolean createAccount(String user, String pass, String name) {
+    public static boolean createAccount(String user, String pass, String name, String[] securityQuestions) {
         if (accounts.containsKey(user)) {
             return false;
         }
-        Account acc = new Account(user, pass, name); //Todo manage email and questions
+        Account acc = new Account(user, pass, name, securityQuestions); //Todo manage email and questions
         accounts.put(user, acc);
         saveAccounts();
         return true;
