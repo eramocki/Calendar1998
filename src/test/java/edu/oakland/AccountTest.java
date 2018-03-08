@@ -4,6 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+
 import static edu.oakland.Main.DATA_DIR;
 import static org.junit.Assert.*;
 
@@ -19,6 +26,7 @@ public class AccountTest {
 
     @Before
     public void setUp() throws Exception {
+        cleanDirectory(DATA_DIR.toPath());
         DATA_DIR = new java.io.File(System.getProperty("user.home") + "/Calendar1998/test/");
         if (!DATA_DIR.exists()) {
             assertTrue(DATA_DIR.mkdirs());
@@ -30,7 +38,24 @@ public class AccountTest {
 
     @After
     public void tearDown() throws Exception {
+        cleanDirectory(DATA_DIR.toPath());
+    }
 
+    public void cleanDirectory(Path directory) throws IOException {
+        if(!Files.exists(directory)) return;
+        Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 
     @Test
