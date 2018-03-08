@@ -29,12 +29,7 @@ public class Account implements Serializable {
         this.name = name;
         this.securityQuestions = securityQuestions;
 
-        try {
-            passwordHash = PasswordStorage.createHash(password);
-        } catch (PasswordStorage.CannotPerformOperationException e) {
-            logger.log(Level.SEVERE, "Can't make password hash", e);
-            //todo If the hash can't be made it will probably end up being written to disk as null
-        }
+        setPassword(password);
     }
 
     /**
@@ -62,26 +57,27 @@ public class Account implements Serializable {
      * @return True if the password was changed
      */
     public boolean changePassword(String oldPassword, String newPassword) {
-        try {
-            if (checkPassword(oldPassword)) {
-                this.passwordHash = PasswordStorage.createHash(newPassword);
-                saveAccounts();
-                return true;
-            }
-        } catch (PasswordStorage.CannotPerformOperationException  e) {
-            logger.log(Level.SEVERE, "Can't make password hash", e);
-        }
-        return false;
+        return checkPassword(oldPassword) && setPassword(newPassword);
     }
 
     public Boolean resetPassword(String newPassword) {
+        return setPassword(newPassword);
+    }
+
+    /**
+     * Update this account's password hash and save to disk.
+     *
+     * @param password the new password
+     * @return True if the password changed
+     */
+    private boolean setPassword(String password) {
         try {
-            this.passwordHash = PasswordStorage.createHash(newPassword);
+            this.passwordHash = PasswordStorage.createHash(password);
             saveAccounts();
             return true;
-        }
-        catch (PasswordStorage.CannotPerformOperationException  e) {
+        } catch (PasswordStorage.CannotPerformOperationException e) {
             logger.log(Level.SEVERE, "Can't make password hash", e);
+            //todo If the hash can't be made it will probably end up being written to disk as null
         }
         return false;
     }
