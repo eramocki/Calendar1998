@@ -60,7 +60,20 @@ public class Account implements Serializable {
         return checkPassword(oldPassword) && setPassword(newPassword);
     }
 
-    public Boolean resetPassword(String newPassword) {
+    /**
+     * Try and reset this Account's password.
+     *
+     * @param newPassword             the new password (not hash)
+     * @param securityQuestionAnswers the answers to the saved security questions
+     * @return True if the password was changed
+     */
+    public boolean resetPassword(String newPassword, String[] securityQuestionAnswers) {
+        //Check the answers
+        for (int i = 0; i < 3; i++){
+            if(!this.securityQuestions[i].equals(securityQuestionAnswers[i])){
+                return false;
+            }
+        }
         return setPassword(newPassword);
     }
 
@@ -139,7 +152,13 @@ public class Account implements Serializable {
         return acc != null && acc.checkPassword(pass);
     }
 
-    private boolean checkPassword(String password) {
+    /**
+     * Check if the given password is valid for this account.
+     *
+     * @param password the password to check
+     * @return True if it matches the Account's stored password hash
+     */
+    public boolean checkPassword(String password) {
         try {
             return PasswordStorage.verifyPassword(password, passwordHash);
         } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException e) {

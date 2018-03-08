@@ -143,11 +143,8 @@ public class LoginGUI {
      */
     @FXML
     private void tryResetAccount(ActionEvent event){
-        String[] temp = Account.getSecurityQuestions(userFieldReset.getText());
         if (Account.accountExists(userFieldReset.getText())) {
-            if(!sq1Reset.getText().equals(temp[0]) || !sq2Reset.getText().equals(temp[1]) || !sq3Reset.getText().equals(temp[2])) {
-                errorAlert("Reset Failed", "Account Reset Failed", "One or more security questions are incorrect");
-            } else if (!passwordFieldReset_confirm.getText().equals(passwordFieldReset.getText())) {
+            if (!passwordFieldReset_confirm.getText().equals(passwordFieldReset.getText())) {
                     errorAlert("Reset Failed", "Account Reset Failed", "Your confirmation " +
                             "password did not match!");
             } else if (passwordFieldReset.getText().length() < 8 || passwordFieldReset.getText().equals("")) {
@@ -156,11 +153,14 @@ public class LoginGUI {
             } else if (!passwordFieldReset.getText().matches(".*\\d+.*")) {
                 errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
             } else {
-                Account temp1 = Account.getAccount(userFieldReset.getText());
-                temp1.resetPassword(passwordFieldReset.getText());
-                alert("Account Reset", "Account Successfully Reset", "You can now login with" +
-                        " the updated password", Alert.AlertType.CONFIRMATION);
-                ((Node) (event.getSource())).getScene().getWindow().hide();
+                Account temp = Account.getAccount(userFieldReset.getText());
+                if (temp.resetPassword(passwordFieldReset.getText(), new String[] {sq1Reset.getText(), sq2Reset.getText(), sq2Reset.getText()})){
+                    alert("Account Reset", "Account Successfully Reset", "You can now login with" +
+                            " the updated password", Alert.AlertType.CONFIRMATION);
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+                } else {
+                    errorAlert("Reset Failed", "Account Reset Failed", "One or more security questions are incorrect");
+                }
             }
         } else {
             errorAlert("Reset Failed", "Account Reset Failed", "Account doesn't exist");
