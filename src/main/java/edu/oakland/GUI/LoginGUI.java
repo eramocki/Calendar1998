@@ -31,8 +31,8 @@ public class LoginGUI {
     @FXML
     public void initialize() {
 
-        //TODO Remove?
-        //Account.createAccount("changeme", "123"); //Dummy account
+        //TODO Remove
+        Account.createAccount("y", "y", "test", new String[] {"1", "2", "3"}); //Dummy account
     }
 
     /**
