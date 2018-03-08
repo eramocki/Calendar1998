@@ -154,7 +154,7 @@ public class LoginGUI {
                 errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
             } else {
                 Account temp = Account.getAccount(userFieldReset.getText());
-                if (temp.resetPassword(passwordFieldReset.getText(), new String[] {sq1Reset.getText(), sq2Reset.getText(), sq2Reset.getText()})){
+                if (temp.resetPassword(passwordFieldReset.getText(), new String[] {sq1Reset.getText(), sq2Reset.getText(), sq3Reset.getText()})){
                     alert("Account Reset", "Account Successfully Reset", "You can now login with" +
                             " the updated password", Alert.AlertType.CONFIRMATION);
                     ((Node) (event.getSource())).getScene().getWindow().hide();
