@@ -69,7 +69,9 @@ public class Account implements Serializable {
      */
     public boolean resetPassword(String newPassword, String[] securityQuestionAnswers) {
         //Check the answers
-        for (int i = 0; i < 3; i++){
+        if (this.securityQuestions.length != securityQuestionAnswers.length) return false;
+
+        for (int i = 0; i < this.securityQuestions.length; i++){
             if(!this.securityQuestions[i].equals(securityQuestionAnswers[i])){
                 return false;
             }
