@@ -38,6 +38,11 @@ public class AccountTest {
 
     @After
     public void tearDown() throws Exception {
+        Account.removeAccount(testUserName);
+        Account.removeAccount(corruptedString);
+        Account.removeAccount("User1");
+        Account.removeAccount("User2");
+        Account.removeAccount("User3");
         cleanDirectory(DATA_DIR.toPath());
     }
 
@@ -60,12 +65,25 @@ public class AccountTest {
 
     @Test
     public void createAccount() {
+        assertFalse("Should not allow creating account with null userName", Account.createAccount(null, "password123", "Real Name", testQuestions));
+
         assertTrue(Account.createAccount("User1", "password123", "Real Name1", testQuestions));
         assertFalse(Account.createAccount("User1", "password123", "Real Name2", testQuestions)); //Duplicate userName
 
         assertTrue(Account.createAccount("User2", "password123", "Real Name", testQuestions));
         assertTrue(Account.createAccount(corruptedString, "password123", "Real Name", testQuestions));
         assertTrue(Account.createAccount("User3", corruptedString, "Real Name", testQuestions));
+    }
+
+    @Test
+    public void removeAccount() {
+        assertFalse(Account.removeAccount("Some username"));
+        assertFalse(Account.removeAccount(corruptedString));
+        assertFalse(Account.removeAccount(null));
+
+        assertTrue(Account.createAccount("UserToRemove", "password123", "Real Name", testQuestions));
+        assertTrue(Account.removeAccount("UserToRemove"));
+        assertNull(Account.getAccount("UserToRemove"));
     }
 
     @Test
@@ -111,6 +129,8 @@ public class AccountTest {
 
     @Test
     public void getAccount() {
+        assertNull(Account.getAccount(corruptedString));
+
         Account test1 = Account.getAccount(testUserName);
         assertArrayEquals(testAccount.getSecurityQuestions(), test1.getSecurityQuestions());
         assertEquals(testAccount.getName(), test1.getName());
