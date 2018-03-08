@@ -50,6 +50,21 @@ public class Account implements Serializable {
     }
 
     /**
+     * Remove an account from the map of current accounts, and save to disk.
+     *
+     * @param userName the user name of the account to remove
+     * @return True if the account was removed
+     */
+    public static boolean removeAccount(String userName) {
+        if (!accounts.containsKey(userName)) {
+            return false;
+        }
+        accounts.remove(userName);
+        saveAccounts();
+        return true;
+    }
+
+    /**
      * Try and change this Account's password.
      *
      * @param oldPassword the old password (not hash)
