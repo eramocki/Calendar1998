@@ -41,7 +41,7 @@
          <children>
             <TextField fx:id="userFieldReset" prefHeight="25.0" prefWidth="206.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="1" />
             <PasswordField fx:id="passwordFieldReset" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="6" />
-            <PasswordField fx:id="passwordField_confirmReset" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+            <PasswordField fx:id="passwordFieldReset_confirm" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="7" />
             <PasswordField fx:id="sq1Reset" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="2" />
             <PasswordField fx:id="sq2Reset" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="3" />
             <PasswordField fx:id="sq3Reset" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="4" />

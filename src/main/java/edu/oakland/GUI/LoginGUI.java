@@ -23,9 +23,9 @@ public class LoginGUI {
     private transient static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
 
     @FXML
-    private TextField userField, nameField, sq1, sq2, sq3;
+    private TextField userField, userFieldReset, nameField, sq1, sq2, sq3, sq1Reset, sq2Reset, sq3Reset;
     @FXML
-    private PasswordField passwordField, passwordField_confirm;
+    private PasswordField passwordField, passwordField_confirm, passwordFieldReset, passwordFieldReset_confirm;
     @FXML
     private Button loginButton, createAccountButton;
     @FXML
@@ -143,31 +143,27 @@ public class LoginGUI {
      */
     @FXML
     private void tryResetAccount(ActionEvent event){
-        if (Account.accountExists(userField.getText())) {
-            if(!sq1.getText().equals(Account.getSecurityQuestions(userField.getText())) ||
-                    !sq2.getText().equals(Account.getSecurityQuestions(userField.getText())) ||
-                    !sq3.getText().equals(Account.getSecurityQuestions(userField.getText()))){
-                errorAlert("Reset Failed", "Account Reset Failed",
-                        "One or more security questions are incorrect");
-                if (!passwordField_confirm.getText().equals(passwordField.getText())) {
+        String[] temp = Account.getSecurityQuestions(userFieldReset.getText());
+        if (Account.accountExists(userFieldReset.getText())) {
+            if(!sq1Reset.getText().equals(temp[0]) || !sq2Reset.getText().equals(temp[1]) || !sq3Reset.getText().equals(temp[2])) {
+                errorAlert("Reset Failed", "Account Reset Failed", "One or more security questions are incorrect");
+            } else if (!passwordFieldReset_confirm.getText().equals(passwordFieldReset.getText())) {
                     errorAlert("Reset Failed", "Account Reset Failed", "Your confirmation " +
                             "password did not match!");
-                } else if (passwordField.getText().length() < 8) {
+            } else if (passwordFieldReset.getText().length() < 8 || passwordFieldReset.getText().equals("")) {
                     errorAlert("Reset Failed", "Account Reset Failed", "Password must be at least " +
                             "8 characters long");
-                } else if (!passwordField.getText().matches(".*\\d+.*")) {
-                    errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
-                } else {
-                            //update password here
-                }
-
+            } else if (!passwordFieldReset.getText().matches(".*\\d+.*")) {
+                errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
             } else {
-                errorAlert("Reset Failed", "Account Reset Failed",
-                        "Account doesn't exist");
+                Account temp1 = Account.getAccount(userFieldReset.getText());
+                temp1.resetPassword(passwordFieldReset.getText());
+                alert("Account Reset", "Account Successfully Reset", "You can now login with" +
+                        " the updated password", Alert.AlertType.CONFIRMATION);
+                ((Node) (event.getSource())).getScene().getWindow().hide();
             }
         } else {
-            errorAlert("Reset Failed", "Account Reset Failed", "Account reset " +
-                    "failed for an unknown reason.");
+            errorAlert("Reset Failed", "Account Reset Failed", "Account doesn't exist");
         }
     }
 
