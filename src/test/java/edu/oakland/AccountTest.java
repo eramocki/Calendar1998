@@ -43,11 +43,13 @@ public class AccountTest {
         Account.removeAccount("User1");
         Account.removeAccount("User2");
         Account.removeAccount("User3");
+        Account.removeAccount("Test1");
         cleanDirectory(DATA_DIR.toPath());
     }
 
     public void cleanDirectory(Path directory) throws IOException {
         if(!Files.exists(directory)) return;
+        //https://stackoverflow.com/questions/779519/delete-directories-recursively-in-java/27917071#27917071
         Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
