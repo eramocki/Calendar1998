@@ -40,7 +40,7 @@ public class Account implements Serializable {
      * @return Returns true if successfully created, else false
      */
     public static boolean createAccount(String user, String pass, String name, String[] securityQuestions) {
-        if (accounts.containsKey(user)) {
+        if (accounts.containsKey(user) || user == null) {
             return false;
         }
         Account acc = new Account(user, pass, name, securityQuestions); //Todo manage email and questions
