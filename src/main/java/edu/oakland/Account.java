@@ -129,15 +129,6 @@ public class Account implements Serializable {
     }
 
     /**
-     * Gets this Account's security question answers
-     *
-     * @return answers to the security questions
-     */
-    public String[] getSecurityQuestions() {
-        return this.securityQuestions;
-    }
-
-    /**
      * Checks if a given username and password combination exists in the System
      *
      * @param user Username
@@ -209,5 +200,22 @@ public class Account implements Serializable {
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Could not save accounts", e);
         }
+    }
+
+    /**
+     * Gets this Account's security question answers
+     *
+     * @return answers to the security questions
+     */
+    public String[] getSecurityQuestions() {
+        return this.securityQuestions;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getName() {
+        return name;
     }
 }
