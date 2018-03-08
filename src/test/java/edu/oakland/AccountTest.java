@@ -95,7 +95,7 @@ public class AccountTest {
     @Test
     public void getName() {
         assertNull(Account.getName(corruptedString));
-        
+
         assertEquals(testRealName, Account.getName(testUserName));
     }
 

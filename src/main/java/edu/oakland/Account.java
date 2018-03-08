@@ -147,6 +147,7 @@ public class Account implements Serializable {
      * @return True if it matches the Account's stored password hash
      */
     public boolean checkPassword(String password) {
+        if (password == null) return false;
         try {
             return PasswordStorage.verifyPassword(password, passwordHash);
         } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException e) {
