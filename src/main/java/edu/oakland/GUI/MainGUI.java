@@ -36,7 +36,7 @@ public class MainGUI {
     private PasswordField verifyPasswordField;
 
     @FXML
-    private Button updatePasswordButton;
+    private Button updatePasswordButton, logoutButton;
 
 
     @FXML
@@ -118,6 +118,17 @@ public class MainGUI {
 
             alert.showAndWait();
         }
+    }
+
+    //TODO
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void tryLogout(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.showAndWait();
     }
 
     public Account getCurrentAccount() {

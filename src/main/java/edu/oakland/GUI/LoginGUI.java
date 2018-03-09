@@ -28,11 +28,15 @@ public class LoginGUI {
     private PasswordField passwordField, passwordField_confirm, passwordFieldReset, passwordFieldReset_confirm;
     @FXML
     private Button loginButton, createAccountButton;
+
+    /**
+     *
+     */
     @FXML
     public void initialize() {
 
-        //TODO Remove
-        Account.createAccount("y", "y", "test", new String[] {"1", "2", "3"}); //Dummy account
+        //Dummy Account
+        Account.createAccount("y", "y", "Test Account", new String[] {"1", "2", "3"});
     }
 
     /**
