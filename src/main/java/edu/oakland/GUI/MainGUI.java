@@ -43,6 +43,9 @@ public class MainGUI {
     private GridPane calendarGridPane;
 
     @FXML
+    private Label calendarHeaderLabel;
+
+    @FXML
     public void initialize() {
 
         //Create labels for day of week header
@@ -61,6 +64,8 @@ public class MainGUI {
         int rowIndex = 1;
         columnIndex = firstOfMonth.getDayOfWeek().getValue() % 7;
 
+        calendarHeaderLabel.setText(firstOfMonth.format(DateTimeFormatter.ofPattern("MMMM")));
+
         LocalDate current = firstOfMonth.toLocalDate();
         while (current.getMonth() == firstOfMonth.getMonth()) {
             Label DoMLabel = new Label();
@@ -75,6 +80,14 @@ public class MainGUI {
 
             current = current.plusDays(1);
         }
+    }
+
+    @FXML
+    private void viewMonthPrevious() {
+    }
+
+    @FXML
+    private void viewMonthNext() {
     }
 
     @FXML
