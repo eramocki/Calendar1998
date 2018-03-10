@@ -59,24 +59,32 @@ public class MainGUI {
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
 
-        //Add each day of month to grid
-        ZonedDateTime firstOfMonth = ZonedDateTime.now().withDayOfMonth(1);
+        viewMonth(ZonedDateTime.now());
+    }
+
+    private void viewMonth(ZonedDateTime theMonth){
+        ZonedDateTime firstOfMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
-        columnIndex = firstOfMonth.getDayOfWeek().getValue() % 7;
+        int columnIndex = firstOfMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
 
         calendarHeaderLabel.setText(firstOfMonth.format(DateTimeFormatter.ofPattern("MMMM")));
 
         LocalDate current = firstOfMonth.toLocalDate();
-        while (current.getMonth() == firstOfMonth.getMonth()) {
-            Label DoMLabel = new Label();
-            DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
-
+        while (current.getMonth() == firstOfMonth.getMonth()) { //For every day of month
+            //When reached sunday (the first day of week) move down a row
             if (current.getDayOfWeek() == DayOfWeek.SUNDAY) {
                 rowIndex++;
             }
+
+            //Label for date of month
+            Label DoMLabel = new Label();
+            DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
+
             calendarGridPane.add(DoMLabel, columnIndex++ % 7, rowIndex);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
+
+            //todo Event display logic probably goes here
 
             current = current.plusDays(1);
         }
