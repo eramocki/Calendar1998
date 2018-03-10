@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,7 +17,9 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +28,16 @@ public class MainGUI {
     private transient static final Logger logger = Logger.getLogger(MainGUI.class.getName());
 
     private Account currentAccount;
+
+    /**
+     * Currently displayed month
+     */
+    private ZonedDateTime currentMonth;
+
+    /**
+     * GUI items displayed in this month which will need to be cleared if the month changes
+     */
+    private Set<Node> currentMonthNodes = new HashSet<>();
 
     @FXML
     private PasswordField oldPasswordField;
@@ -62,15 +75,17 @@ public class MainGUI {
         viewMonth(ZonedDateTime.now());
     }
 
-    private void viewMonth(ZonedDateTime theMonth){
-        ZonedDateTime firstOfMonth = theMonth.withDayOfMonth(1);
+    private void viewMonth(ZonedDateTime theMonth) {
+        calendarGridPane.getChildren().removeAll(currentMonthNodes);
+
+        currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
-        int columnIndex = firstOfMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
+        int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
 
-        calendarHeaderLabel.setText(firstOfMonth.format(DateTimeFormatter.ofPattern("MMMM")));
+        calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
 
-        LocalDate current = firstOfMonth.toLocalDate();
-        while (current.getMonth() == firstOfMonth.getMonth()) { //For every day of month
+        LocalDate current = currentMonth.toLocalDate();
+        while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
             //When reached sunday (the first day of week) move down a row
             if (current.getDayOfWeek() == DayOfWeek.SUNDAY) {
                 rowIndex++;
@@ -81,6 +96,7 @@ public class MainGUI {
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
             calendarGridPane.add(DoMLabel, columnIndex++ % 7, rowIndex);
+            currentMonthNodes.add(DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
@@ -92,10 +108,12 @@ public class MainGUI {
 
     @FXML
     private void viewMonthPrevious() {
+        viewMonth(currentMonth.minusMonths(1));
     }
 
     @FXML
     private void viewMonthNext() {
+        viewMonth(currentMonth.plusMonths(1));
     }
 
     @FXML
