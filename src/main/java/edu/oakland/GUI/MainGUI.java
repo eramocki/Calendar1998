@@ -227,7 +227,7 @@ public class MainGUI {
             columnVal = 7;
         }
 
-        if(curdate < 0){
+        if(curdate <= 0){
             //TODO change month also doesn't work
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
