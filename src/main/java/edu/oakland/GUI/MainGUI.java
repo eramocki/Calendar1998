@@ -147,6 +147,9 @@ public class MainGUI {
                 alert.showAndWait();
             }
             if (success) {
+                oldPasswordField.setText("");
+                newPasswordField.setText("");
+                verifyPasswordField.setText("");
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Woo-hoo!");
                 alert.setHeaderText("Your password has been changed!");
