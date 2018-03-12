@@ -8,11 +8,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Account implements Serializable {
+
+    public TreeSet<Event> startingSet;
+    public TreeSet<Event> endingSet;
 
     private transient static final Logger logger = Logger.getLogger(Account.class.getName());
 
@@ -24,7 +31,26 @@ public class Account implements Serializable {
     private String passwordHash;
     private String[] securityQuestions;
 
+    //You can ignore these enums. They're a workaround to serialize lambdas.
+    private enum StartComparator implements Comparator<Event> {
+        INSTANCE;
+        @Override
+        public int compare(Event o1, Event o2) {
+            return o1.getStartDate().compareTo(o2.getStartDate());
+        }
+    }
+
+    private enum EndComparator implements Comparator<Event> {
+        INSTANCE;
+        @Override
+        public int compare(Event o1, Event o2) {
+            return o1.getStopDate().compareTo(o2.getStopDate());
+        }
+    }
+
     private Account(String userName, String password, String name, String[] securityQuestions) {
+        startingSet = new TreeSet<>(StartComparator.INSTANCE);
+        endingSet = new TreeSet<>(EndComparator.INSTANCE);
         this.userName = userName;
         this.name = name;
         this.securityQuestions = securityQuestions;

@@ -1,8 +1,9 @@
 package edu.oakland;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Event {
+public class Event implements Serializable {
 
     private int startTime, stopTime;
     private LocalDate startDate, stopDate;

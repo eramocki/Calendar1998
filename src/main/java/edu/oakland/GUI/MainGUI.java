@@ -177,6 +177,15 @@ public class MainGUI {
         alert.showAndWait();
     }
 
+    @FXML
+    private void submitEvent(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Test");
+        alert.setHeaderText("Test");
+        alert.setContentText("Unimplemented");
+        alert.showAndWait();
+    }
+
     public Account getCurrentAccount() {
         return currentAccount;
     }
