@@ -212,6 +212,10 @@ public class MainGUI {
         //else, convert label to date
         LocalDate current = currentMonth.toLocalDate();
 
+        //Console output
+        System.out.printf("Mouse entered cell [%d, %d]%n", columnVal.intValue(),rowVal.intValue());
+        System.out.print(source);
+
         //prevents throwing an DateTimeException if the column value = 0 (sunday needs to be 7)
         if(columnVal == 0) {
             columnVal += 7;
@@ -223,9 +227,7 @@ public class MainGUI {
         alert.setContentText(output);
         alert.showAndWait();
 
-        //Console output
-        System.out.printf("Mouse entered cell [%d, %d]%n", columnVal.intValue(),rowVal.intValue());
-        System.out.print(source);
+
     }
 
     @FXML
