@@ -100,7 +100,7 @@ public class MainGUI {
         LocalDate current = currentMonth.toLocalDate();
         while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
             //When reached sunday (the first day of week) move down a row
-            if (current.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            if (current.getDayOfWeek() == DayOfWeek.SUNDAY && current.getDayOfMonth() != 1) {
                 rowIndex++;
             }
 
