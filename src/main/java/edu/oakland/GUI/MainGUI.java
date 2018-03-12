@@ -200,12 +200,21 @@ public class MainGUI {
         }
     }
 
+    //rows 0 to 6, where 0 is Sunday and 6 is Saturday
+    //columns 0 to 6, where 0 is the first week in the calendar and 6 is the last
     @FXML
     private void getCellData(MouseEvent e){
         Node source = (Node)e.getSource();
-        Integer colIndex = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
-        Integer colRow = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
-        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), colRow.intValue());
+        Integer columnVal = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
+        Integer rowVal = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Cell Data Found");
+        alert.setHeaderText("Cell Data Found");
+        alert.setContentText("[" + columnVal.intValue() + "," + rowVal.intValue() + "]");
+        alert.showAndWait();
+
+        //Console output
+        System.out.printf("Mouse entered cell [%d, %d]%n", columnVal.intValue(),rowVal.intValue());
         System.out.print(source);
     }
 

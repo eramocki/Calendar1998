@@ -36,7 +36,7 @@ public class LoginGUI {
     public void initialize() {
 
         //Dummy Account
-        Account.createAccount("a", "a", "Test Account", new String[] {"1", "2", "3"});
+        Account.createAccount("y", "y", "Test Account", new String[] {"1", "2", "3"});
     }
 
     /**
