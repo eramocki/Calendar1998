@@ -1,18 +1,19 @@
 package edu.oakland;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Event {
 
     private int startTime, stopTime;
-    private Date startDate, stopDate;
+    private LocalDate startDate, stopDate;
     private String eventName, eventDesc, eventLocation, eventAttendees;
-    private Boolean eventAllDay, eventHappensOnce, eventWeekly, eventMonthly, isHighPriority;
+    private Boolean eventAllDay, isHighPriority;
+    private Frequency frequency;
 
     /**
      * Minimal input required for Event generation
      */
-    public Event(int startTime, int stopTime, Date startDate, Date stopDate, String eventName)
+    public Event(int startTime, int stopTime, LocalDate startDate, LocalDate stopDate, String eventName)
     {
         this.startTime = startTime;
         this.stopTime = stopTime;
@@ -37,19 +38,19 @@ public class Event {
         this.stopTime = stopTime;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getStopDate() {
+    public LocalDate getStopDate() {
         return stopDate;
     }
 
-    public void setStopDate(Date stopDate) {
+    public void setStopDate(LocalDate stopDate) {
         this.stopDate = stopDate;
     }
 
@@ -93,35 +94,19 @@ public class Event {
         this.eventAllDay = eventAllDay;
     }
 
-    public Boolean getEventHappensOnce() {
-        return eventHappensOnce;
-    }
-
-    public void setEventHappensOnce(Boolean eventHappensOnce) {
-        this.eventHappensOnce = eventHappensOnce;
-    }
-
-    public Boolean getEventWeekly() {
-        return eventWeekly;
-    }
-
-    public void setEventWeekly(Boolean eventWeekly) {
-        this.eventWeekly = eventWeekly;
-    }
-
-    public Boolean getEventMonthly() {
-        return eventMonthly;
-    }
-
-    public void setEventMonthly(Boolean eventMonthly) {
-        this.eventMonthly = eventMonthly;
-    }
-
     public Boolean getHighPriority() {
         return isHighPriority;
     }
 
     public void setHighPriority(Boolean highPriority) {
         isHighPriority = highPriority;
+    }
+
+    public Frequency getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Frequency frequency) {
+        this.frequency = frequency;
     }
 }
