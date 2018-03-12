@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -84,7 +85,6 @@ public class MainGUI {
             GridPane.setHalignment(DoWLabel, HPos.CENTER);
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
-
         viewMonth(ZonedDateTime.now());
     }
 
@@ -207,10 +207,20 @@ public class MainGUI {
         Node source = (Node)e.getSource();
         Integer columnVal = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
         Integer rowVal = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
+
+        //if label is blank, don't retrieve data
+        //else, convert label to date
+        LocalDate current = currentMonth.toLocalDate();
+
+        //prevents throwing an DateTimeException if the column value = 0 (sunday needs to be 7)
+        if(columnVal == 0) {
+            columnVal += 7;
+        }
+        String output = ("Month: " + currentMonth.getMonth() + " " + DayOfWeek.of(columnVal));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Cell Data Found");
         alert.setHeaderText("Cell Data Found");
-        alert.setContentText("[" + columnVal.intValue() + "," + rowVal.intValue() + "]");
+        alert.setContentText(output);
         alert.showAndWait();
 
         //Console output
