@@ -60,7 +60,7 @@ public class MainGUI {
     private GridPane calendarGridPane;
 
     @FXML
-    private Label calendarHeaderLabel;
+    private Label calendarHeaderLabel, dateLabel;
 
     /* Add Event Page */
     @FXML
@@ -242,11 +242,7 @@ public class MainGUI {
             alert.showAndWait();
         }else{
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Cell Data Found");
-            alert.setHeaderText("Cell Data Found");
-            alert.setContentText(output);
-            alert.showAndWait();
+            dateLabel.setText(output);
         }
 
     }
