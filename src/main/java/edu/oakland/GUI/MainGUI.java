@@ -12,10 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -72,6 +69,8 @@ public class MainGUI {
     @FXML
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
+    public int[][] daylayout;
+
     @FXML
     public void initialize() {
 
@@ -94,6 +93,7 @@ public class MainGUI {
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
+        daylayout = new int[6][7];
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
 
@@ -107,14 +107,13 @@ public class MainGUI {
             //Label for date of month
             Label DoMLabel = new Label();
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
-
             calendarGridPane.add(DoMLabel, columnIndex++ % 7, rowIndex);
             currentMonthNodes.add(DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
             //todo Event display logic probably goes here
-
+            daylayout[rowIndex-1][columnIndex++ % 7] = Integer.valueOf(DoMLabel.getText());
             current = current.plusDays(1);
         }
     }
@@ -205,28 +204,52 @@ public class MainGUI {
     @FXML
     private void getCellData(MouseEvent e){
         Node source = (Node)e.getSource();
+
+        //Retrieves the position from the [6,7] grids
         Integer columnVal = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
         Integer rowVal = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
 
-        //if label is blank, don't retrieve data
-        //else, convert label to date
-        LocalDate current = currentMonth.toLocalDate();
+        //Bad programming
+        //Offset for 7x7 grid
+        rowVal -= 1;
+        columnVal -= 1;
 
-        //Console output
-        System.out.printf("Mouse entered cell [%d, %d]%n", columnVal.intValue(),rowVal.intValue());
-        System.out.print(source);
+        //Collects date that matches the 7x7 grid
+        Integer curdate = daylayout[rowVal][columnVal];
+
+        //Corrects offset for getting proper day of the week
+        columnVal += 1;
 
         //prevents throwing an DateTimeException if the column value = 0 (sunday needs to be 7)
         if(columnVal == 0) {
             columnVal += 7;
         }
-        String output = ("Month: " + currentMonth.getMonth() + " " + DayOfWeek.of(columnVal));
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Cell Data Found");
-        alert.setHeaderText("Cell Data Found");
-        alert.setContentText(output);
-        alert.showAndWait();
 
+        if(curdate < 0) {
+            //TODO change month
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cell Data Found");
+            alert.setHeaderText("Cell Data Found");
+            alert.setContentText("Wrong month");
+            alert.showAndWait();
+        } else if (curdate == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cell Data Found");
+            alert.setHeaderText("Cell Data Found");
+            alert.setContentText("Null error");
+            alert.showAndWait();
+        } else{
+            String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cell Data Found");
+            alert.setHeaderText("Cell Data Found");
+            alert.setContentText(output);
+            alert.showAndWait();
+        }
+
+
+
+        //TODO: return string or date for event info
 
     }
 
