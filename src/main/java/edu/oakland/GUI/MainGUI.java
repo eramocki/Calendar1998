@@ -3,11 +3,16 @@ package edu.oakland.GUI;
 import edu.oakland.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -173,8 +178,22 @@ public class MainGUI {
      */
     @FXML
     private void tryLogout(ActionEvent event){
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.showAndWait();
+        try {
+            java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
+            if (resource == null) {
+                resource = getClass().getResource("LoginGUI.fxml");
+            }
+            FXMLLoader fxmlLoader = new FXMLLoader(resource);
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Cadmium Calendar");
+            stage.setScene(new Scene(root, 600, 300));
+            stage.show();
+
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
