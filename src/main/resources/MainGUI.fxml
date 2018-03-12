@@ -91,6 +91,25 @@
                                     </GridPane>
                                  </children>
                               </GridPane>
+                              <GridPane GridPane.columnIndex="1">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <GridPane gridLinesVisible="true" GridPane.rowIndex="1">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                    </GridPane>
+                                 </children>
+                              </GridPane>
                               <GridPane GridPane.columnIndex="2">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -186,71 +205,7 @@
                                     </GridPane>
                                  </children>
                               </GridPane>
-                              <GridPane fx:id="r1c5" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r1c4" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r1c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
                               <GridPane fx:id="r1c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r1c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r2c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="2">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r6c2" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r6c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="6">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r6c7" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="6" GridPane.rowIndex="6">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -266,7 +221,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="r6c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                              <GridPane fx:id="r1c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -274,7 +229,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="r6c4" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                              <GridPane fx:id="r1c4" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -282,7 +237,15 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="r6c5" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="4" GridPane.rowIndex="6">
+                              <GridPane fx:id="r1c5" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r1c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="1">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -290,7 +253,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="r6c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="6">
+                              <GridPane fx:id="r1c7" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="6" GridPane.rowIndex="1">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -299,30 +262,6 @@
                                  </rowConstraints>
                               </GridPane>
                               <GridPane fx:id="r2c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="2">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r3c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="3">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r4c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="4">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r5c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="5">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -362,7 +301,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="r1c7" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                              <GridPane fx:id="r2c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="2">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -378,6 +317,14 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
+                              <GridPane fx:id="r3c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="3">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
                               <GridPane fx:id="r3c2" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -386,39 +333,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="r4c2" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r5c2" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
                               <GridPane fx:id="r3c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r4c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r5c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="5">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -458,6 +373,30 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
+                              <GridPane fx:id="r4c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="4">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r4c2" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r4c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
                               <GridPane fx:id="r4c4" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="3" GridPane.rowIndex="4">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -466,23 +405,7 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane fx:id="r5c4" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="3" GridPane.rowIndex="5">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
                               <GridPane fx:id="r4c5" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="4" GridPane.rowIndex="4">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                              </GridPane>
-                              <GridPane fx:id="r5c5" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="4" GridPane.rowIndex="5">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
@@ -506,6 +429,54 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
+                              <GridPane fx:id="r5c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="5">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r5c2" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r5c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r5c4" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r5c5" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="4" GridPane.rowIndex="5">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r5c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
                               <GridPane fx:id="r5c7" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="6" GridPane.rowIndex="5">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -514,26 +485,55 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
-                              <GridPane GridPane.columnIndex="1">
+                              <GridPane fx:id="r6c1" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.rowIndex="6">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r6c2" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
-                                 <children>
-                                    <GridPane gridLinesVisible="true" GridPane.rowIndex="1">
-                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                       </rowConstraints>
-                                    </GridPane>
-                                 </children>
                               </GridPane>
-                              <GridPane fx:id="r5c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="5">
+                              <GridPane fx:id="r6c3" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="2" GridPane.rowIndex="6">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r6c4" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r6c5" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="4" GridPane.rowIndex="6">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r6c6" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="5" GridPane.rowIndex="6">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                              </GridPane>
+                              <GridPane fx:id="r6c7" gridLinesVisible="true" onMouseClicked="#getCellData" GridPane.columnIndex="6" GridPane.rowIndex="6">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
