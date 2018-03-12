@@ -36,7 +36,7 @@ public class LoginGUI {
     public void initialize() {
 
         //Dummy Account
-        Account.createAccount("y", "y", "Test Account", new String[] {"1", "2", "3"});
+        Account.createAccount("a", "a", "Test Account", new String[] {"1", "2", "3"});
     }
 
     /**
@@ -63,7 +63,7 @@ public class LoginGUI {
                     //Create the window
                     Stage stage = new Stage();
                     stage.setTitle(Account.getName(userField.getText()) + "'s Calendar");
-                    stage.setScene(new Scene(root, 650, 650));
+                    stage.setScene(new Scene(root, 800, 650));
                     stage.show();
 
                     //Hide login window
