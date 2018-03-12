@@ -72,6 +72,8 @@ public class MainGUI {
     @FXML
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
+    public int[][] daylayout;
+
     @FXML
     public void initialize() {
 
@@ -90,7 +92,7 @@ public class MainGUI {
 
     private void viewMonth(ZonedDateTime theMonth) {
         calendarGridPane.getChildren().removeAll(currentMonthNodes);
-
+        daylayout = new int[6][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
@@ -108,13 +110,16 @@ public class MainGUI {
             Label DoMLabel = new Label();
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
-            calendarGridPane.add(DoMLabel, columnIndex++ % 7, rowIndex);
+            int currC = columnIndex++ % 7;
+            int currR = rowIndex;
+
+            calendarGridPane.add(DoMLabel, currC, currR);
             currentMonthNodes.add(DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
             //todo Event display logic probably goes here
-
+            daylayout[currR-1][currC] = Integer.valueOf(DoMLabel.getText());
             current = current.plusDays(1);
         }
     }
@@ -176,12 +181,12 @@ public class MainGUI {
     }
 
     //TODO
+
     /**
-     *
      * @param event
      */
     @FXML
-    private void tryLogout(ActionEvent event){
+    private void tryLogout(ActionEvent event) {
         try {
             java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
             if (resource == null) {
@@ -203,30 +208,46 @@ public class MainGUI {
     //rows 0 to 6, where 0 is Sunday and 6 is Saturday
     //columns 0 to 6, where 0 is the first week in the calendar and 6 is the last
     @FXML
-    private void getCellData(MouseEvent e){
-        Node source = (Node)e.getSource();
-        Integer columnVal = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
+    private void getCellData(MouseEvent e) {
+        Node source = (Node) e.getSource();
+
+        //Retrieves the position from the [6,7] grids
+        Integer columnVal = (GridPane.getColumnIndex(source) == null) ? 0 : (GridPane.getColumnIndex(source));
         Integer rowVal = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
 
-        //if label is blank, don't retrieve data
-        //else, convert label to date
-        LocalDate current = currentMonth.toLocalDate();
+        //Bad programming
+        //Offset for 7x7 grid
+        rowVal -= 1;
 
-        //Console output
-        System.out.printf("Mouse entered cell [%d, %d]%n", columnVal.intValue(),rowVal.intValue());
-        System.out.print(source);
+        //Collects date that matches the 7x7 grid
+        Integer curdate = daylayout[rowVal][columnVal];
 
         //prevents throwing an DateTimeException if the column value = 0 (sunday needs to be 7)
-        if(columnVal == 0) {
-            columnVal += 7;
+        if (columnVal == 0) {
+            columnVal = 7;
         }
-        String output = ("Month: " + currentMonth.getMonth() + " " + DayOfWeek.of(columnVal));
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Cell Data Found");
-        alert.setHeaderText("Cell Data Found");
-        alert.setContentText(output);
-        alert.showAndWait();
 
+        if(curdate < 0){
+            //TODO change month also doesn't work
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Wrong month selected");
+            alert.showAndWait();
+        }else if(curdate == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Wrong month selected");
+            alert.showAndWait();
+        }else{
+            String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Cell Data Found");
+            alert.setHeaderText("Cell Data Found");
+            alert.setContentText(output);
+            alert.showAndWait();
+        }
 
     }
 
