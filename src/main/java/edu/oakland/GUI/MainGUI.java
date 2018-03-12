@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
 import java.time.DayOfWeek;
@@ -57,6 +54,16 @@ public class MainGUI {
 
     @FXML
     private Label calendarHeaderLabel;
+
+    /* Add Event Page */
+    @FXML
+    private Button addEventSubmitButton;
+
+    @FXML
+    private DatePicker startDateField, endDateField;
+
+    @FXML
+    private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
     @FXML
     public void initialize() {

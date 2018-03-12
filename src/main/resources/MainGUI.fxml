@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
    <children>
       <TabPane prefHeight="400.0" prefWidth="600.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -115,26 +115,26 @@
                               <Insets left="25.0" />
                            </padding>
                         </Label>
-                        <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+                        <TextField fx:id="eventNameField" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
                         <Label text="Event Description" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
                            <padding>
                               <Insets left="15.0" />
                            </padding>
                         </Label>
-                        <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+                        <TextField fx:id="eventDescriptionField" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                         <Label text="Location" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <padding>
                               <Insets left="30.0" />
                            </padding>
                         </Label>
-                        <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+                        <TextField fx:id="eventLocationField" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
                         <Label text="Attendees" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
                            <padding>
                               <Insets left="25.0" />
                            </padding>
                         </Label>
-                        <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="2" />
-                        <DatePicker GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+                        <TextField fx:id="eventAttendeesField" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                        <DatePicker fx:id="startDateField" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
                         <Label text="Start Date" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="1">
                            <padding>
                               <Insets left="25.0" />
@@ -145,7 +145,7 @@
                               <Insets left="25.0" />
                            </padding>
                         </Label>
-                        <DatePicker GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+                        <DatePicker fx:id="endDateField" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                         <CheckBox mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                         <ComboBox prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                         <Label text="Start Time" GridPane.columnIndex="7" GridPane.rowIndex="4">
@@ -166,7 +166,7 @@
                            </padding>
                         </Label>
                         <ComboBox prefWidth="150.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+                        <Button fx:id="addEventSubmitButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="8" />
                      </children>
                     </GridPane>
                 </content>
