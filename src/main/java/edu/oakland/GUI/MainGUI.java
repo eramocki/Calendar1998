@@ -3,8 +3,6 @@ package edu.oakland.GUI;
 import edu.oakland.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import java.time.LocalTime;
-import java.time.Duration;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -14,24 +12,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.time.DateTimeException;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Locale;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.HashMap;
-import java.time.MonthDay;
-
 
 public class MainGUI {
 
@@ -44,9 +37,6 @@ public class MainGUI {
      */
     private ZonedDateTime currentMonth;
 
-    /**
-     * GUI items displayed in this month which will need to be cleared if the month changes
-     */
     private HashMap<LocalDate, Node> nodesByDay = new HashMap<>();
 
     @FXML
@@ -66,7 +56,7 @@ public class MainGUI {
     private GridPane calendarGridPane;
 
     @FXML
-    private Label calendarHeaderLabel;
+    private Label calendarHeaderLabel, dateLabel;
 
     /* Add Event Page */
     @FXML
@@ -76,15 +66,12 @@ public class MainGUI {
     private DatePicker startDateField, endDateField;
 
     @FXML
+    private ComboBox startTimeDropdown, endTimeDropdown;
+
+    @FXML
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
-    @FXML
-    private CheckBox allDay, highPrior;
-
-    @FXML
-    private ComboBox startTime, endTime, recurField;
-
-
+    public int[][] daylayout;
 
     @FXML
     public void initialize() {
@@ -98,21 +85,11 @@ public class MainGUI {
             calendarGridPane.add(DoWLabel, columnIndex++, 0);
             GridPane.setHalignment(DoWLabel, HPos.CENTER);
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
-            }
+        }
         viewMonth(ZonedDateTime.now());
-        //Array temporarly in an ugly fashion for now
 
-        setupTimeCombobox(startTime, LocalTime.MIDNIGHT);
-        setupTimeCombobox(endTime, LocalTime.MIDNIGHT.plusSeconds(1));
-        startTime.getSelectionModel().selectFirst();
-        endTime.getSelectionModel().selectFirst();
-
-
-        endTime.getSelectionModel().selectFirst();
-        recurField.getItems().removeAll(recurField.getItems());
-        recurField.getItems().addAll("Never","Daily","Weekly","Monthly","Yearly");
-        recurField.getSelectionModel().selectFirst();
-
+        setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
+        setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
     }
 
     private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected) {
@@ -136,6 +113,7 @@ public class MainGUI {
     private void viewMonth(ZonedDateTime theMonth) {
         calendarGridPane.getChildren().removeAll(nodesByDay.values());
         nodesByDay.clear(); //todo cache?
+        daylayout = new int[6][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
@@ -153,13 +131,16 @@ public class MainGUI {
             Label DoMLabel = new Label();
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
-            calendarGridPane.add(DoMLabel, columnIndex++ % 7, rowIndex);
+            int currC = columnIndex++ % 7;
+            int currR = rowIndex;
+
+            calendarGridPane.add(DoMLabel, currC, currR);
             nodesByDay.put(current, DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
             //todo Event display logic probably goes here
-
+            daylayout[currR-1][currC] = Integer.valueOf(DoMLabel.getText());
             current = current.plusDays(1);
         }
     }
@@ -221,12 +202,12 @@ public class MainGUI {
     }
 
     //TODO
+
     /**
-     *
      * @param event
      */
     @FXML
-    private void tryLogout(ActionEvent event){
+    private void tryLogout(ActionEvent event) {
         try {
             java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
             if (resource == null) {
@@ -248,57 +229,51 @@ public class MainGUI {
     //rows 0 to 6, where 0 is Sunday and 6 is Saturday
     //columns 0 to 6, where 0 is the first week in the calendar and 6 is the last
     @FXML
-    private void getCellData(MouseEvent e){
-        Node source = (Node)e.getSource();
-        Integer columnVal = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
+    private void getCellData(MouseEvent e) {
+        Node source = (Node) e.getSource();
+
+        //Retrieves the position from the [6,7] grids
+        Integer columnVal = (GridPane.getColumnIndex(source) == null) ? 0 : (GridPane.getColumnIndex(source));
         Integer rowVal = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
 
-        //if label is blank, don't retrieve data
-        //else, convert label to date
-        LocalDate current = currentMonth.toLocalDate();
+        //Bad programming
+        //Offset for 7x7 grid
+        rowVal -= 1;
 
-        //Console output
-        System.out.printf("Mouse entered cell [%d, %d]%n", columnVal.intValue(),rowVal.intValue());
-        System.out.print(source);
+        //Collects date that matches the 7x7 grid
+        Integer curdate = daylayout[rowVal][columnVal];
 
         //prevents throwing an DateTimeException if the column value = 0 (sunday needs to be 7)
-        if(columnVal == 0) {
-            columnVal += 7;
+        if (columnVal == 0) {
+            columnVal = 7;
         }
-        String output = ("Month: " + currentMonth.getMonth() + " " + DayOfWeek.of(columnVal));
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Cell Data Found");
-        alert.setHeaderText("Cell Data Found");
-        alert.setContentText(output);
-        alert.showAndWait();
 
+        if(curdate <= 0){
+            //TODO change month also doesn't work
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Wrong month selected");
+            alert.showAndWait();
+        }else if(curdate == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Wrong month selected");
+            alert.showAndWait();
+        }else{
+            String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
+            dateLabel.setText(output);
+        }
 
     }
 
     @FXML
     private void submitEvent(ActionEvent event) {
-
-
-        String eventName = eventNameField.getText();
-        String eventDesc = eventDescriptionField.getText();
-        String eventLoc = eventLocationField.getText();
-        String eventAttendees = eventAttendeesField.getText();
-        LocalDate startDate = startDateField.getValue();
-        LocalDate endDate = endDateField.getValue();
-        Boolean isAllDay = allDay.isSelected();
-        Boolean isPriority = highPrior.isSelected();
-        String startingTime = startTime.getSelectionModel().getSelectedItem().toString();
-        String endingTime = endTime.getSelectionModel().getSelectedItem().toString();
-        String recurState = recurField.getSelectionModel().getSelectedItem().toString();
-
-        //TODO Pass these variables to the actual calendar for adding
-
-
-
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Test");
         alert.setHeaderText("Test");
-        alert.setContentText("Event Name: "+eventName+"\nEvent Description: "+eventDesc+"\nLocation: "+eventLoc+"\nAttendees: "+eventAttendees+"\nFrom "+startDate.toString()+" to "+endDate.toString()+"\nAll Day? "+isAllDay+", High Priority? "+ isPriority+"\nFrom "+startingTime+" to "+endingTime+"\nRecurring type: "+recurState);
+        alert.setContentText("Unimplemented");
         alert.showAndWait();
     }
 
