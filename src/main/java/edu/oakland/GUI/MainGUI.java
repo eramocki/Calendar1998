@@ -3,6 +3,8 @@ package edu.oakland.GUI;
 import edu.oakland.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import java.time.LocalTime;
+import java.time.Duration;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -27,6 +29,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashMap;
+import java.time.MonthDay;
+
 
 public class MainGUI {
 
@@ -42,7 +47,7 @@ public class MainGUI {
     /**
      * GUI items displayed in this month which will need to be cleared if the month changes
      */
-    private Set<Node> currentMonthNodes = new HashSet<>();
+    private HashMap<LocalDate, Node> nodesByDay = new HashMap<>();
 
     @FXML
     private PasswordField oldPasswordField;
@@ -79,6 +84,8 @@ public class MainGUI {
     @FXML
     private ComboBox startTime, endTime, recurField;
 
+
+
     @FXML
     public void initialize() {
 
@@ -94,12 +101,13 @@ public class MainGUI {
             }
         viewMonth(ZonedDateTime.now());
         //Array temporarly in an ugly fashion for now
-        String[] timeChoices = {"Midnight","0:30 AM","1:00 AM","1:30 AM","2:00 AM","2:30 AM","3:00 AM","3:30 AM","4:00 AM","4:30 AM","5:00 AM","5:30 AM","6:00 AM","6:30 AM","7:00 AM","7:30 AM","8:00 AM","8:30 AM","9:00 AM","9:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","Noon","12:30 PM","1:00 PM","1:30 PM","2:00 PM","2:30 PM","3:00 PM","3:30 PM","4:00 PM","4:30 PM","5:00 PM","5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"};
-        startTime.getItems().removeAll(startTime.getItems());
-        startTime.getItems().addAll(timeChoices);
+
+        setupTimeCombobox(startTime, LocalTime.MIDNIGHT);
+        setupTimeCombobox(endTime, LocalTime.MIDNIGHT.plusSeconds(1));
         startTime.getSelectionModel().selectFirst();
-        endTime.getItems().removeAll(endTime.getItems());
-        endTime.getItems().addAll(timeChoices);
+        endTime.getSelectionModel().selectFirst();
+
+
         endTime.getSelectionModel().selectFirst();
         recurField.getItems().removeAll(recurField.getItems());
         recurField.getItems().addAll("Never","Daily","Weekly","Monthly","Yearly");
@@ -107,9 +115,27 @@ public class MainGUI {
 
     }
 
-    private void viewMonth(ZonedDateTime theMonth) {
-        calendarGridPane.getChildren().removeAll(currentMonthNodes);
+    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected) {
+        setupTimeCombobox(theComboBox, selected, Duration.ofMinutes(30));
+    }
 
+    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected,  Duration offset) {
+        theComboBox.getItems().clear();
+
+        LocalTime current = LocalTime.MIDNIGHT;
+        theComboBox.getItems().add(current.format(DateTimeFormatter.ofPattern("HH:mm")));
+
+        while(current.isBefore(current.plus(offset))) {
+            theComboBox.getItems().add(current.plus(offset).format(DateTimeFormatter.ofPattern("HH:mm")));
+            current = current.plus(offset);
+        }
+
+        theComboBox.setValue(selected.format(DateTimeFormatter.ofPattern("HH:mm")));
+    }
+
+    private void viewMonth(ZonedDateTime theMonth) {
+        calendarGridPane.getChildren().removeAll(nodesByDay.values());
+        nodesByDay.clear(); //todo cache?
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
@@ -128,7 +154,7 @@ public class MainGUI {
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
             calendarGridPane.add(DoMLabel, columnIndex++ % 7, rowIndex);
-            currentMonthNodes.add(DoMLabel);
+            nodesByDay.put(current, DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
@@ -162,7 +188,7 @@ public class MainGUI {
                 alert.setTitle("This will not do.");
                 alert.setHeaderText("Oh no. There was an error changing the password!");
                 alert.setContentText(e.getMessage());
-                logger.log(Level.SEVERE, "Can't make password hash", e);
+                logger.log(Level.SEVERE, "Can't change password", e);
 
                 alert.showAndWait();
             }
