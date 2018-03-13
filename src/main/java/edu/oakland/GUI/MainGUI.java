@@ -12,18 +12,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Locale;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,10 +36,7 @@ public class MainGUI {
      */
     private ZonedDateTime currentMonth;
 
-    /**
-     * GUI items displayed in this month which will need to be cleared if the month changes
-     */
-    private Set<Node> currentMonthNodes = new HashSet<>();
+    private HashMap<LocalDate, Node> nodesByDay = new HashMap<>();
 
     @FXML
     private PasswordField oldPasswordField;
@@ -91,7 +86,8 @@ public class MainGUI {
     }
 
     private void viewMonth(ZonedDateTime theMonth) {
-        calendarGridPane.getChildren().removeAll(currentMonthNodes);
+        calendarGridPane.getChildren().removeAll(nodesByDay.values());
+        nodesByDay.clear(); //todo cache?
         daylayout = new int[6][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
@@ -114,7 +110,7 @@ public class MainGUI {
             int currR = rowIndex;
 
             calendarGridPane.add(DoMLabel, currC, currR);
-            currentMonthNodes.add(DoMLabel);
+            nodesByDay.put(current, DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
