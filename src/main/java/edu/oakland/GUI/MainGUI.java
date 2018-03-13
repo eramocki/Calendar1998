@@ -73,6 +73,15 @@ public class MainGUI {
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
     @FXML
+<<<<<<< HEAD
+=======
+    private CheckBox allDay, highPrior;
+
+    @FXML
+    private ComboBox startTime, endTime, recurField;
+
+    @FXML
+>>>>>>> parent of c09c43c... Did a Manual Safe Merge of the two builds
     public void initialize() {
 
         //Create labels for day of week header
@@ -84,8 +93,25 @@ public class MainGUI {
             calendarGridPane.add(DoWLabel, columnIndex++, 0);
             GridPane.setHalignment(DoWLabel, HPos.CENTER);
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
+<<<<<<< HEAD
         }
         viewMonth(ZonedDateTime.now());
+=======
+            }
+        viewMonth(ZonedDateTime.now());
+        //Array temporarly in an ugly fashion for now
+        String[] timeChoices = {"Midnight","0:30 AM","1:00 AM","1:30 AM","2:00 AM","2:30 AM","3:00 AM","3:30 AM","4:00 AM","4:30 AM","5:00 AM","5:30 AM","6:00 AM","6:30 AM","7:00 AM","7:30 AM","8:00 AM","8:30 AM","9:00 AM","9:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","Noon","12:30 PM","1:00 PM","1:30 PM","2:00 PM","2:30 PM","3:00 PM","3:30 PM","4:00 PM","4:30 PM","5:00 PM","5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"};
+        startTime.getItems().removeAll(startTime.getItems());
+        startTime.getItems().addAll(timeChoices);
+        startTime.getSelectionModel().selectFirst();
+        endTime.getItems().removeAll(endTime.getItems());
+        endTime.getItems().addAll(timeChoices);
+        endTime.getSelectionModel().selectFirst();
+        recurField.getItems().removeAll(recurField.getItems());
+        recurField.getItems().addAll("Never","Daily","Weekly","Monthly","Yearly");
+        recurField.getSelectionModel().selectFirst();
+
+>>>>>>> parent of c09c43c... Did a Manual Safe Merge of the two builds
     }
 
     private void viewMonth(ZonedDateTime theMonth) {
