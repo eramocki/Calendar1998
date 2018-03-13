@@ -148,7 +148,7 @@ public class MainGUI {
                 alert.setTitle("This will not do.");
                 alert.setHeaderText("Oh no. There was an error changing the password!");
                 alert.setContentText(e.getMessage());
-                logger.log(Level.SEVERE, "Can't make password hash", e);
+                logger.log(Level.SEVERE, "Can't change password", e);
 
                 alert.showAndWait();
             }
