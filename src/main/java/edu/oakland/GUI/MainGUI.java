@@ -12,19 +12,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.time.DateTimeException;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+<<<<<<< HEAD
 import java.util.Date;
 import java.util.HashSet;
+=======
+import java.util.HashMap;
+>>>>>>> b93fa5d156882235ebfde92f7bd79711d3294ea3
 import java.util.Locale;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,10 +42,7 @@ public class MainGUI {
      */
     private ZonedDateTime currentMonth;
 
-    /**
-     * GUI items displayed in this month which will need to be cleared if the month changes
-     */
-    private Set<Node> currentMonthNodes = new HashSet<>();
+    private HashMap<LocalDate, Node> nodesByDay = new HashMap<>();
 
     @FXML
     private PasswordField oldPasswordField;
@@ -61,7 +61,7 @@ public class MainGUI {
     private GridPane calendarGridPane;
 
     @FXML
-    private Label calendarHeaderLabel;
+    private Label calendarHeaderLabel, dateLabel;
 
     /* Add Event Page */
     @FXML
@@ -71,7 +71,12 @@ public class MainGUI {
     private DatePicker startDateField, endDateField;
 
     @FXML
+    private ComboBox startTimeDropdown, endTimeDropdown;
+
+    @FXML
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
+
+    public int[][] daylayout;
 
     @FXML
     private CheckBox allDay, highPrior;
@@ -93,6 +98,7 @@ public class MainGUI {
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
             }
         viewMonth(ZonedDateTime.now());
+<<<<<<< HEAD
         //Array temporarly in an ugly fashion for now
         String[] timeChoices = {"Midnight","0:30 AM","1:00 AM","1:30 AM","2:00 AM","2:30 AM","3:00 AM","3:30 AM","4:00 AM","4:30 AM","5:00 AM","5:30 AM","6:00 AM","6:30 AM","7:00 AM","7:30 AM","8:00 AM","8:30 AM","9:00 AM","9:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","Noon","12:30 PM","1:00 PM","1:30 PM","2:00 PM","2:30 PM","3:00 PM","3:30 PM","4:00 PM","4:30 PM","5:00 PM","5:30 PM","6:00 PM","6:30 PM","7:00 PM","7:30 PM","8:00 PM","8:30 PM","9:00 PM","9:30 PM","10:00 PM","10:30 PM","11:00 PM","11:30 PM"};
         startTime.getItems().removeAll(startTime.getItems());
@@ -105,11 +111,35 @@ public class MainGUI {
         recurField.getItems().addAll("Never","Daily","Weekly","Monthly","Yearly");
         recurField.getSelectionModel().selectFirst();
 
+=======
+
+        setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
+        setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
+>>>>>>> b93fa5d156882235ebfde92f7bd79711d3294ea3
+    }
+
+    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected) {
+        setupTimeCombobox(theComboBox, selected, Duration.ofMinutes(30));
+    }
+
+    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected,  Duration offset) {
+        theComboBox.getItems().clear();
+
+        LocalTime current = LocalTime.MIDNIGHT;
+        theComboBox.getItems().add(current.format(DateTimeFormatter.ofPattern("HH:mm")));
+
+        while(current.isBefore(current.plus(offset))) {
+            theComboBox.getItems().add(current.plus(offset).format(DateTimeFormatter.ofPattern("HH:mm")));
+            current = current.plus(offset);
+        }
+
+        theComboBox.setValue(selected.format(DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     private void viewMonth(ZonedDateTime theMonth) {
-        calendarGridPane.getChildren().removeAll(currentMonthNodes);
-
+        calendarGridPane.getChildren().removeAll(nodesByDay.values());
+        nodesByDay.clear(); //todo cache?
+        daylayout = new int[6][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
@@ -127,13 +157,16 @@ public class MainGUI {
             Label DoMLabel = new Label();
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
-            calendarGridPane.add(DoMLabel, columnIndex++ % 7, rowIndex);
-            currentMonthNodes.add(DoMLabel);
+            int currC = columnIndex++ % 7;
+            int currR = rowIndex;
+
+            calendarGridPane.add(DoMLabel, currC, currR);
+            nodesByDay.put(current, DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
             //todo Event display logic probably goes here
-
+            daylayout[currR-1][currC] = Integer.valueOf(DoMLabel.getText());
             current = current.plusDays(1);
         }
     }
@@ -162,7 +195,7 @@ public class MainGUI {
                 alert.setTitle("This will not do.");
                 alert.setHeaderText("Oh no. There was an error changing the password!");
                 alert.setContentText(e.getMessage());
-                logger.log(Level.SEVERE, "Can't make password hash", e);
+                logger.log(Level.SEVERE, "Can't change password", e);
 
                 alert.showAndWait();
             }
@@ -195,12 +228,12 @@ public class MainGUI {
     }
 
     //TODO
+
     /**
-     *
      * @param event
      */
     @FXML
-    private void tryLogout(ActionEvent event){
+    private void tryLogout(ActionEvent event) {
         try {
             java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
             if (resource == null) {
@@ -222,30 +255,42 @@ public class MainGUI {
     //rows 0 to 6, where 0 is Sunday and 6 is Saturday
     //columns 0 to 6, where 0 is the first week in the calendar and 6 is the last
     @FXML
-    private void getCellData(MouseEvent e){
-        Node source = (Node)e.getSource();
-        Integer columnVal = (GridPane.getColumnIndex(source) == null) ?  0 : (GridPane.getColumnIndex(source));
+    private void getCellData(MouseEvent e) {
+        Node source = (Node) e.getSource();
+
+        //Retrieves the position from the [6,7] grids
+        Integer columnVal = (GridPane.getColumnIndex(source) == null) ? 0 : (GridPane.getColumnIndex(source));
         Integer rowVal = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
 
-        //if label is blank, don't retrieve data
-        //else, convert label to date
-        LocalDate current = currentMonth.toLocalDate();
+        //Bad programming
+        //Offset for 7x7 grid
+        rowVal -= 1;
 
-        //Console output
-        System.out.printf("Mouse entered cell [%d, %d]%n", columnVal.intValue(),rowVal.intValue());
-        System.out.print(source);
+        //Collects date that matches the 7x7 grid
+        Integer curdate = daylayout[rowVal][columnVal];
 
         //prevents throwing an DateTimeException if the column value = 0 (sunday needs to be 7)
-        if(columnVal == 0) {
-            columnVal += 7;
+        if (columnVal == 0) {
+            columnVal = 7;
         }
-        String output = ("Month: " + currentMonth.getMonth() + " " + DayOfWeek.of(columnVal));
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Cell Data Found");
-        alert.setHeaderText("Cell Data Found");
-        alert.setContentText(output);
-        alert.showAndWait();
 
+        if(curdate <= 0){
+            //TODO change month also doesn't work
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Wrong month selected");
+            alert.showAndWait();
+        }else if(curdate == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("Wrong month selected");
+            alert.showAndWait();
+        }else{
+            String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
+            dateLabel.setText(output);
+        }
 
     }
 

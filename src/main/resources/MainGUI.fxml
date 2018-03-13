@@ -562,15 +562,21 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label prefHeight="17.0" prefWidth="144.0" text="Event details here" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Label fx:id="dateLabel" prefHeight="17.0" prefWidth="144.0" text="Default" textAlignment="CENTER" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <Button mnemonicParsing="false" text="Update" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+                              <Button mnemonicParsing="false" text="Remove" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                            </children>
                         </GridPane>
                      </right>
@@ -649,8 +655,13 @@
                            </padding>
                         </Label>
                         <DatePicker fx:id="endDateField" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+<<<<<<< HEAD
                         <CheckBox fx:id="allDay" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                         <ComboBox fx:id="startTime" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+=======
+                        <CheckBox mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                        <ComboBox fx:id="startTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+>>>>>>> b93fa5d156882235ebfde92f7bd79711d3294ea3
                         <Label text="Start Time" GridPane.columnIndex="7" GridPane.rowIndex="4">
                            <padding>
                               <Insets left="5.0" />
@@ -661,8 +672,13 @@
                               <Insets left="5.0" />
                            </padding>
                         </Label>
+<<<<<<< HEAD
                         <ComboBox fx:id="endTime" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                         <CheckBox fx:id="highPrior" mnemonicParsing="false" text="High Priority" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+=======
+                        <ComboBox fx:id="endTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                        <CheckBox mnemonicParsing="false" text="High Priority" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+>>>>>>> b93fa5d156882235ebfde92f7bd79711d3294ea3
                         <Label text="Recurrence" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5">
                            <padding>
                               <Insets left="25.0" />
