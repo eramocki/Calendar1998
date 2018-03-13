@@ -66,10 +66,13 @@ public class MainGUI {
     private DatePicker startDateField, endDateField;
 
     @FXML
-    private ComboBox startTimeDropdown, endTimeDropdown;
+    private ComboBox startTimeDropdown, endTimeDropdown, recurField;
 
     @FXML
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
+
+    @FXML
+    private CheckBox allDay, highPrior;
 
     public int[][] daylayout;
 
@@ -90,6 +93,12 @@ public class MainGUI {
 
         setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
         setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
+        startTimeDropdown.getSelectionModel().selectFirst();
+        endTimeDropdown.getSelectionModel().selectFirst();
+
+        recurField.getItems().removeAll(recurField.getItems());
+        recurField.getItems().addAll("Never","Daily","Weekly","Monthly","Yearly");
+        recurField.getSelectionModel().selectFirst();
     }
 
     private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected) {
@@ -270,10 +279,28 @@ public class MainGUI {
 
     @FXML
     private void submitEvent(ActionEvent event) {
+
+
+        String eventName = eventNameField.getText();
+        String eventDesc = eventDescriptionField.getText();
+        String eventLoc = eventLocationField.getText();
+        String eventAttendees = eventAttendeesField.getText();
+        LocalDate startDate = startDateField.getValue();
+        LocalDate endDate = endDateField.getValue();
+        Boolean isAllDay = allDay.isSelected();
+        Boolean isPriority = highPrior.isSelected();
+        String startingTime = startTimeDropdown.getSelectionModel().getSelectedItem().toString();
+        String endingTime = endTimeDropdown.getSelectionModel().getSelectedItem().toString();
+        String recurState = recurField.getSelectionModel().getSelectedItem().toString();
+
+        //TODO Pass these variables to the actual calendar for adding
+
+
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Test");
         alert.setHeaderText("Test");
-        alert.setContentText("Unimplemented");
+        alert.setContentText("Event Name: "+eventName+"\nEvent Description: "+eventDesc+"\nLocation: "+eventLoc+"\nAttendees: "+eventAttendees+"\nFrom "+startDate.toString()+" to "+endDate.toString()+"\nAll Day? "+isAllDay+", High Priority? "+ isPriority+"\nFrom "+startingTime+" to "+endingTime+"\nRecurring type: "+recurState);
         alert.showAndWait();
     }
 

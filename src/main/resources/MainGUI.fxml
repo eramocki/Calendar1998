@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
    <children>
       <TabPane prefHeight="400.0" prefWidth="629.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <tabs>
@@ -655,7 +655,7 @@
                            </padding>
                         </Label>
                         <DatePicker fx:id="endDateField" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-                        <CheckBox mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                        <CheckBox fx:id="allDay" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                         <ComboBox fx:id="startTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                         <Label text="Start Time" GridPane.columnIndex="7" GridPane.rowIndex="4">
                            <padding>
@@ -668,13 +668,13 @@
                            </padding>
                         </Label>
                         <ComboBox fx:id="endTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="4" GridPane.rowSpan="2" />
-                        <CheckBox mnemonicParsing="false" text="High Priority" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+                        <CheckBox fx:id="highPrior" mnemonicParsing="false" text="High Priority" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
                         <Label text="Recurrence" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5">
                            <padding>
                               <Insets left="25.0" />
                            </padding>
                         </Label>
-                        <ComboBox prefWidth="150.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
+                        <ComboBox fx:id="recurField" prefWidth="150.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
                         <Button fx:id="addEventSubmitButton" mnemonicParsing="false" onAction="#submitEvent" prefHeight="25.0" prefWidth="121.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="8" />
                      </children>
                   </GridPane>
