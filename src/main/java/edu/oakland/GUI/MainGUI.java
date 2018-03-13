@@ -15,8 +15,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.MonthDay;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -65,6 +66,9 @@ public class MainGUI {
     private DatePicker startDateField, endDateField;
 
     @FXML
+    private ComboBox startTimeDropdown, endTimeDropdown;
+
+    @FXML
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
     public int[][] daylayout;
@@ -83,6 +87,27 @@ public class MainGUI {
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
         viewMonth(ZonedDateTime.now());
+
+        setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
+        setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
+    }
+
+    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected) {
+        setupTimeCombobox(theComboBox, selected, Duration.ofMinutes(30));
+    }
+
+    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected,  Duration offset) {
+        theComboBox.getItems().clear();
+
+        LocalTime current = LocalTime.MIDNIGHT;
+        theComboBox.getItems().add(current.format(DateTimeFormatter.ofPattern("HH:mm")));
+
+        while(current.isBefore(current.plus(offset))) {
+            theComboBox.getItems().add(current.plus(offset).format(DateTimeFormatter.ofPattern("HH:mm")));
+            current = current.plus(offset);
+        }
+
+        theComboBox.setValue(selected.format(DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     private void viewMonth(ZonedDateTime theMonth) {

@@ -656,7 +656,7 @@
                         </Label>
                         <DatePicker fx:id="endDateField" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                         <CheckBox mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                        <ComboBox prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                        <ComboBox fx:id="startTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                         <Label text="Start Time" GridPane.columnIndex="7" GridPane.rowIndex="4">
                            <padding>
                               <Insets left="5.0" />
@@ -667,7 +667,7 @@
                               <Insets left="5.0" />
                            </padding>
                         </Label>
-                        <ComboBox prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                        <ComboBox fx:id="endTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                         <CheckBox mnemonicParsing="false" text="High Priority" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
                         <Label text="Recurrence" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5">
                            <padding>
