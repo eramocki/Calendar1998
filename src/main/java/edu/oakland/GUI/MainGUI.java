@@ -291,6 +291,7 @@ public class MainGUI {
     }
 
     @FXML
+    //move to calendar class
     private void searchEvent(LocalDate localDate)
     {
         //search treeset for localdate, if true then print to textarea

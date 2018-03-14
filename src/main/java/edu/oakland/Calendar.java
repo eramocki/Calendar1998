@@ -1,6 +1,7 @@
 package edu.oakland;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.TreeSet;
 
@@ -14,7 +15,12 @@ public class Calendar implements Serializable {
         endingSet = new TreeSet<>(EndComparator.INSTANCE);
     }
 
-    public void displayEvent(Event event) {} //TODO figure out what to do with this
+    public void displayEvent(LocalDate myDate) {
+        //iterate through event treeset
+        //if startdate == myDate
+            //displayEvent to GUI
+        //else do nothing
+    }
 
     public void addEvent(Event event){
         startingSet.add(event);
