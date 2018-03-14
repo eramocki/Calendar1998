@@ -15,12 +15,20 @@ public class Calendar implements Serializable {
         endingSet = new TreeSet<>(EndComparator.INSTANCE);
     }
 
-    public void displayEvent(LocalDate myDate) {
+    public void viewEvent(LocalDate myDate) {
         //iterate through event treeset
         //if startdate == myDate
-            //displayEvent to GUI
-        //else do nothing
+            //draw event information on calendar's right panel
     }
+
+    public void displayEvent(LocalDate myDate){
+        //draw to grid on calendar setup
+
+        //if event exists on this day
+            //draw to calendar grid
+    }
+
+    public void listEvent(){} //TODO
 
     public void addEvent(Event event){
         startingSet.add(event);

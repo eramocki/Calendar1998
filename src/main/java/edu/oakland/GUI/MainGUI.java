@@ -143,6 +143,10 @@ public class MainGUI {
             Label DoMLabel = new Label();
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
+            //Draw events to grid here, pass current date, month and year
+            LocalDate passDate = LocalDate.of(currentMonth.getYear(),currentMonth.getMonth(), Integer.parseInt(DoMLabel.getText()));
+            //displayEvent(passDate);
+
             int currC = columnIndex++ % 7;
             int currR = rowIndex;
 
