@@ -72,6 +72,9 @@ public class MainGUI {
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
     @FXML
+    private TextArea eventOutput;
+
+    @FXML
     private CheckBox allDay, highPrior;
 
     public int[][] daylayout;
@@ -271,13 +274,28 @@ public class MainGUI {
         if (curdate == -1) {
             viewMonthPrevious();
             dateLabel.setText("");
+            eventOutput.clear();
+            eventOutput.setDisable(true);
         } else if (curdate == 0) {
             viewMonthNext();
             dateLabel.setText("");
+            eventOutput.clear();
+            eventOutput.setDisable(true);
         } else {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
+            LocalDate disDate = LocalDate.of(currentMonth.getYear(),currentMonth.getMonth(), curdate);
+            System.out.print(disDate);
+            searchEvent(disDate);
         }
+    }
+
+    @FXML
+    private void searchEvent(LocalDate localDate)
+    {
+        //search treeset for localdate, if true then print to textarea
+        eventOutput.setDisable(false);
+
     }
 
     @FXML
