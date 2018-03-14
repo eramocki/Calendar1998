@@ -97,7 +97,7 @@ public class MainGUI {
         endTimeDropdown.getSelectionModel().selectFirst();
 
         recurField.getItems().removeAll(recurField.getItems());
-        recurField.getItems().addAll("Never","Daily","Weekly","Monthly","Yearly");
+        recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
         recurField.getSelectionModel().selectFirst();
     }
 
@@ -105,13 +105,13 @@ public class MainGUI {
         setupTimeCombobox(theComboBox, selected, Duration.ofMinutes(30));
     }
 
-    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected,  Duration offset) {
+    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected, Duration offset) {
         theComboBox.getItems().clear();
 
         LocalTime current = LocalTime.MIDNIGHT;
         theComboBox.getItems().add(current.format(DateTimeFormatter.ofPattern("HH:mm")));
 
-        while(current.isBefore(current.plus(offset))) {
+        while (current.isBefore(current.plus(offset))) {
             theComboBox.getItems().add(current.plus(offset).format(DateTimeFormatter.ofPattern("HH:mm")));
             current = current.plus(offset);
         }
@@ -149,10 +149,16 @@ public class MainGUI {
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
             //todo Event display logic probably goes here
-            daylayout[currR-1][currC] = Integer.valueOf(DoMLabel.getText());
+            daylayout[currR - 1][currC] = Integer.valueOf(DoMLabel.getText());
             current = current.plusDays(1);
         }
+
+        //Edits the first row of the array to have values of -1, which indicate those days take place in the prior month
+        for (int i = 0; daylayout[0][i] == 0; i++) {
+            daylayout[0][i] = -1;
+        }
     }
+
 
     @FXML
     private void viewMonthPrevious() {
@@ -235,8 +241,13 @@ public class MainGUI {
         }
     }
 
-    //rows 0 to 6, where 0 is Sunday and 6 is Saturday
-    //columns 0 to 6, where 0 is the first week in the calendar and 6 is the last
+    /**
+     * Prints the current Year, month, and date to the right side panel of the calendar based on the date clicked.
+     * Clicking on unlabeled date prior to the month will cause the calendar to go back a month, and clicking ahead will
+     * move the calendar a month ahead.
+     *
+     * @param e Event on mouseclick
+     */
     @FXML
     private void getCellData(MouseEvent e) {
         Node source = (Node) e.getSource();
@@ -257,24 +268,16 @@ public class MainGUI {
             columnVal = 7;
         }
 
-        if(curdate <= 0){
-            //TODO change month also doesn't work
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error");
-            alert.setContentText("Wrong month selected");
-            alert.showAndWait();
-        }else if(curdate == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error");
-            alert.setContentText("Wrong month selected");
-            alert.showAndWait();
-        }else{
+        if (curdate == -1) {
+            viewMonthPrevious();
+            dateLabel.setText("");
+        } else if (curdate == 0) {
+            viewMonthNext();
+            dateLabel.setText("");
+        } else {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
         }
-
     }
 
     @FXML
@@ -296,11 +299,10 @@ public class MainGUI {
         //TODO Pass these variables to the actual calendar for adding
 
 
-
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Test");
         alert.setHeaderText("Test");
-        alert.setContentText("Event Name: "+eventName+"\nEvent Description: "+eventDesc+"\nLocation: "+eventLoc+"\nAttendees: "+eventAttendees+"\nFrom "+startDate.toString()+" to "+endDate.toString()+"\nAll Day? "+isAllDay+", High Priority? "+ isPriority+"\nFrom "+startingTime+" to "+endingTime+"\nRecurring type: "+recurState);
+        alert.setContentText("Event Name: " + eventName + "\nEvent Description: " + eventDesc + "\nLocation: " + eventLoc + "\nAttendees: " + eventAttendees + "\nFrom " + startDate.toString() + " to " + endDate.toString() + "\nAll Day? " + isAllDay + ", High Priority? " + isPriority + "\nFrom " + startingTime + " to " + endingTime + "\nRecurring type: " + recurState);
         alert.showAndWait();
     }
 
