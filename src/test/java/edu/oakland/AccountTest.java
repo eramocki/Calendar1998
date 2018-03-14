@@ -189,9 +189,6 @@ public class AccountTest {
         for (int i = 0; i < arr.length; i += 2) {
             Event e = new Event(ZonedDateTime.parse(arr[i]), ZonedDateTime.parse(arr[i + 1]),
                     Integer.toString(i / 2 + 1));
-            System.out.println(e.getEventName());
-            System.out.println(ZonedDateTime.parse(arr[i]));
-            System.out.println(ZonedDateTime.parse(arr[i + 1]));
             c.addEvent(e);
         }
         Set<Event> resultSet = c.getMonthEvents(YearMonth.of(2018, 3));
