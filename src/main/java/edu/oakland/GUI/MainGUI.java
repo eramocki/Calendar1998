@@ -230,6 +230,7 @@ public class MainGUI {
      */
     @FXML
     private void tryLogout(ActionEvent event) {
+        setCurrentAccount(null);
         try {
             java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
             if (resource == null) {
