@@ -1,58 +1,23 @@
 package edu.oakland;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 public class Event implements Serializable {
 
-    private int startTime, stopTime;
-    private LocalDate startDate, stopDate;
+    private ZonedDateTime start, end;
     private String eventName, eventDesc, eventLocation, eventAttendees;
     private Boolean eventAllDay, isHighPriority;
     private Frequency frequency;
 
-    /**
-     * Minimal input required for Event generation
-     */
-    public Event(int startTime, int stopTime, LocalDate startDate, LocalDate stopDate, String eventName)
-    {
-        this.startTime = startTime;
-        this.stopTime = stopTime;
-        this.startDate = startDate;
-        this.stopDate = stopDate;
-        this.eventName = eventName;
+    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
+        this(startDateTime, endDateTime, eventName, Frequency.ONCE);
     }
 
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-    public int getStopTime() {
-        return stopTime;
-    }
-
-    public void setStopTime(int stopTime) {
-        this.stopTime = stopTime;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getStopDate() {
-        return stopDate;
-    }
-
-    public void setStopDate(LocalDate stopDate) {
-        this.stopDate = stopDate;
+    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
+        start = startDateTime;
+        end = endDateTime;
+        this.frequency = frequency;
     }
 
     public String getEventName() {
@@ -109,5 +74,21 @@ public class Event implements Serializable {
 
     public void setFrequency(Frequency frequency) {
         this.frequency = frequency;
+    }
+
+    public ZonedDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(ZonedDateTime start) {
+        this.start = start;
+    }
+
+    public ZonedDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(ZonedDateTime end) {
+        this.end = end;
     }
 }

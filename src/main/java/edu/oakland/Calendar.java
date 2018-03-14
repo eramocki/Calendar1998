@@ -43,7 +43,7 @@ public class Calendar implements Serializable {
         INSTANCE;
         @Override
         public int compare(Event o1, Event o2) {
-            return o1.getStartDate().compareTo(o2.getStartDate());
+            return o1.getStart().compareTo(o2.getStart());
         }
     }
 
@@ -51,7 +51,7 @@ public class Calendar implements Serializable {
         INSTANCE;
         @Override
         public int compare(Event o1, Event o2) {
-            return o1.getStopDate().compareTo(o2.getStopDate());
+            return o1.getEnd().compareTo(o2.getEnd());
         }
     }
 
