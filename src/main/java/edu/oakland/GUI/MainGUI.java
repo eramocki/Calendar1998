@@ -138,13 +138,16 @@ public class MainGUI {
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
         YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
-
         Set<Event> monthEvents = getCurrentAccount().calendar.getMonthEvents(yearMonth);
+
+        //Should be false...
+        System.out.println(monthEvents.isEmpty());
+        //Should work, but doesn't...
         Iterator<Event> ir = monthEvents.iterator();
         while (ir.hasNext()) {
-            if (ir.next().getEventName() == "Dummy Event") ;
             System.out.println(ir.next().getEventName());
         }
+
 
 
         LocalDate current = currentMonth.toLocalDate();
@@ -305,7 +308,7 @@ public class MainGUI {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
             LocalDate disDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
-            System.out.print(disDate);
+            //System.out.print(disDate);
             searchEvent(disDate);
         }
     }
