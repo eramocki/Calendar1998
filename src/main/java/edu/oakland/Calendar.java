@@ -12,6 +12,7 @@ public class Calendar implements Serializable {
     public Calendar() {
         startingSet = new TreeSet<>(StartComparator.INSTANCE);
         endingSet = new TreeSet<>(EndComparator.INSTANCE);
+        Event dummyEvent = new Event(ZonedDateTime.now(), ZonedDateTime.now(), "Dummy Event");
     }
 
     public Set<Event> getMonthEvents(YearMonth yearMonth) {
@@ -26,10 +27,12 @@ public class Calendar implements Serializable {
         return union;
     }
 
-    public void viewEvent(LocalDate myDate) {
+    //LocalDate myDate
+    public void viewEvent() {
         //iterate through event treeset
         //if startdate == myDate
             //draw event information on calendar's right panel
+        System.out.println("works");
     }
 
     public void displayEvent(LocalDate myDate){

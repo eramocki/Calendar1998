@@ -1,6 +1,7 @@
 package edu.oakland.GUI;
 
 import edu.oakland.Account;
+import edu.oakland.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +19,14 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,8 +84,10 @@ public class MainGUI {
     public int[][] daylayout;
 
     @FXML
-    public void initialize() {
+    public void initialize() { }
 
+    public void postInit()
+    {
         //Create labels for day of week header
         int columnIndex = 0; //Which column to put the next label in
         for (int i = 6; i < 13; i++) { //Each day of the week by number, want to start at sunday so numbering is offset
@@ -131,6 +137,19 @@ public class MainGUI {
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
+        YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
+
+        //Proves account isn't null
+        getCurrentAccount().calendar.viewEvent();
+        //Set<Event> monthEvents =
+        /**calendar.getMonthEvents(yearMonth);
+        Iterator<Event> ir = monthEvents.iterator();
+        while(ir.hasNext()){
+            if(ir.next().getEventName() == "Dummy Event");
+            System.out.println(ir.next().getEventName());
+        }**/
+
+
 
         LocalDate current = currentMonth.toLocalDate();
         while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
@@ -165,6 +184,8 @@ public class MainGUI {
             daylayout[0][i] = -1;
         }
     }
+
+
 
 
     @FXML
@@ -257,6 +278,8 @@ public class MainGUI {
      */
     @FXML
     private void getCellData(MouseEvent e) {
+        Account acc = getCurrentAccount();
+        acc.testP();
         Node source = (Node) e.getSource();
 
         //Retrieves the position from the [6,7] grids
