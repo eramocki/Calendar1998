@@ -61,7 +61,10 @@ public class Calendar implements Serializable {
         endingSet.add(event);
     }
 
-    public void removeEvent(Event event){}
+    public void removeEvent(Event event){
+        startingSet.remove(event);
+        endingSet.remove(event);
+    }
     public void updateEvent(Event event){}
 
     //You can ignore these enums. They're a workaround to serialize lambdas.

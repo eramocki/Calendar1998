@@ -95,6 +95,8 @@ public class MainGUI {
 
     public int[][] daylayout;
 
+    public Event eventPointer;
+
     @FXML
     public void initialize() {
     }
@@ -351,11 +353,26 @@ public class MainGUI {
                 Iterator<Event> ir = dayEvents.iterator();
                 while (ir.hasNext()) {
                     Event currEvent = ir.next();
+                    eventPointer = currEvent;
                     eventOutput.setDisable(false);
                     eventOutput.setText(currEvent.getEventName());
                 }
             }
 
+        }
+    }
+
+    @FXML
+    private void delete(ActionEvent event) {
+        try{
+            getCurrentAccount().calendar.removeEvent(eventPointer);
+            viewMonth(currentMonth);
+            eventOutput.setText("");
+            eventOutput.setDisable(true);
+        }
+        catch(NullPointerException e)
+        {
+            System.out.println("Nothing to delete");
         }
     }
 
