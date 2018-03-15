@@ -177,6 +177,7 @@ public class MainGUI {
 //        calendarGridPane.getChildren().removeAll(nodesByDayRect.values());
         calendarGridPane.getChildren().removeAll(VBoxesByDay.values());
         //todo cache?
+        VBoxesByDay.clear();
 //        nodesByDayNumber.clear();
 //        nodesByDayEvent.clear();
 //        nodesByDayRect.clear();
@@ -255,6 +256,12 @@ public class MainGUI {
     @FXML
     private void viewMonthNext() {
         viewMonth(currentMonth.plusMonths(1));
+    }
+
+    private void viewEventDetail(Event theEvent) {
+        eventPointer = theEvent;
+        eventOutput.setDisable(false);
+        eventOutput.setText(theEvent.getEventName());
     }
 
     @FXML
@@ -375,13 +382,7 @@ public class MainGUI {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
             } else {
-                Iterator<Event> ir = dayEvents.iterator();
-                while (ir.hasNext()) {
-                    Event currEvent = ir.next();
-                    eventPointer = currEvent;
-                    eventOutput.setDisable(false);
-                    eventOutput.setText(currEvent.getEventName());
-                }
+                viewEventDetail(dayEvents.iterator().next());
             }
 
         }
