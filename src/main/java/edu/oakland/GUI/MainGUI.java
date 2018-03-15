@@ -2,7 +2,6 @@ package edu.oakland.GUI;
 
 import edu.oakland.Account;
 import edu.oakland.Event;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +19,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -97,6 +94,8 @@ public class MainGUI {
 
     public Event eventPointer;
 
+    public LocalDate currentDate;
+
     @FXML
     public void initialize() {
     }
@@ -113,8 +112,10 @@ public class MainGUI {
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
         Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Event 1");
+        Event dummyEventa = new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5");
         Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 2");
         getCurrentAccount().calendar.addEvent(dummyEvent1);
+        getCurrentAccount().calendar.addEvent(dummyEventa);
         getCurrentAccount().calendar.addEvent(dummyEvent2);
         viewMonth(ZonedDateTime.now());
 
@@ -344,8 +345,8 @@ public class MainGUI {
         } else {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
-            LocalDate disDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
-            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(disDate);
+            currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
+            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
             if (dayEvents.isEmpty()) {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
@@ -363,25 +364,40 @@ public class MainGUI {
     }
 
     @FXML
-    private void delete(ActionEvent event) {
-        try{
+    private void viewNextEvent(ActionEvent event) {
+        Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+        Iterator<Event> ir = dayEvents.iterator();
+        if (ir.hasNext()) {
+            Event nextEvent = ir.next();
+            eventPointer = nextEvent;
+            eventOutput.setDisable(false);
+            eventOutput.setText(nextEvent.getEventName());
+        }
+    }
+
+    @FXML
+    private void viewPreviousEvent(ActionEvent event) {
+        //TODO
+        System.out.println("TODO");
+    }
+
+
+    @FXML
+    private void deleteE(ActionEvent event) {
+        try {
             getCurrentAccount().calendar.removeEvent(eventPointer);
             viewMonth(currentMonth);
             eventOutput.setText("");
             eventOutput.setDisable(true);
-        }
-        catch(NullPointerException e)
-        {
+            viewNextEvent(new ActionEvent());
+        } catch (NullPointerException e) {
             System.out.println("Nothing to delete");
         }
     }
 
     @FXML
-    //move to calendar class
-    private void searchEvent(LocalDate localDate) {
-        //search treeset for localdate, if true then print to textarea
-        eventOutput.setDisable(false);
-
+    private void updateE(ActionEvent event) {
+        //TODO
     }
 
     @FXML
@@ -404,9 +420,27 @@ public class MainGUI {
         ZonedDateTime start = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
         ZonedDateTime end = ZonedDateTime.of(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
 
-        Event disEvent = new Event(start, end, eventNameField.getText());
-        getCurrentAccount().calendar.addEvent(disEvent);
-        viewMonth(currentMonth);
+        if(end.compareTo(start) == -1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("This will not do.");
+            alert.setHeaderText("Try again, friend.");
+            alert.setContentText("You can't have your end date happen in the past!");
+            //TODO check if timedates overlap
+
+            alert.showAndWait();
+        }else if(eventNameField.getText() == ""){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("This will not do.");
+            alert.setHeaderText("Try again, friend.");
+            alert.setContentText("Your event name cannot be blank");
+
+            alert.showAndWait();
+        }else{
+            Event disEvent = new Event(start, end, eventNameField.getText());
+            getCurrentAccount().calendar.addEvent(disEvent);
+            viewMonth(currentMonth);
+        }
+
     }
 
     public Account getCurrentAccount() {
