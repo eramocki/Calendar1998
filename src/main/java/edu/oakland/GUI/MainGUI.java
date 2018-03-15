@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -51,9 +53,14 @@ public class MainGUI {
      */
     private ZonedDateTime currentMonth;
 
-    private HashMap<LocalDate, Node> nodesByDayNumber = new HashMap<>();
-    private HashMap<LocalDate, Node> nodesByDayEvent = new HashMap<>();
-    private HashMap<LocalDate, Node> nodesByDayRect = new HashMap<>();
+    /**
+     * Each day in the calendar view has a VBox to put things in
+     */
+    private HashMap<LocalDate, VBox> VBoxesByDay = new HashMap<>();
+
+//    private HashMap<LocalDate, Node> nodesByDayNumber = new HashMap<>();
+//    private HashMap<LocalDate, Node> nodesByDayEvent = new HashMap<>();
+//    private HashMap<LocalDate, Node> nodesByDayRect = new HashMap<>();
 
     @FXML
     private PasswordField oldPasswordField;
@@ -114,8 +121,12 @@ public class MainGUI {
         }
         Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Event 1");
         Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 2");
+        Event dummyEvent3 = new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "Event 3");
+        Event dummyEvent4 = new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "Event 3");
         getCurrentAccount().calendar.addEvent(dummyEvent1);
         getCurrentAccount().calendar.addEvent(dummyEvent2);
+        getCurrentAccount().calendar.addEvent(dummyEvent3);
+        getCurrentAccount().calendar.addEvent(dummyEvent4);
         viewMonth(ZonedDateTime.now());
 
         setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
@@ -157,14 +168,14 @@ public class MainGUI {
     }
 
     private void viewMonth(ZonedDateTime theMonth) {
-        calendarGridPane.getChildren().removeAll(nodesByDayNumber.values());
-        calendarGridPane.getChildren().removeAll(nodesByDayEvent.values());
-        calendarGridPane.getChildren().removeAll(nodesByDayRect.values());
-
+//        calendarGridPane.getChildren().removeAll(nodesByDayNumber.values());
+//        calendarGridPane.getChildren().removeAll(nodesByDayEvent.values());
+//        calendarGridPane.getChildren().removeAll(nodesByDayRect.values());
+        calendarGridPane.getChildren().removeAll(VBoxesByDay.values());
         //todo cache?
-        nodesByDayNumber.clear();
-        nodesByDayEvent.clear();
-        nodesByDayRect.clear();
+//        nodesByDayNumber.clear();
+//        nodesByDayEvent.clear();
+//        nodesByDayRect.clear();
         daylayout = new int[6][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
@@ -199,18 +210,20 @@ public class MainGUI {
                     eventLabel.setText(currEvent.getEventName());
 
                     calendarGridPane.add(rectangle, currC, currR);
-                    nodesByDayRect.put(current, rectangle);
+//                    nodesByDayRect.put(current, rectangle);
                     calendarGridPane.add(eventLabel, currC, currR);
-                    nodesByDayEvent.put(current, eventLabel);
+//                    nodesByDayEvent.put(current, eventLabel);
                 }
             }
 
-            calendarGridPane.add(DoMLabel, currC, currR);
-            nodesByDayNumber.put(current, DoMLabel);
-            GridPane.setValignment(DoMLabel, VPos.TOP);
-            GridPane.setHalignment(DoMLabel, HPos.LEFT);
+            VBox dayVBox = new VBox();
+            dayVBox.setPadding(new Insets(1));
+            dayVBox.setOnMouseClicked(this::getCellData);
+            dayVBox.getChildren().add(DoMLabel);
 
-            //todo Event display logic probably goes here
+            calendarGridPane.add(dayVBox, currC, currR);
+            VBoxesByDay.put(current, dayVBox);
+
             daylayout[currR - 1][currC] = Integer.valueOf(DoMLabel.getText());
             current = current.plusDays(1);
         }
