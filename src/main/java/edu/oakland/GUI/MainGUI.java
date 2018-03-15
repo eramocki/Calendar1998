@@ -51,6 +51,11 @@ public class MainGUI {
     private ZonedDateTime currentMonth;
 
     /**
+     * Currently displayed day in detail pane
+     */
+    private LocalDate currentDate;
+
+    /**
      * Each day in the calendar view has a VBox to put things in
      */
     private HashMap<LocalDate, VBox> VBoxesByDay = new HashMap<>();
@@ -101,8 +106,6 @@ public class MainGUI {
 
     public Event eventPointer;
 
-    public LocalDate currentDate;
-
     @FXML
     public void initialize() {
     }
@@ -122,7 +125,7 @@ public class MainGUI {
         Event dummyEventa = new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5");
         Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 2");
         Event dummyEvent3 = new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "Event 3");
-        Event dummyEvent4 = new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "Event 3");
+        Event dummyEvent4 = new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "Event 4");
         getCurrentAccount().calendar.addEvent(dummyEvent1);
         getCurrentAccount().calendar.addEvent(dummyEventa);
         getCurrentAccount().calendar.addEvent(dummyEvent2);
@@ -216,7 +219,8 @@ public class MainGUI {
                     Label eventLabel = new Label();
                     eventLabel.setText(currEvent.getEventName());
                     eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
-                    eventLabel.setMaxWidth(Double.MAX_VALUE);
+                    eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
+
 
                     dayVBox.getChildren().add(eventLabel);
 
