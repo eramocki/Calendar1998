@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -369,8 +370,6 @@ public class MainGUI {
     @FXML
     private void submitEvent(ActionEvent event) {
 
-
-        String eventName = eventNameField.getText();
         String eventDesc = eventDescriptionField.getText();
         String eventLoc = eventLocationField.getText();
         String eventAttendees = eventAttendeesField.getText();
@@ -382,14 +381,15 @@ public class MainGUI {
         String endingTime = endTimeDropdown.getSelectionModel().getSelectedItem().toString();
         String recurState = recurField.getSelectionModel().getSelectedItem().toString();
 
-        //TODO Pass these variables to the actual calendar for adding
+        String[] splitStartHM = startingTime.split(":");
+        String[] splitEndHM = endingTime.split(":");
 
+        ZonedDateTime start = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
+        ZonedDateTime end = ZonedDateTime.of(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Test");
-        alert.setHeaderText("Test");
-        alert.setContentText("Event Name: " + eventName + "\nEvent Description: " + eventDesc + "\nLocation: " + eventLoc + "\nAttendees: " + eventAttendees + "\nFrom " + startDate.toString() + " to " + endDate.toString() + "\nAll Day? " + isAllDay + ", High Priority? " + isPriority + "\nFrom " + startingTime + " to " + endingTime + "\nRecurring type: " + recurState);
-        alert.showAndWait();
+        Event disEvent = new Event(start, end, eventNameField.getText());
+        getCurrentAccount().calendar.addEvent(disEvent);
+        viewMonth(currentMonth);
     }
 
     public Account getCurrentAccount() {
