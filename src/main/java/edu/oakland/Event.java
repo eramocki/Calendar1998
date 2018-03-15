@@ -1,6 +1,9 @@
 package edu.oakland;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class Event implements Serializable {
@@ -19,6 +22,23 @@ public class Event implements Serializable {
         end = endDateTime;
         this.eventName = eventName;
         this.frequency = frequency;
+    }
+
+    /**
+     * Determine if this event happens or is happening at some time on the specified day.
+     *
+     * e.g.
+     *  The event is one hour on the given day
+     *  The event spans multiple days around the given day
+     *  The event starts on this day and continues for days
+     *  etc.
+     *
+     * @param date the date to check
+     * @return True if this event happens on the date
+     */
+    public boolean happensSometimeOnDate(LocalDate date) {
+        return start.isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault()))
+                && end.isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
     }
 
     public String getEventName() {
