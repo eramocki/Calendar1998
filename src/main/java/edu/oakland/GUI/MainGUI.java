@@ -192,9 +192,15 @@ public class MainGUI {
                 rowIndex++;
             }
 
+            //The VBox will hold any GUI things for the day
+            VBox dayVBox = new VBox();
+            dayVBox.setPadding(new Insets(1));
+            dayVBox.setOnMouseClicked(this::getCellData);
+
             //Label for date of month
             Label DoMLabel = new Label();
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
+            dayVBox.getChildren().add(DoMLabel);
 
             int currC = columnIndex++ % 7;
             int currR = rowIndex;
@@ -203,23 +209,24 @@ public class MainGUI {
             while (ir.hasNext()) {
                 Event currEvent = ir.next();
                 if (currEvent.getStart().getDayOfMonth() == current.getDayOfMonth()) {
-                    //TODO offset new events if they share the same space
-                    javafx.scene.shape.Rectangle rectangle = new javafx.scene.shape.Rectangle(0, 0, 75, 10);
-                    rectangle.setFill(Color.ANTIQUEWHITE);
+
+//                    javafx.scene.shape.Rectangle rectangle = new javafx.scene.shape.Rectangle(0, 0, 75, 10);
+//                    rectangle.setFill(Color.ANTIQUEWHITE);
                     Label eventLabel = new Label();
                     eventLabel.setText(currEvent.getEventName());
+                    eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
+                    eventLabel.setMaxWidth(Double.MAX_VALUE);
 
-                    calendarGridPane.add(rectangle, currC, currR);
+                    dayVBox.getChildren().add(eventLabel);
+
+//                    calendarGridPane.add(rectangle, currC, currR);
 //                    nodesByDayRect.put(current, rectangle);
-                    calendarGridPane.add(eventLabel, currC, currR);
+//                    calendarGridPane.add(eventLabel, currC, currR);
 //                    nodesByDayEvent.put(current, eventLabel);
                 }
             }
 
-            VBox dayVBox = new VBox();
-            dayVBox.setPadding(new Insets(1));
-            dayVBox.setOnMouseClicked(this::getCellData);
-            dayVBox.getChildren().add(DoMLabel);
+
 
             calendarGridPane.add(dayVBox, currC, currR);
             VBoxesByDay.put(current, dayVBox);
