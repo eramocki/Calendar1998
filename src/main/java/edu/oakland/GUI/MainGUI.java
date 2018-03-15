@@ -1,6 +1,7 @@
 package edu.oakland.GUI;
 
 import edu.oakland.Account;
+import edu.oakland.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +19,14 @@ import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,7 +85,9 @@ public class MainGUI {
 
     @FXML
     public void initialize() {
+    }
 
+    public void postInit() {
         //Create labels for day of week header
         int columnIndex = 0; //Which column to put the next label in
         for (int i = 6; i < 13; i++) { //Each day of the week by number, want to start at sunday so numbering is offset
@@ -131,6 +137,11 @@ public class MainGUI {
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
+        YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
+
+        Event dummyEvent = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Dummy Event");
+        getCurrentAccount().calendar.addEvent(dummyEvent);
+        Set<Event> monthEvents = getCurrentAccount().calendar.getMonthEvents(yearMonth);
 
         LocalDate current = currentMonth.toLocalDate();
         while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
@@ -144,11 +155,22 @@ public class MainGUI {
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
             //Draw events to grid here, pass current date, month and year
-            LocalDate passDate = LocalDate.of(currentMonth.getYear(),currentMonth.getMonth(), Integer.parseInt(DoMLabel.getText()));
+            LocalDate passDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), Integer.parseInt(DoMLabel.getText()));
             //displayEvent(passDate);
 
             int currC = columnIndex++ % 7;
             int currR = rowIndex;
+
+            Iterator<Event> ir = monthEvents.iterator();
+            while (ir.hasNext()) {
+                Event currEvent = ir.next();
+                if(currEvent.getStart().getDayOfMonth() == current.getDayOfMonth())
+                {
+                    Label eventLabel = new Label();
+                    eventLabel.setText(currEvent.getEventName());
+                    calendarGridPane.add(eventLabel, currC, currR);
+                }
+            }
 
             calendarGridPane.add(DoMLabel, currC, currR);
             nodesByDay.put(current, DoMLabel);
@@ -258,6 +280,7 @@ public class MainGUI {
      */
     @FXML
     private void getCellData(MouseEvent e) {
+        Account acc = getCurrentAccount();
         Node source = (Node) e.getSource();
 
         //Retrieves the position from the [6,7] grids
@@ -289,16 +312,15 @@ public class MainGUI {
         } else {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
-            LocalDate disDate = LocalDate.of(currentMonth.getYear(),currentMonth.getMonth(), curdate);
-            System.out.print(disDate);
+            LocalDate disDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
+            //System.out.print(disDate);
             searchEvent(disDate);
         }
     }
 
     @FXML
     //move to calendar class
-    private void searchEvent(LocalDate localDate)
-    {
+    private void searchEvent(LocalDate localDate) {
         //search treeset for localdate, if true then print to textarea
         eventOutput.setDisable(false);
 

@@ -17,6 +17,7 @@ public class Event implements Serializable {
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
         start = startDateTime;
         end = endDateTime;
+        this.eventName = eventName;
         this.frequency = frequency;
     }
 

@@ -1,9 +1,8 @@
 package edu.oakland;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.TreeSet;
+import java.time.*;
+import java.util.*;
 
 public class Calendar implements Serializable {
 
@@ -15,10 +14,24 @@ public class Calendar implements Serializable {
         endingSet = new TreeSet<>(EndComparator.INSTANCE);
     }
 
-    public void viewEvent(LocalDate myDate) {
+    public Set<Event> getMonthEvents(YearMonth yearMonth) {
+        ZonedDateTime start = ZonedDateTime.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1, 0, 0,
+                0, 0, ZoneId.systemDefault());
+        ZonedDateTime end = ZonedDateTime.of(yearMonth.atEndOfMonth(), LocalTime.MAX, ZoneId.systemDefault());
+        Event earliest = new Event(start, start, "");
+        Event latest = new Event(end, end, "");
+        Set<Event> union = new HashSet<>();
+        union.addAll(endingSet.subSet(earliest, latest));
+        union.addAll(startingSet.subSet(earliest, latest));
+        return union;
+    }
+
+    //LocalDate myDate
+    public void viewEvent() {
         //iterate through event treeset
         //if startdate == myDate
             //draw event information on calendar's right panel
+        System.out.println("works");
     }
 
     public void displayEvent(LocalDate myDate){

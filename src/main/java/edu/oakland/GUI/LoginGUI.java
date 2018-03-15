@@ -59,6 +59,7 @@ public class LoginGUI {
                     //Get a reference to the instance of MainGUI
                     MainGUI mainGUI = fxmlLoader.getController();
                     mainGUI.setCurrentAccount(Account.getAccount(userField.getText()));
+                    mainGUI.postInit();
 
                     //Create the window
                     Stage stage = new Stage();
