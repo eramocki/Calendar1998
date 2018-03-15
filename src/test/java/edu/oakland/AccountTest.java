@@ -191,9 +191,13 @@ public class AccountTest {
                     Integer.toString(i / 2 + 1));
             c.addEvent(e);
         }
+        Event duplicateTime = new Event(ZonedDateTime.parse(arr[0]),  ZonedDateTime.parse(arr[1]), "dup");
+        c.addEvent(duplicateTime);
         Set<Event> resultSet = c.getMonthEvents(YearMonth.of(2018, 3));
+        assertTrue(resultSet.size() == 4);
         for (Event e : c.startingSet) {
-            if (e.getEventName().equals("1") || e.getEventName().equals("3") || e.getEventName().equals("4")) {
+            if (e.getEventName().equals("1") || e.getEventName().equals("3") || e.getEventName().equals("4") ||
+                    e.getEventName().equals("dup")) {
                 assertTrue(resultSet.contains(e));
             } else {
                 assertFalse(resultSet.contains(e));

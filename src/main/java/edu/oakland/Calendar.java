@@ -72,7 +72,12 @@ public class Calendar implements Serializable {
         INSTANCE;
         @Override
         public int compare(Event o1, Event o2) {
-            return o1.getStart().compareTo(o2.getStart());
+            int c = o1.getStart().compareTo(o2.getStart());
+            if (c != 0) {
+                return c;
+            } else {
+                return o1.getEventName().compareToIgnoreCase(o2.getEventName());
+            }
         }
     }
 
@@ -80,7 +85,12 @@ public class Calendar implements Serializable {
         INSTANCE;
         @Override
         public int compare(Event o1, Event o2) {
-            return o1.getEnd().compareTo(o2.getEnd());
+            int c = o1.getEnd().compareTo(o2.getEnd());
+            if (c != 0) {
+                return c;
+            } else {
+                return o1.getEventName().compareToIgnoreCase(o2.getEventName());
+            }
         }
     }
 
