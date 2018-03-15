@@ -37,8 +37,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.scene.paint.Color;
-
 public class MainGUI {
 
     private transient static final Logger logger = Logger.getLogger(MainGUI.class.getName());
@@ -59,6 +57,11 @@ public class MainGUI {
      * Each day in the calendar view has a VBox to put things in
      */
     private HashMap<LocalDate, VBox> VBoxesByDay = new HashMap<>();
+
+    /**
+     * Each event has a label made for it
+     */
+    private HashMap<Label, Event> eventsByLabel = new HashMap<>();
 
 //    private HashMap<LocalDate, Node> nodesByDayNumber = new HashMap<>();
 //    private HashMap<LocalDate, Node> nodesByDayEvent = new HashMap<>();
@@ -172,15 +175,11 @@ public class MainGUI {
     }
 
     private void viewMonth(ZonedDateTime theMonth) {
-//        calendarGridPane.getChildren().removeAll(nodesByDayNumber.values());
-//        calendarGridPane.getChildren().removeAll(nodesByDayEvent.values());
-//        calendarGridPane.getChildren().removeAll(nodesByDayRect.values());
         calendarGridPane.getChildren().removeAll(VBoxesByDay.values());
         //todo cache?
         VBoxesByDay.clear();
-//        nodesByDayNumber.clear();
-//        nodesByDayEvent.clear();
-//        nodesByDayRect.clear();
+        eventsByLabel.clear();
+
         daylayout = new int[6][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
@@ -221,7 +220,8 @@ public class MainGUI {
                     eventLabel.setText(currEvent.getEventName());
                     eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
                     eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
-
+                    eventLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, this::viewEventDetail);
+                    eventsByLabel.put(eventLabel, currEvent);
 
                     dayVBox.getChildren().add(eventLabel);
 
@@ -258,7 +258,26 @@ public class MainGUI {
         viewMonth(currentMonth.plusMonths(1));
     }
 
-    private void viewEventDetail(Event theEvent) {
+    @FXML
+    private void viewEventDetail(MouseEvent event) {
+        Node sourceNode = (Node) event.getSource();
+        Label source;
+        try {
+            source = (Label) sourceNode;
+        } catch (ClassCastException e) {
+            logger.log(Level.WARNING, "Event came from unexpected source (not a label)", e);
+            return;
+        }
+        if (eventsByLabel.containsKey(source)) {
+            displayEventDetail(eventsByLabel.get(source));
+        } else {
+            logger.log(Level.WARNING, "Event came from unexpected source or label got removed");
+            return;
+        }
+        event.consume();
+    }
+
+    private void displayEventDetail(Event theEvent) {
         eventPointer = theEvent;
         eventOutput.setDisable(false);
         eventOutput.setText(theEvent.getEventName());
@@ -382,7 +401,7 @@ public class MainGUI {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
             } else {
-                viewEventDetail(dayEvents.iterator().next());
+                displayEventDetail(dayEvents.iterator().next());
             }
 
         }
