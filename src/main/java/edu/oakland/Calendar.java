@@ -28,6 +28,8 @@ public class Calendar implements Serializable {
 
     public Set<Event> getDayEvents(LocalDate localDate){
         ZonedDateTime start = localDate.atStartOfDay(ZoneId.systemDefault());
+
+        //1439 minutes is 23 hours and 59 minutes
         ZonedDateTime end = localDate.atStartOfDay(ZoneId.systemDefault()).plusMinutes(1439);
         Event earliest = new Event(start, start, "");
         Event latest = new Event(end, end, "");

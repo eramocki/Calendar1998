@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.scene.paint.Color;
 
 public class MainGUI {
@@ -118,8 +119,8 @@ public class MainGUI {
         setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
         startTimeDropdown.getSelectionModel().selectFirst();
         endTimeDropdown.getSelectionModel().selectFirst();
-        editStartDate(startDateField,LocalDate.now());
-        editEndDate(endDateField,LocalDate.now());
+        editStartDate(startDateField, LocalDate.now());
+        editEndDate(endDateField, LocalDate.now());
 
         recurField.getItems().removeAll(recurField.getItems());
         recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
@@ -144,11 +145,11 @@ public class MainGUI {
         theComboBox.setValue(selected.format(DateTimeFormatter.ofPattern("HH:mm")));
     }
 
-    private void editStartDate(DatePicker theStartDateField, LocalDate selected){
+    private void editStartDate(DatePicker theStartDateField, LocalDate selected) {
         theStartDateField.setValue(selected);
     }
 
-    private void editEndDate(DatePicker theEndDateField, LocalDate selected){
+    private void editEndDate(DatePicker theEndDateField, LocalDate selected) {
         theEndDateField.setValue(selected);
     }
 
@@ -187,8 +188,7 @@ public class MainGUI {
             Iterator<Event> ir = monthEvents.iterator();
             while (ir.hasNext()) {
                 Event currEvent = ir.next();
-                if(currEvent.getStart().getDayOfMonth() == current.getDayOfMonth())
-                {
+                if (currEvent.getStart().getDayOfMonth() == current.getDayOfMonth()) {
                     //TODO offset new events if they share the same space
                     javafx.scene.shape.Rectangle rectangle = new javafx.scene.shape.Rectangle(0, 0, 75, 10);
                     rectangle.setFill(Color.ANTIQUEWHITE);
@@ -343,13 +343,10 @@ public class MainGUI {
             dateLabel.setText(output);
             LocalDate disDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
             Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(disDate);
-            if(dayEvents.isEmpty())
-            {
+            if (dayEvents.isEmpty()) {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
-            }
-            else
-            {
+            } else {
                 Iterator<Event> ir = dayEvents.iterator();
                 while (ir.hasNext()) {
                     Event currEvent = ir.next();
