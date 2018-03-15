@@ -2,6 +2,7 @@ package edu.oakland.GUI;
 
 import edu.oakland.Account;
 import edu.oakland.Event;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -107,8 +108,10 @@ public class MainGUI {
             GridPane.setHalignment(DoWLabel, HPos.CENTER);
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
-        Event dummyEvent = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Dummy Event");
-        getCurrentAccount().calendar.addEvent(dummyEvent);
+        Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Event 1");
+        Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 2");
+        getCurrentAccount().calendar.addEvent(dummyEvent1);
+        getCurrentAccount().calendar.addEvent(dummyEvent2);
         viewMonth(ZonedDateTime.now());
 
         setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
@@ -307,7 +310,6 @@ public class MainGUI {
      */
     @FXML
     private void getCellData(MouseEvent e) {
-        Account acc = getCurrentAccount();
         Node source = (Node) e.getSource();
 
         //Retrieves the position from the [6,7] grids
@@ -340,8 +342,13 @@ public class MainGUI {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
             LocalDate disDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
-            //System.out.print(disDate);
-            searchEvent(disDate);
+            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(disDate);
+            Iterator<Event> ir = dayEvents.iterator();
+            while (ir.hasNext()) {
+                Event currEvent = ir.next();
+                eventOutput.setDisable(false);
+                eventOutput.setText(currEvent.getEventName());
+            }
         }
     }
 

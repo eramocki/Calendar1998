@@ -26,6 +26,17 @@ public class Calendar implements Serializable {
         return union;
     }
 
+    public Set<Event> getDayEvents(LocalDate localDate){
+        ZonedDateTime start = localDate.atStartOfDay(ZoneId.systemDefault());
+        ZonedDateTime end = localDate.atStartOfDay(ZoneId.systemDefault()).plusMinutes(1439);
+        Event earliest = new Event(start, start, "");
+        Event latest = new Event(end, end, "");
+        Set<Event> union = new HashSet<>();
+        union.addAll(endingSet.subSet(earliest, latest));
+        union.addAll(startingSet.subSet(earliest, latest));
+        return union;
+    }
+
     //LocalDate myDate
     public void viewEvent() {
         //iterate through event treeset
