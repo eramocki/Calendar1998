@@ -115,6 +115,8 @@ public class MainGUI {
         setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
         startTimeDropdown.getSelectionModel().selectFirst();
         endTimeDropdown.getSelectionModel().selectFirst();
+        editStartDate(startDateField,LocalDate.now());
+        editEndDate(endDateField,LocalDate.now());
 
         recurField.getItems().removeAll(recurField.getItems());
         recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
@@ -137,6 +139,14 @@ public class MainGUI {
         }
 
         theComboBox.setValue(selected.format(DateTimeFormatter.ofPattern("HH:mm")));
+    }
+
+    private void editStartDate(DatePicker theStartDateField, LocalDate selected){
+        theStartDateField.setValue(selected);
+    }
+
+    private void editEndDate(DatePicker theEndDateField, LocalDate selected){
+        theEndDateField.setValue(selected);
     }
 
     private void viewMonth(ZonedDateTime theMonth) {
