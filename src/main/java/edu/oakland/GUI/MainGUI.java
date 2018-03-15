@@ -138,17 +138,10 @@ public class MainGUI {
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
         YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
+
+        Event dummyEvent = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Dummy Event");
+        getCurrentAccount().calendar.addEvent(dummyEvent);
         Set<Event> monthEvents = getCurrentAccount().calendar.getMonthEvents(yearMonth);
-
-        //Should be false...
-        System.out.println(monthEvents.isEmpty());
-        //Should work, but doesn't...
-        Iterator<Event> ir = monthEvents.iterator();
-        while (ir.hasNext()) {
-            System.out.println(ir.next().getEventName());
-        }
-
-
 
         LocalDate current = currentMonth.toLocalDate();
         while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
@@ -167,6 +160,17 @@ public class MainGUI {
 
             int currC = columnIndex++ % 7;
             int currR = rowIndex;
+
+            Iterator<Event> ir = monthEvents.iterator();
+            while (ir.hasNext()) {
+                Event currEvent = ir.next();
+                if(currEvent.getStart().getDayOfMonth() == current.getDayOfMonth())
+                {
+                    Label eventLabel = new Label();
+                    eventLabel.setText(currEvent.getEventName());
+                    calendarGridPane.add(eventLabel, currC, currR);
+                }
+            }
 
             calendarGridPane.add(DoMLabel, currC, currR);
             nodesByDay.put(current, DoMLabel);

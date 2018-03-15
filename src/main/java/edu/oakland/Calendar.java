@@ -12,8 +12,6 @@ public class Calendar implements Serializable {
     public Calendar() {
         startingSet = new TreeSet<>(StartComparator.INSTANCE);
         endingSet = new TreeSet<>(EndComparator.INSTANCE);
-        Event dummyEvent = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Dummy Event");
-        addEvent(dummyEvent);
     }
 
     public Set<Event> getMonthEvents(YearMonth yearMonth) {
