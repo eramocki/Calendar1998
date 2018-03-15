@@ -343,12 +343,21 @@ public class MainGUI {
             dateLabel.setText(output);
             LocalDate disDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
             Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(disDate);
-            Iterator<Event> ir = dayEvents.iterator();
-            while (ir.hasNext()) {
-                Event currEvent = ir.next();
-                eventOutput.setDisable(false);
-                eventOutput.setText(currEvent.getEventName());
+            if(dayEvents.isEmpty())
+            {
+                eventOutput.setDisable(true);
+                eventOutput.setText("");
             }
+            else
+            {
+                Iterator<Event> ir = dayEvents.iterator();
+                while (ir.hasNext()) {
+                    Event currEvent = ir.next();
+                    eventOutput.setDisable(false);
+                    eventOutput.setText(currEvent.getEventName());
+                }
+            }
+
         }
     }
 
