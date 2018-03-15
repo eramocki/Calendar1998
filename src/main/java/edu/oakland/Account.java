@@ -50,10 +50,6 @@ public class Account implements Serializable {
         return true;
     }
 
-    public void testP(){
-        System.out.println("Erro!");
-    }
-
     /**
      * Remove an account from the map of current accounts, and save to disk.
      *
