@@ -11,14 +11,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +35,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.paint.Color;
 
 public class MainGUI {
 
@@ -41,7 +48,9 @@ public class MainGUI {
      */
     private ZonedDateTime currentMonth;
 
-    private HashMap<LocalDate, Node> nodesByDay = new HashMap<>();
+    private HashMap<LocalDate, Node> nodesByDayNumber = new HashMap<>();
+    private HashMap<LocalDate, Node> nodesByDayEvent = new HashMap<>();
+    private HashMap<LocalDate, Node> nodesByDayRect = new HashMap<>();
 
     @FXML
     private PasswordField oldPasswordField;
@@ -98,6 +107,8 @@ public class MainGUI {
             GridPane.setHalignment(DoWLabel, HPos.CENTER);
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
+        Event dummyEvent = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Dummy Event");
+        getCurrentAccount().calendar.addEvent(dummyEvent);
         viewMonth(ZonedDateTime.now());
 
         setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
@@ -129,8 +140,14 @@ public class MainGUI {
     }
 
     private void viewMonth(ZonedDateTime theMonth) {
-        calendarGridPane.getChildren().removeAll(nodesByDay.values());
-        nodesByDay.clear(); //todo cache?
+        calendarGridPane.getChildren().removeAll(nodesByDayNumber.values());
+        calendarGridPane.getChildren().removeAll(nodesByDayEvent.values());
+        calendarGridPane.getChildren().removeAll(nodesByDayRect.values());
+
+        //todo cache?
+        nodesByDayNumber.clear();
+        nodesByDayEvent.clear();
+        nodesByDayRect.clear();
         daylayout = new int[6][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
@@ -138,9 +155,6 @@ public class MainGUI {
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
         YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
-
-        Event dummyEvent = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Dummy Event");
-        getCurrentAccount().calendar.addEvent(dummyEvent);
         Set<Event> monthEvents = getCurrentAccount().calendar.getMonthEvents(yearMonth);
 
         LocalDate current = currentMonth.toLocalDate();
@@ -154,10 +168,6 @@ public class MainGUI {
             Label DoMLabel = new Label();
             DoMLabel.setText(current.format(DateTimeFormatter.ofPattern("d")));
 
-            //Draw events to grid here, pass current date, month and year
-            LocalDate passDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), Integer.parseInt(DoMLabel.getText()));
-            //displayEvent(passDate);
-
             int currC = columnIndex++ % 7;
             int currR = rowIndex;
 
@@ -166,14 +176,21 @@ public class MainGUI {
                 Event currEvent = ir.next();
                 if(currEvent.getStart().getDayOfMonth() == current.getDayOfMonth())
                 {
+                    //TODO offset new events if they share the same space
+                    javafx.scene.shape.Rectangle rectangle = new javafx.scene.shape.Rectangle(0, 0, 75, 10);
+                    rectangle.setFill(Color.ANTIQUEWHITE);
                     Label eventLabel = new Label();
                     eventLabel.setText(currEvent.getEventName());
+
+                    calendarGridPane.add(rectangle, currC, currR);
+                    nodesByDayRect.put(current, rectangle);
                     calendarGridPane.add(eventLabel, currC, currR);
+                    nodesByDayEvent.put(current, eventLabel);
                 }
             }
 
             calendarGridPane.add(DoMLabel, currC, currR);
-            nodesByDay.put(current, DoMLabel);
+            nodesByDayNumber.put(current, DoMLabel);
             GridPane.setValignment(DoMLabel, VPos.TOP);
             GridPane.setHalignment(DoMLabel, HPos.LEFT);
 
