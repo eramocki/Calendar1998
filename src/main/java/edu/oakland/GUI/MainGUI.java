@@ -133,7 +133,8 @@ public class MainGUI {
     private Button updatePasswordButton, logoutButton;
 
     @FXML
-    public void initialize() { }
+    public void initialize() {
+    }
 
     public void postInit() {
         //Create labels for day of week header
@@ -148,6 +149,7 @@ public class MainGUI {
         }
         Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Event 1");
         dummyEvent1.setHighPriority(true);
+        dummyEvent1.setEventDesc("Description");
         Event dummyEventa = new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5");
         Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 2");
         Event dummyEvent3 = new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "Event 3");
@@ -246,9 +248,9 @@ public class MainGUI {
 
                 Label eventLabel = new Label();
                 eventLabel.setText(currEvent.getEventName());
-                if(currEvent.getHighPriority()) {
+                if (currEvent.getHighPriority()) {
                     eventLabel.setStyle("-fx-background-color: OrangeRed;");
-                }else{
+                } else {
                     eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
                 }
 
@@ -294,7 +296,9 @@ public class MainGUI {
             return;
         }
         if (eventsByLabel.containsKey(source)) {
-            displayEventDetail(eventsByLabel.get(source));
+            Event tempevent = (eventsByLabel.get(source));
+            eventPointer = tempevent;
+            printToView();
         } else {
             logger.log(Level.WARNING, "Event came from unexpected source or label got removed");
             return;
@@ -305,12 +309,6 @@ public class MainGUI {
         //the stuff shown in the right pane. By manually calling getCellDate ourselves,
         //the source is still the Label and we can handle better based on that
         getCellData(event);
-    }
-
-    private void displayEventDetail(Event theEvent) {
-        eventPointer = theEvent;
-        eventOutput.setDisable(false);
-        eventOutput.setText(theEvent.getEventName());
     }
 
     @FXML
@@ -385,41 +383,29 @@ public class MainGUI {
         }
     }
 
-    private void printToView(Event tempEvent) {
-        eventPointer = tempEvent;
-        Set<Event> setOfDayEvent = getCurrentAccount().calendar.getDayEvents(currentDate);
-        if (setOfDayEvent.isEmpty()) {
-            eventOutput.setDisable(true);
-            eventOutput.setText("");
-        } else {
-            Iterator<Event> ir = setOfDayEvent.iterator();
-            if (ir.hasNext()) {
-                eventPointer = ir.next();
-                if (eventPointer != null) {
-                    String temp = "";
-                    temp += (eventPointer.getEventName());
-                    if (eventPointer.getEventDesc() != null) {
-                        temp += ("\n" + eventPointer.getEventDesc());
-                    }
-                    if (eventPointer.getEventLocation() != null) {
-                        temp +=("\n" + eventPointer.getEventLocation());
-                    }
-                    if (eventPointer.getEventAttendees() != null) {
-                        temp +=("\n" + eventPointer.getEventAttendees());
-                    }
-                    //TODO list time/date info etc
-                    //temp.append("\nStart Date: " + eventPointer.getStart().)
-
-                    eventOutput.setText(temp);
-                    eventOutput.setDisable(false);
-                } else {
-                    eventOutput.setText("");
-                    eventOutput.setDisable(true);
-
-                }
+    private void printToView() {
+        if (eventPointer != null) {
+            String temp = "";
+            temp += (eventPointer.getEventName());
+            if (eventPointer.getEventDesc() != null) {
+                temp += ("\n" + eventPointer.getEventDesc());
             }
+            if (eventPointer.getEventLocation() != null) {
+                temp += ("\n" + eventPointer.getEventLocation());
+            }
+            if (eventPointer.getEventAttendees() != null) {
+                temp += ("\n" + eventPointer.getEventAttendees());
+            }
+            //TODO list time/date info etc
+            //temp.append("\nStart Date: " + eventPointer.getStart().)
+
+            eventOutput.setText(temp);
+            eventOutput.setDisable(false);
+        } else {
+            eventOutput.setText("");
+            eventOutput.setDisable(true);
+
         }
-        viewMonth(currentMonth);
     }
 
     /**
@@ -481,7 +467,9 @@ public class MainGUI {
                 //If an event label was pressed we shouldn't overwrite the event it already displayed
                 if (!(origSource instanceof Label)) {
                     //It doesn't matter what event we show
-                    displayEventDetail(dayEvents.iterator().next());
+                    Event tempEvent = (dayEvents.iterator().next());
+                    eventPointer = tempEvent;
+                    printToView();
                 }
             }
         }
@@ -489,7 +477,17 @@ public class MainGUI {
 
     @FXML
     private void viewNextEvent(ActionEvent event) {
-        printToView(eventPointer);
+        Set<Event> setOfDayEvent = getCurrentAccount().calendar.getDayEvents(currentDate);
+        if (setOfDayEvent.isEmpty()) {
+            eventOutput.setDisable(true);
+            eventOutput.setText("");
+        } else {
+            Iterator<Event> ir = setOfDayEvent.iterator();
+            if (ir.hasNext()) {
+                eventPointer = ir.next();
+                printToView();
+            }
+        }
     }
 
     @FXML
@@ -502,7 +500,7 @@ public class MainGUI {
     private void deleteE(ActionEvent event) {
         try {
             getCurrentAccount().calendar.removeEvent(eventPointer);
-            printToView(eventPointer);
+            printToView();
         } catch (NullPointerException e) {
             System.out.println("Nothing to delete");
         }
@@ -510,7 +508,7 @@ public class MainGUI {
 
     @FXML
     private void openUpdate(ActionEvent event) {
-        if(eventPointer != null) {
+        if (eventPointer != null) {
             Stage stage;
             try {
                 stage = new Stage();
@@ -527,7 +525,7 @@ public class MainGUI {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
@@ -557,21 +555,21 @@ public class MainGUI {
         ZonedDateTime start = ZonedDateTime.of(startDateUpdate.getYear(), startDateUpdate.getMonthValue(), startDateUpdate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
         ZonedDateTime end = ZonedDateTime.of(endDateUpdate.getYear(), endDateUpdate.getMonthValue(), endDateUpdate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
 
-        if(end.compareTo(start) == -1 || endingTimeUpdate.compareTo(endingTimeUpdate) == -1) {
+        if (end.compareTo(start) == -1 || endingTimeUpdate.compareTo(endingTimeUpdate) == -1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
             alert.setContentText("You can't have your end date/time happen in the past!");
 
             alert.showAndWait();
-        }else if(eventNameField.getText().equals("")){
+        } else if (eventNameField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
             alert.setContentText("Your event name cannot be blank");
 
             alert.showAndWait();
-        }else{
+        } else {
             Event updateEvent = new Event(start, end, eventNameFieldUpdate.getText());
             updateEvent.setEventDesc(eventDescriptionFieldUpdate.getText());
             updateEvent.setEventLocation(eventAttendeesFieldUpdate.getText());
@@ -592,7 +590,6 @@ public class MainGUI {
     }
 
 
-
     @FXML
     private void submitEvent(ActionEvent event) {
 
@@ -610,24 +607,23 @@ public class MainGUI {
         ZonedDateTime max = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), LocalTime.MAX.getHour(), LocalTime.MAX.getMinute(), 0, 0, ZoneId.systemDefault());
 
 
-        if(end.compareTo(start) == -1 || endingTime.compareTo(endingTime) == -1) {
+        if (end.compareTo(start) == -1 || endingTime.compareTo(endingTime) == -1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
             alert.setContentText("You can't have your end date/time happen in the past!");
 
             alert.showAndWait();
-        }else if(eventNameField.getText().equals("")){
+        } else if (eventNameField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
             alert.setContentText("Your event name cannot be blank");
             alert.showAndWait();
-        }else{
+        } else {
             Event disEvent = new Event(start, end, eventNameField.getText());
             disEvent.setEventAllDay(allDay.isSelected());
-            if(allDay.isSelected())
-            {
+            if (allDay.isSelected()) {
                 disEvent.setStart(min);
                 disEvent.setEnd(max);
             }
@@ -636,6 +632,9 @@ public class MainGUI {
             disEvent.setEventAttendees(eventAttendeesField.getText());
             disEvent.setHighPriority(highPrior.isSelected());
             disEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
+            if (disEvent.getFrequency().equals(Frequency.WEEKLY)) {
+
+            }
             getCurrentAccount().calendar.addEvent(disEvent);
             viewMonth(currentMonth);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
