@@ -45,9 +45,6 @@ public class MainGUI {
 
     private Account currentAccount;
 
-    /**
-     * Currently displayed month
-     */
     private ZonedDateTime currentMonth;
 
     /**
@@ -88,19 +85,6 @@ public class MainGUI {
     @FXML
     private Label calendarHeaderLabel, dateLabel;
 
-    /*  Update Event page */
-
-    @FXML
-    private DatePicker startDateFieldUpdate, endDateFieldUpdate;
-
-    @FXML
-    private ComboBox startTimeDropdownUpdate, endTimeDropdownUpdate, recurFieldUpdate;
-
-    @FXML
-    private TextField eventNameFieldUpdate, eventDescriptionFieldUpdate, eventLocationFieldUpdate, eventAttendeesFieldUpdate;
-
-    @FXML
-    private CheckBox allDayUpdate, highPriorUpdate;
 
     /* Add Event Page */
     @FXML
@@ -163,12 +147,8 @@ public class MainGUI {
 
         GUIHelper.setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
         GUIHelper.setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
-        //setupTimeCombobox(startTimeDropdownUpdate, LocalTime.MIDNIGHT);
-        //setupTimeCombobox(endTimeDropdownUpdate, LocalTime.MIDNIGHT.plusSeconds(1));
         startTimeDropdown.getSelectionModel().selectFirst();
         endTimeDropdown.getSelectionModel().selectFirst();
-        //startTimeDropdownUpdate.getSelectionModel().selectFirst();
-        //endTimeDropdownUpdate.getSelectionModel().selectFirst();
         editStartDate(startDateField, LocalDate.now());
         editEndDate(endDateField, LocalDate.now());
         //editStartDate(startDateFieldUpdate, LocalDate.now());
@@ -190,7 +170,7 @@ public class MainGUI {
         theEndDateField.setValue(selected);
     }
 
-    private void viewMonth(ZonedDateTime theMonth) {
+    public void viewMonth(ZonedDateTime theMonth) {
         calendarGridPane.getChildren().removeAll(VBoxesByDay.values());
         //todo cache?
         VBoxesByDay.clear();
@@ -510,11 +490,17 @@ public class MainGUI {
             Stage stage;
             try {
                 stage = new Stage();
-                java.net.URL resource = getClass().getClassLoader().getResource("UpdateGUI.fxml");
+                java.net.URL resource = getClass().getClassLoader().getResource("UpdateEventGUI.fxml");
                 if (resource == null) {
-                    resource = getClass().getResource("UpdateGUI.fxml");
+                    resource = getClass().getResource("UpdateEventGUI.fxml");
                 }
-                Parent root4 = FXMLLoader.load(resource);
+                FXMLLoader fxmlLoader = new FXMLLoader(resource);
+                Parent root4 = fxmlLoader.load();
+
+                UpdateEventController updateEventController = fxmlLoader.getController();
+                updateEventController.mainGUI = this;
+                updateEventController.postInit();
+
                 stage.setScene(new Scene(root4, 800, 650));
                 stage.setTitle("Update Event " + eventPointer.getEventName());
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -532,60 +518,8 @@ public class MainGUI {
 
     }
 
-    //unfinished
-    @FXML
-    private void modifyEvent(ActionEvent event) {
 
-        //Doesn't work
-        eventNameFieldUpdate.setText(eventPointer.getEventName());
-        eventDescriptionFieldUpdate.setText(eventPointer.getEventDesc());
-        eventLocationFieldUpdate.setText(eventPointer.getEventLocation());
-        eventAttendeesFieldUpdate.setText(eventPointer.getEventAttendees());
 
-        LocalDate startDateUpdate = startDateFieldUpdate.getValue();
-        LocalDate endDateUpdate = endDateFieldUpdate.getValue();
-        String startingTimeUpdate = startTimeDropdownUpdate.getSelectionModel().getSelectedItem().toString();
-        String endingTimeUpdate = endTimeDropdownUpdate.getSelectionModel().getSelectedItem().toString();
-
-        String[] splitStartHM = startingTimeUpdate.split(":");
-        String[] splitEndHM = endingTimeUpdate.split(":");
-
-        ZonedDateTime start = ZonedDateTime.of(startDateUpdate.getYear(), startDateUpdate.getMonthValue(), startDateUpdate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
-        ZonedDateTime end = ZonedDateTime.of(endDateUpdate.getYear(), endDateUpdate.getMonthValue(), endDateUpdate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
-
-        if (end.compareTo(start) == -1 || endingTimeUpdate.compareTo(endingTimeUpdate) == -1) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("You can't have your end date/time happen in the past!");
-
-            alert.showAndWait();
-        } else if (eventNameField.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your event name cannot be blank");
-
-            alert.showAndWait();
-        } else {
-            Event updateEvent = new Event(start, end, eventNameFieldUpdate.getText());
-            updateEvent.setEventDesc(eventDescriptionFieldUpdate.getText());
-            updateEvent.setEventLocation(eventAttendeesFieldUpdate.getText());
-            updateEvent.setEventAttendees(eventAttendeesFieldUpdate.getText());
-            updateEvent.setEventAllDay(allDayUpdate.isSelected());
-            updateEvent.setHighPriority(highPriorUpdate.isSelected());
-            updateEvent.setFrequency(Frequency.valueOf(recurFieldUpdate.getSelectionModel().getSelectedItem().toString().toUpperCase()));
-            getCurrentAccount().calendar.addEvent(updateEvent);
-            viewMonth(currentMonth);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Event was updated!.");
-            alert.setHeaderText("Well done");
-            alert.setContentText("Your event has been update on the calendar");
-            alert.showAndWait();
-            SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
-            selector.selectFirst();
-        }
-    }
 
 
     @FXML
@@ -652,5 +586,12 @@ public class MainGUI {
 
     public void setCurrentAccount(Account currentAccount) {
         this.currentAccount = currentAccount;
+    }
+
+    /**
+     * Currently displayed month
+     */
+    public ZonedDateTime getCurrentMonth() {
+        return currentMonth;
     }
 }
