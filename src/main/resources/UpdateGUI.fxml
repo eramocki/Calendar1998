@@ -54,19 +54,19 @@
                 <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Event Description" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
                 <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Location" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Attendees" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-                <Button fx:id="updateSubmitButton" mnemonicParsing="false" onAction="#modifyEvent" prefHeight="25.0" prefWidth="141.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="8" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Start Time" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Stop Time" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Start Time" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.rowIndex="4" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="End Time" textAlignment="CENTER" GridPane.columnIndex="8" GridPane.rowIndex="4" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="107.0" text="Recurrence" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" />
-                <ComboBox fx:id="recurFieldUpdate" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
                 <DatePicker fx:id="startDateFieldUpdate" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
                 <DatePicker fx:id="endDateFieldUpdate" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                 <CheckBox fx:id="allDayUpdate" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                 <CheckBox fx:id="highPriorUpdate" mnemonicParsing="false" text="High Priority" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
                 <ComboBox fx:id="startTimeDropdownUpdate" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                 <ComboBox fx:id="endTimeDropdownUpdate" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+                <ComboBox fx:id="recurFieldUpdate" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
+                <Button fx:id="updateSubmitButton" mnemonicParsing="false" onAction="#modifyEvent" prefHeight="25.0" prefWidth="141.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Start Time" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Stop Time" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Start Time" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.rowIndex="4" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="End Time" textAlignment="CENTER" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+                <Label alignment="CENTER" prefHeight="17.0" prefWidth="107.0" text="Recurrence" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" />
             </children>
         </GridPane>
     </children>
