@@ -385,21 +385,36 @@ public class MainGUI {
 
     private void printToView() {
         if (eventPointer != null) {
-            String temp = "";
-            temp += (eventPointer.getEventName());
+            StringBuilder temp = new StringBuilder();
+            temp.append(eventPointer.getEventName());
             if (eventPointer.getEventDesc() != null) {
-                temp += ("\n" + eventPointer.getEventDesc());
+                temp.append("\n" + eventPointer.getEventDesc());
             }
             if (eventPointer.getEventLocation() != null) {
-                temp += ("\n" + eventPointer.getEventLocation());
+                temp.append("\n" + eventPointer.getEventLocation());
             }
             if (eventPointer.getEventAttendees() != null) {
-                temp += ("\n" + eventPointer.getEventAttendees());
+                temp.append("\n" + eventPointer.getEventAttendees());
             }
-            //TODO list time/date info etc
-            //temp.append("\nStart Date: " + eventPointer.getStart().)
-
-            eventOutput.setText(temp);
+            if(!eventPointer.getEventAllDay()) {
+                temp.append("\n" + eventPointer.getStart().getMonth() + " " + eventPointer.getStart().getDayOfMonth() + " " + eventPointer.getStart().getYear() + " " + eventPointer.getStart().getHour() + ":" + eventPointer.getStart().getMinute());
+                temp.append("\n" + eventPointer.getEnd().getMonth() + " " + eventPointer.getEnd().getDayOfMonth() + " " + eventPointer.getEnd().getYear() + " " + eventPointer.getEnd().getHour() + ":" + eventPointer.getEnd().getMinute());
+            }
+            else{
+                temp.append("\nAll Day Event");
+                temp.append("\n" + eventPointer.getStart().getMonth() + " " + eventPointer.getStart().getDayOfMonth() + " " + eventPointer.getStart().getYear());
+                temp.append("\n" + eventPointer.getEnd().getMonth() + " " + eventPointer.getEnd().getDayOfMonth() + " " + eventPointer.getEnd().getYear());
+            }
+            if(eventPointer.getHighPriority()){
+                temp.append("\nHigh Priority");
+            }
+            if(eventPointer.getFrequency().equals(Frequency.WEEKLY))
+            {
+                temp.append("\nRecurs Weekly");
+            }else if(eventPointer.getFrequency().equals(Frequency.MONTHLY)) {
+                temp.append("\nRecurs Monthly");
+            }
+            eventOutput.setText(temp.toString());
             eventOutput.setDisable(false);
         } else {
             eventOutput.setText("");
