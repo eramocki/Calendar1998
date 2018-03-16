@@ -14,7 +14,7 @@ public class Event implements Serializable {
     private Frequency frequency;
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
-        this(startDateTime, endDateTime, eventName, Frequency.ONCE);
+        this(startDateTime, endDateTime, eventName, Frequency.NEVER);
     }
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {

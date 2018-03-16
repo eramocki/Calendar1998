@@ -1,7 +1,7 @@
 package edu.oakland;
 
 public enum Frequency {
-    ONCE,
+    NEVER,
     WEEKLY,
     MONTHLY;
 }

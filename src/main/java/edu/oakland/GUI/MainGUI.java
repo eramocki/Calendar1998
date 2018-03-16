@@ -2,6 +2,7 @@ package edu.oakland.GUI;
 
 import edu.oakland.Account;
 import edu.oakland.Event;
+import edu.oakland.Frequency;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,6 +70,9 @@ public class MainGUI {
 //    private HashMap<LocalDate, Node> nodesByDayRect = new HashMap<>();
 
     @FXML
+    private TabPane tabPane;
+
+    @FXML
     private TextArea eventOutput;
 
     public int[][] daylayout;
@@ -127,8 +131,6 @@ public class MainGUI {
 
     @FXML
     private Button updatePasswordButton, logoutButton;
-
-
 
     @FXML
     public void initialize() { }
@@ -528,6 +530,7 @@ public class MainGUI {
 
     }
 
+    //unfinished
     @FXML
     private void modifyEvent(ActionEvent event) {
 
@@ -591,10 +594,6 @@ public class MainGUI {
         LocalDate endDate = endDateField.getValue();
         String startingTime = startTimeDropdown.getSelectionModel().getSelectedItem().toString();
         String endingTime = endTimeDropdown.getSelectionModel().getSelectedItem().toString();
-
-        //TODO unused
-        String recurState = recurField.getSelectionModel().getSelectedItem().toString();
-
         String[] splitStartHM = startingTime.split(":");
         String[] splitEndHM = endingTime.split(":");
 
@@ -608,25 +607,29 @@ public class MainGUI {
             alert.setContentText("You can't have your end date/time happen in the past!");
 
             alert.showAndWait();
-        }else if(eventNameField.getText() == ""){
+        }else if(eventNameField.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
             alert.setContentText("Your event name cannot be blank");
-
             alert.showAndWait();
         }else{
             Event disEvent = new Event(start, end, eventNameField.getText());
             disEvent.setEventDesc(eventDescriptionField.getText());
             disEvent.setEventLocation(eventAttendeesField.getText());
             disEvent.setEventAttendees(eventAttendeesField.getText());
-
             disEvent.setEventAllDay(allDay.isSelected());
             disEvent.setHighPriority(highPrior.isSelected());
-            //TODO set frequency or use constructor
-
+            disEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
             getCurrentAccount().calendar.addEvent(disEvent);
             viewMonth(currentMonth);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Event was created!.");
+            alert.setHeaderText("Well done");
+            alert.setContentText("Your event has been added to the calendar");
+            alert.showAndWait();
+            SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
+            selector.selectFirst();
         }
     }
 
