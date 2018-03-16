@@ -118,9 +118,8 @@ public class MainGUI {
 
     @FXML
     public void initialize() {
-    }
+        //NB Only pure GUI setup! Others use postInit
 
-    public void postInit() {
         //Create labels for day of week header
         int columnIndex = 0; //Which column to put the next label in
         for (int i = 6; i < 13; i++) { //Each day of the week by number, want to start at sunday so numbering is offset
@@ -131,6 +130,27 @@ public class MainGUI {
             GridPane.setHalignment(DoWLabel, HPos.CENTER);
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
+
+        //Set the time comboboxes with good values
+        GUIHelper.setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
+        GUIHelper.setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
+        startTimeDropdown.getSelectionModel().selectFirst();
+        endTimeDropdown.getSelectionModel().selectFirst();
+
+        //Set the date fields
+        editStartDate(startDateField, LocalDate.now());
+        editEndDate(endDateField, LocalDate.now());
+        //editStartDate(startDateFieldUpdate, LocalDate.now());
+        //editEndDate(endDateFieldUpdate, LocalDate.now());
+
+        //Set the recurrence dropdown
+        recurField.getItems().removeAll(recurField.getItems());
+        recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
+        recurField.getSelectionModel().selectFirst();
+        //TODO update recur
+    }
+
+    public void postInit() {
         Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Event 1");
         dummyEvent1.setHighPriority(true);
         dummyEvent1.setEventDesc("Description");
@@ -144,20 +164,6 @@ public class MainGUI {
         getCurrentAccount().calendar.addEvent(dummyEvent3);
         getCurrentAccount().calendar.addEvent(dummyEvent4);
         viewMonth(ZonedDateTime.now());
-
-        GUIHelper.setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
-        GUIHelper.setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
-        startTimeDropdown.getSelectionModel().selectFirst();
-        endTimeDropdown.getSelectionModel().selectFirst();
-        editStartDate(startDateField, LocalDate.now());
-        editEndDate(endDateField, LocalDate.now());
-        //editStartDate(startDateFieldUpdate, LocalDate.now());
-        //editEndDate(endDateFieldUpdate, LocalDate.now());
-
-        recurField.getItems().removeAll(recurField.getItems());
-        recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
-        recurField.getSelectionModel().selectFirst();
-        //TODO update recur
     }
 
 
