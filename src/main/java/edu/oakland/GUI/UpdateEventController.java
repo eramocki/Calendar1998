@@ -41,6 +41,8 @@ public class UpdateEventController {
         startTimeDropdown.getSelectionModel().selectFirst();
         endTimeDropdown.getSelectionModel().selectFirst();
 
+        endDateField.setValue(LocalDate.now());
+        startDateField.setValue(LocalDate.now());
     }
 
     public void postInit() {

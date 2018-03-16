@@ -138,10 +138,8 @@ public class MainGUI {
         endTimeDropdown.getSelectionModel().selectFirst();
 
         //Set the date fields
-        editStartDate(startDateField, LocalDate.now());
-        editEndDate(endDateField, LocalDate.now());
-        //editStartDate(startDateFieldUpdate, LocalDate.now());
-        //editEndDate(endDateFieldUpdate, LocalDate.now());
+        endDateField.setValue(LocalDate.now());
+        startDateField.setValue(LocalDate.now());
 
         //Set the recurrence dropdown
         recurField.getItems().removeAll(recurField.getItems());
@@ -166,15 +164,6 @@ public class MainGUI {
         viewMonth(ZonedDateTime.now());
     }
 
-
-
-    private void editStartDate(DatePicker theStartDateField, LocalDate selected) {
-        theStartDateField.setValue(selected);
-    }
-
-    private void editEndDate(DatePicker theEndDateField, LocalDate selected) {
-        theEndDateField.setValue(selected);
-    }
 
     public void viewMonth(ZonedDateTime theMonth) {
         calendarGridPane.getChildren().removeAll(VBoxesByDay.values());
