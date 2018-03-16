@@ -419,6 +419,7 @@ public class MainGUI {
             eventOutput.setDisable(true);
 
         }
+        viewMonth(currentMonth);
     }
 
     /**
