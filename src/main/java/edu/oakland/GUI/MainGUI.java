@@ -377,6 +377,43 @@ public class MainGUI {
         }
     }
 
+    private void printToView(Event tempEvent) {
+        eventPointer = tempEvent;
+        Set<Event> setOfDayEvent = getCurrentAccount().calendar.getDayEvents(currentDate);
+        if (setOfDayEvent.isEmpty()) {
+            eventOutput.setDisable(true);
+            eventOutput.setText("");
+        } else {
+            Iterator<Event> ir = setOfDayEvent.iterator();
+            if (ir.hasNext()) {
+                eventPointer = ir.next();
+                if (eventPointer != null) {
+                    String temp = "";
+                    temp += (eventPointer.getEventName());
+                    if (eventPointer.getEventDesc() != null) {
+                        temp += ("\n" + eventPointer.getEventDesc());
+                    }
+                    if (eventPointer.getEventLocation() != null) {
+                        temp +=("\n" + eventPointer.getEventLocation());
+                    }
+                    if (eventPointer.getEventAttendees() != null) {
+                        temp +=("\n" + eventPointer.getEventAttendees());
+                    }
+                    //TODO list time/date info etc
+                    //temp.append("\nStart Date: " + eventPointer.getStart().)
+
+                    eventOutput.setText(temp);
+                    eventOutput.setDisable(false);
+                } else {
+                    eventOutput.setText("");
+                    eventOutput.setDisable(true);
+
+                }
+            }
+        }
+        viewMonth(currentMonth);
+    }
+
     /**
      * Prints the current Year, month, and date to the right side panel of the calendar based on the date clicked.
      * Clicking on unlabeled date prior to the month will cause the calendar to go back a month, and clicking ahead will
@@ -428,13 +465,23 @@ public class MainGUI {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
             currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
-            printToView();
+            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+            if (dayEvents.isEmpty()) {
+                eventOutput.setDisable(true);
+                eventOutput.setText("");
+            } else {
+                //If an event label was pressed we shouldn't overwrite the event it already displayed
+                if (!(origSource instanceof Label)) {
+                    //It doesn't matter what event we show
+                    displayEventDetail(dayEvents.iterator().next());
+                }
+            }
         }
     }
 
     @FXML
     private void viewNextEvent(ActionEvent event) {
-        printToView();
+        printToView(eventPointer);
     }
 
     @FXML
@@ -443,12 +490,11 @@ public class MainGUI {
         System.out.println("TODO");
     }
 
-
     @FXML
     private void deleteE(ActionEvent event) {
         try {
             getCurrentAccount().calendar.removeEvent(eventPointer);
-            printToView();
+            printToView(eventPointer);
         } catch (NullPointerException e) {
             System.out.println("Nothing to delete");
         }
@@ -532,45 +578,11 @@ public class MainGUI {
 
             getCurrentAccount().calendar.updateEvent(eventPointer, disEvent);
             eventPointer = disEvent;
-            printToView();
+            printToView(eventPointer);
         }
     }
 
-    private void printToView() {
-        Set<Event> setOfDayEvent = getCurrentAccount().calendar.getDayEvents(currentDate);
-        if (setOfDayEvent.isEmpty()) {
-            eventOutput.setDisable(true);
-            eventOutput.setText("");
-        } else {
-            Iterator<Event> ir = setOfDayEvent.iterator();
-            if (ir.hasNext()) {
-                eventPointer = ir.next();
-                if (eventPointer != null) {
-                    String temp = "";
-                    temp += (eventPointer.getEventName());
-                    if (eventPointer.getEventDesc() != null) {
-                        temp += ("\n" + eventPointer.getEventDesc());
-                    }
-                    if (eventPointer.getEventLocation() != null) {
-                        temp +=("\n" + eventPointer.getEventLocation());
-                    }
-                    if (eventPointer.getEventAttendees() != null) {
-                        temp +=("\n" + eventPointer.getEventAttendees());
-                    }
-                    //TODO list time/date info etc
-                    //temp.append("\nStart Date: " + eventPointer.getStart().)
 
-                    eventOutput.setText(temp);
-                    eventOutput.setDisable(false);
-                } else {
-                    eventOutput.setText("");
-                    eventOutput.setDisable(true);
-
-                }
-            }
-        }
-        viewMonth(currentMonth);
-    }
 
     @FXML
     private void submitEvent(ActionEvent event) {
