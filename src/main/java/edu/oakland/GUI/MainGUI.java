@@ -606,6 +606,10 @@ public class MainGUI {
         ZonedDateTime start = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
         ZonedDateTime end = ZonedDateTime.of(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
 
+        ZonedDateTime min = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), LocalTime.MIN.getHour(), LocalTime.MIN.getMinute(), 0, 0, ZoneId.systemDefault());
+        ZonedDateTime max = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), LocalTime.MAX.getHour(), LocalTime.MAX.getMinute(), 0, 0, ZoneId.systemDefault());
+
+
         if(end.compareTo(start) == -1 || endingTime.compareTo(endingTime) == -1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
@@ -621,10 +625,15 @@ public class MainGUI {
             alert.showAndWait();
         }else{
             Event disEvent = new Event(start, end, eventNameField.getText());
+            disEvent.setEventAllDay(allDay.isSelected());
+            if(allDay.isSelected())
+            {
+                disEvent.setStart(min);
+                disEvent.setEnd(max);
+            }
             disEvent.setEventDesc(eventDescriptionField.getText());
             disEvent.setEventLocation(eventAttendeesField.getText());
             disEvent.setEventAttendees(eventAttendeesField.getText());
-            disEvent.setEventAllDay(allDay.isSelected());
             disEvent.setHighPriority(highPrior.isSelected());
             disEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
             getCurrentAccount().calendar.addEvent(disEvent);
