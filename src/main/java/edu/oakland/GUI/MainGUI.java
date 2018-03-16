@@ -161,8 +161,8 @@ public class MainGUI {
         getCurrentAccount().calendar.addEvent(dummyEvent4);
         viewMonth(ZonedDateTime.now());
 
-        setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
-        setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
+        GUIHelper.setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
+        GUIHelper.setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
         //setupTimeCombobox(startTimeDropdownUpdate, LocalTime.MIDNIGHT);
         //setupTimeCombobox(endTimeDropdownUpdate, LocalTime.MIDNIGHT.plusSeconds(1));
         startTimeDropdown.getSelectionModel().selectFirst();
@@ -180,23 +180,7 @@ public class MainGUI {
         //TODO update recur
     }
 
-    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected) {
-        setupTimeCombobox(theComboBox, selected, Duration.ofMinutes(30));
-    }
 
-    private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected, Duration offset) {
-        theComboBox.getItems().clear();
-
-        LocalTime current = LocalTime.MIDNIGHT;
-        theComboBox.getItems().add(current.format(DateTimeFormatter.ofPattern("HH:mm")));
-
-        while (current.isBefore(current.plus(offset))) {
-            theComboBox.getItems().add(current.plus(offset).format(DateTimeFormatter.ofPattern("HH:mm")));
-            current = current.plus(offset);
-        }
-
-        theComboBox.setValue(selected.format(DateTimeFormatter.ofPattern("HH:mm")));
-    }
 
     private void editStartDate(DatePicker theStartDateField, LocalDate selected) {
         theStartDateField.setValue(selected);
