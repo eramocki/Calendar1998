@@ -147,6 +147,7 @@ public class MainGUI {
             GridPane.setValignment(DoWLabel, VPos.BOTTOM);
         }
         Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Event 1");
+        dummyEvent1.setHighPriority(true);
         Event dummyEventa = new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5");
         Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 2");
         Event dummyEvent3 = new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "Event 3");
@@ -245,7 +246,12 @@ public class MainGUI {
 
                 Label eventLabel = new Label();
                 eventLabel.setText(currEvent.getEventName());
-                eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
+                if(currEvent.getHighPriority()) {
+                    eventLabel.setStyle("-fx-background-color: OrangeRed;");
+                }else{
+                    eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
+                }
+
                 eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
                 eventLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, this::viewEventDetail);
                 eventsByLabel.put(eventLabel, currEvent);
@@ -540,14 +546,10 @@ public class MainGUI {
         eventLocationFieldUpdate.setText(eventPointer.getEventLocation());
         eventAttendeesFieldUpdate.setText(eventPointer.getEventAttendees());
 
-
         LocalDate startDateUpdate = startDateFieldUpdate.getValue();
         LocalDate endDateUpdate = endDateFieldUpdate.getValue();
         String startingTimeUpdate = startTimeDropdownUpdate.getSelectionModel().getSelectedItem().toString();
         String endingTimeUpdate = endTimeDropdownUpdate.getSelectionModel().getSelectedItem().toString();
-
-        //TODO unused
-        String recurState = recurFieldUpdate.getSelectionModel().getSelectedItem().toString();
 
         String[] splitStartHM = startingTimeUpdate.split(":");
         String[] splitEndHM = endingTimeUpdate.split(":");
@@ -562,7 +564,7 @@ public class MainGUI {
             alert.setContentText("You can't have your end date/time happen in the past!");
 
             alert.showAndWait();
-        }else if(eventNameField.getText() == ""){
+        }else if(eventNameField.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
@@ -570,18 +572,22 @@ public class MainGUI {
 
             alert.showAndWait();
         }else{
-            Event disEvent = new Event(start, end, eventNameFieldUpdate.getText());
-            disEvent.setEventDesc(eventDescriptionFieldUpdate.getText());
-            disEvent.setEventLocation(eventAttendeesFieldUpdate.getText());
-            disEvent.setEventAttendees(eventAttendeesFieldUpdate.getText());
-
-            disEvent.setEventAllDay(allDay.isSelected());
-            disEvent.setHighPriority(highPrior.isSelected());
-            //TODO set frequency or use constructor
-
-            getCurrentAccount().calendar.updateEvent(eventPointer, disEvent);
-            eventPointer = disEvent;
-            printToView(eventPointer);
+            Event updateEvent = new Event(start, end, eventNameFieldUpdate.getText());
+            updateEvent.setEventDesc(eventDescriptionFieldUpdate.getText());
+            updateEvent.setEventLocation(eventAttendeesFieldUpdate.getText());
+            updateEvent.setEventAttendees(eventAttendeesFieldUpdate.getText());
+            updateEvent.setEventAllDay(allDayUpdate.isSelected());
+            updateEvent.setHighPriority(highPriorUpdate.isSelected());
+            updateEvent.setFrequency(Frequency.valueOf(recurFieldUpdate.getSelectionModel().getSelectedItem().toString().toUpperCase()));
+            getCurrentAccount().calendar.addEvent(updateEvent);
+            viewMonth(currentMonth);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Event was updated!.");
+            alert.setHeaderText("Well done");
+            alert.setContentText("Your event has been update on the calendar");
+            alert.showAndWait();
+            SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
+            selector.selectFirst();
         }
     }
 

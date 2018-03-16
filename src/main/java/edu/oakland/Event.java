@@ -10,7 +10,8 @@ public class Event implements Serializable {
 
     private ZonedDateTime start, end;
     private String eventName, eventDesc, eventLocation, eventAttendees;
-    private Boolean eventAllDay, isHighPriority;
+    private Boolean eventAllDay = false;
+    private Boolean isHighPriority = false;
     private Frequency frequency;
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
