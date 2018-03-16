@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.DayOfWeek;
@@ -68,23 +69,34 @@ public class MainGUI {
 //    private HashMap<LocalDate, Node> nodesByDayRect = new HashMap<>();
 
     @FXML
-    private PasswordField oldPasswordField;
+    private TextArea eventOutput;
+
+    public int[][] daylayout;
+
+    public Event eventPointer;
 
     @FXML
-    private PasswordField newPasswordField;
-
-    @FXML
-    private PasswordField verifyPasswordField;
-
-    @FXML
-    private Button updatePasswordButton, logoutButton;
-
+    private Button updateButton;
 
     @FXML
     private GridPane calendarGridPane;
 
     @FXML
     private Label calendarHeaderLabel, dateLabel;
+
+    /*  Update Event page */
+
+    @FXML
+    private DatePicker startDateFieldUpdate, endDateFieldUpdate;
+
+    @FXML
+    private ComboBox startTimeDropdownUpdate, endTimeDropdownUpdate, recurFieldUpdate;
+
+    @FXML
+    private TextField eventNameFieldUpdate, eventDescriptionFieldUpdate, eventLocationFieldUpdate, eventAttendeesFieldUpdate;
+
+    @FXML
+    private CheckBox allDayUpdate, highPriorUpdate;
 
     /* Add Event Page */
     @FXML
@@ -100,18 +112,26 @@ public class MainGUI {
     private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
 
     @FXML
-    private TextArea eventOutput;
-
-    @FXML
     private CheckBox allDay, highPrior;
 
-    public int[][] daylayout;
-
-    public Event eventPointer;
+    /* Settings Page */
 
     @FXML
-    public void initialize() {
-    }
+    private PasswordField oldPasswordField;
+
+    @FXML
+    private PasswordField newPasswordField;
+
+    @FXML
+    private PasswordField verifyPasswordField;
+
+    @FXML
+    private Button updatePasswordButton, logoutButton;
+
+
+
+    @FXML
+    public void initialize() { }
 
     public void postInit() {
         //Create labels for day of week header
@@ -138,14 +158,21 @@ public class MainGUI {
 
         setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
         setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
+        //setupTimeCombobox(startTimeDropdownUpdate, LocalTime.MIDNIGHT);
+        //setupTimeCombobox(endTimeDropdownUpdate, LocalTime.MIDNIGHT.plusSeconds(1));
         startTimeDropdown.getSelectionModel().selectFirst();
         endTimeDropdown.getSelectionModel().selectFirst();
+        //startTimeDropdownUpdate.getSelectionModel().selectFirst();
+        //endTimeDropdownUpdate.getSelectionModel().selectFirst();
         editStartDate(startDateField, LocalDate.now());
         editEndDate(endDateField, LocalDate.now());
+        //editStartDate(startDateFieldUpdate, LocalDate.now());
+        //editEndDate(endDateFieldUpdate, LocalDate.now());
 
         recurField.getItems().removeAll(recurField.getItems());
         recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
         recurField.getSelectionModel().selectFirst();
+        //TODO update recur
     }
 
     private void setupTimeCombobox(ComboBox theComboBox, LocalTime selected) {
@@ -401,31 +428,13 @@ public class MainGUI {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
             currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
-            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
-            if (dayEvents.isEmpty()) {
-                eventOutput.setDisable(true);
-                eventOutput.setText("");
-            } else {
-                //If an event label was pressed we shouldn't overwrite the event it already displayed
-                if (!(origSource instanceof Label)) {
-                    //It doesn't matter what event we show
-                    displayEventDetail(dayEvents.iterator().next());
-                }
-            }
-
+            printToView();
         }
     }
 
     @FXML
     private void viewNextEvent(ActionEvent event) {
-        Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
-        Iterator<Event> ir = dayEvents.iterator();
-        if (ir.hasNext()) {
-            Event nextEvent = ir.next();
-            eventPointer = nextEvent;
-            eventOutput.setDisable(false);
-            eventOutput.setText(nextEvent.getEventName());
-        }
+        printToView();
     }
 
     @FXML
@@ -439,32 +448,139 @@ public class MainGUI {
     private void deleteE(ActionEvent event) {
         try {
             getCurrentAccount().calendar.removeEvent(eventPointer);
-            viewMonth(currentMonth);
-            eventOutput.setText("");
-            eventOutput.setDisable(true);
-            viewNextEvent(new ActionEvent());
+            printToView();
         } catch (NullPointerException e) {
             System.out.println("Nothing to delete");
         }
     }
 
     @FXML
-    private void updateE(ActionEvent event) {
-        //TODO
+    private void openUpdate(ActionEvent event) {
+        if(eventPointer != null) {
+            Stage stage;
+            try {
+                stage = new Stage();
+                java.net.URL resource = getClass().getClassLoader().getResource("UpdateGUI.fxml");
+                if (resource == null) {
+                    resource = getClass().getResource("UpdateGUI.fxml");
+                }
+                Parent root4 = FXMLLoader.load(resource);
+                stage.setScene(new Scene(root4, 800, 650));
+                stage.setTitle("Update Event " + eventPointer.getEventName());
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(updateButton.getScene().getWindow());
+                stage.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("This will not do.");
+            alert.setHeaderText("Try again, friend.");
+            alert.setContentText("You don't have an event selected");
+        }
+
+    }
+
+    @FXML
+    private void modifyEvent(ActionEvent event) {
+
+        //Doesn't work
+        eventNameFieldUpdate.setText(eventPointer.getEventName());
+        eventDescriptionFieldUpdate.setText(eventPointer.getEventDesc());
+        eventLocationFieldUpdate.setText(eventPointer.getEventLocation());
+        eventAttendeesFieldUpdate.setText(eventPointer.getEventAttendees());
+
+
+        LocalDate startDateUpdate = startDateFieldUpdate.getValue();
+        LocalDate endDateUpdate = endDateFieldUpdate.getValue();
+        String startingTimeUpdate = startTimeDropdownUpdate.getSelectionModel().getSelectedItem().toString();
+        String endingTimeUpdate = endTimeDropdownUpdate.getSelectionModel().getSelectedItem().toString();
+
+        //TODO unused
+        String recurState = recurFieldUpdate.getSelectionModel().getSelectedItem().toString();
+
+        String[] splitStartHM = startingTimeUpdate.split(":");
+        String[] splitEndHM = endingTimeUpdate.split(":");
+
+        ZonedDateTime start = ZonedDateTime.of(startDateUpdate.getYear(), startDateUpdate.getMonthValue(), startDateUpdate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
+        ZonedDateTime end = ZonedDateTime.of(endDateUpdate.getYear(), endDateUpdate.getMonthValue(), endDateUpdate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
+
+        if(end.compareTo(start) == -1 || endingTimeUpdate.compareTo(endingTimeUpdate) == -1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("This will not do.");
+            alert.setHeaderText("Try again, friend.");
+            alert.setContentText("You can't have your end date/time happen in the past!");
+
+            alert.showAndWait();
+        }else if(eventNameField.getText() == ""){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("This will not do.");
+            alert.setHeaderText("Try again, friend.");
+            alert.setContentText("Your event name cannot be blank");
+
+            alert.showAndWait();
+        }else{
+            Event disEvent = new Event(start, end, eventNameFieldUpdate.getText());
+            disEvent.setEventDesc(eventDescriptionFieldUpdate.getText());
+            disEvent.setEventLocation(eventAttendeesFieldUpdate.getText());
+            disEvent.setEventAttendees(eventAttendeesFieldUpdate.getText());
+
+            disEvent.setEventAllDay(allDay.isSelected());
+            disEvent.setHighPriority(highPrior.isSelected());
+            //TODO set frequency or use constructor
+
+            getCurrentAccount().calendar.updateEvent(eventPointer, disEvent);
+            eventPointer = disEvent;
+            printToView();
+        }
+    }
+
+    private void printToView() {
+        Set<Event> setOfDayEvent = getCurrentAccount().calendar.getDayEvents(currentDate);
+        if (setOfDayEvent.isEmpty()) {
+            eventOutput.setDisable(true);
+            eventOutput.setText("");
+        } else {
+            Iterator<Event> ir = setOfDayEvent.iterator();
+            if (ir.hasNext()) {
+                eventPointer = ir.next();
+                if (eventPointer != null) {
+                    String temp = "";
+                    temp += (eventPointer.getEventName());
+                    if (eventPointer.getEventDesc() != null) {
+                        temp += ("\n" + eventPointer.getEventDesc());
+                    }
+                    if (eventPointer.getEventLocation() != null) {
+                        temp +=("\n" + eventPointer.getEventLocation());
+                    }
+                    if (eventPointer.getEventAttendees() != null) {
+                        temp +=("\n" + eventPointer.getEventAttendees());
+                    }
+                    //TODO list time/date info etc
+                    //temp.append("\nStart Date: " + eventPointer.getStart().)
+
+                    eventOutput.setText(temp);
+                    eventOutput.setDisable(false);
+                } else {
+                    eventOutput.setText("");
+                    eventOutput.setDisable(true);
+
+                }
+            }
+        }
+        viewMonth(currentMonth);
     }
 
     @FXML
     private void submitEvent(ActionEvent event) {
 
-        String eventDesc = eventDescriptionField.getText();
-        String eventLoc = eventLocationField.getText();
-        String eventAttendees = eventAttendeesField.getText();
         LocalDate startDate = startDateField.getValue();
         LocalDate endDate = endDateField.getValue();
-        Boolean isAllDay = allDay.isSelected();
-        Boolean isPriority = highPrior.isSelected();
         String startingTime = startTimeDropdown.getSelectionModel().getSelectedItem().toString();
         String endingTime = endTimeDropdown.getSelectionModel().getSelectedItem().toString();
+
+        //TODO unused
         String recurState = recurField.getSelectionModel().getSelectedItem().toString();
 
         String[] splitStartHM = startingTime.split(":");
@@ -473,12 +589,11 @@ public class MainGUI {
         ZonedDateTime start = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
         ZonedDateTime end = ZonedDateTime.of(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
 
-        if(end.compareTo(start) == -1) {
+        if(end.compareTo(start) == -1 || endingTime.compareTo(endingTime) == -1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
-            alert.setContentText("You can't have your end date happen in the past!");
-            //TODO check if timedates overlap
+            alert.setContentText("You can't have your end date/time happen in the past!");
 
             alert.showAndWait();
         }else if(eventNameField.getText() == ""){
@@ -490,10 +605,17 @@ public class MainGUI {
             alert.showAndWait();
         }else{
             Event disEvent = new Event(start, end, eventNameField.getText());
+            disEvent.setEventDesc(eventDescriptionField.getText());
+            disEvent.setEventLocation(eventAttendeesField.getText());
+            disEvent.setEventAttendees(eventAttendeesField.getText());
+
+            disEvent.setEventAllDay(allDay.isSelected());
+            disEvent.setHighPriority(highPrior.isSelected());
+            //TODO set frequency or use constructor
+
             getCurrentAccount().calendar.addEvent(disEvent);
             viewMonth(currentMonth);
         }
-
     }
 
     public Account getCurrentAccount() {

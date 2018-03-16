@@ -69,7 +69,13 @@ public class Calendar implements Serializable {
         startingSet.remove(event);
         endingSet.remove(event);
     }
-    public void updateEvent(Event event){}
+
+    public void updateEvent(Event oldEvent, Event newEvent){
+        startingSet.remove(oldEvent);
+        startingSet.add(newEvent);
+        endingSet.remove(oldEvent);
+        endingSet.add(newEvent);
+    }
 
     //You can ignore these enums. They're a workaround to serialize lambdas.
     private enum StartComparator implements Comparator<Event> {
