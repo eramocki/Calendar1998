@@ -26,17 +26,21 @@ public class Calendar implements Serializable {
         return union;
     }
 
-    public Set<Event> getDayEvents(LocalDate localDate){
-        ZonedDateTime start = localDate.atStartOfDay(ZoneId.systemDefault());
+    public Set<Event> getDayEvents(LocalDate localDate) {
+        Set<Event> intersection = new HashSet<>();
 
-        //1439 minutes is 23 hours and 59 minutes
-        ZonedDateTime end = localDate.atStartOfDay(ZoneId.systemDefault()).plusMinutes(1439);
-        Event earliest = new Event(start, start, "");
-        Event latest = new Event(end, end, "");
-        Set<Event> union = new HashSet<>();
-        union.addAll(endingSet.subSet(earliest, latest));
-        union.addAll(startingSet.subSet(earliest, latest));
-        return union;
+        Instant minInstant = Instant.ofEpochMilli(Long.MIN_VALUE);
+        Instant maxInstant = Instant.ofEpochMilli(Long.MAX_VALUE);
+        ZonedDateTime minZonedDateTime = minInstant.atZone(ZoneOffset.UTC);
+        ZonedDateTime maxZonedDateTime = maxInstant.atZone(ZoneOffset.UTC);
+
+        Event bound1 = new Event(minZonedDateTime, localDate.atStartOfDay(ZoneId.systemDefault()), "");
+
+        Event bound2 = new Event(ZonedDateTime.of(localDate.atTime(23, 59, 59), ZoneId.systemDefault()), maxZonedDateTime, "");
+
+        intersection.addAll(startingSet.subSet(bound1, bound2));
+        intersection.retainAll(endingSet.subSet(bound1, bound2));
+        return intersection;
     }
 
     //LocalDate myDate
