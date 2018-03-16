@@ -55,7 +55,9 @@ public class CalendarTest {
                 "2018-02-03T10:15:30+01:00[Europe/Paris]", "2018-02-27T10:15:30+01:00[Europe/Paris]",
                 "2018-03-03T10:15:30+01:00[Europe/Paris]", "2018-03-16T10:15:30+01:00[Europe/Paris]",
                 "2018-03-14T10:15:30+01:00[Europe/Paris]", "2018-04-18T10:15:30+01:00[Europe/Paris]",
-                "2018-04-04T10:15:30+01:00[Europe/Paris]", "2018-04-27T10:15:30+01:00[Europe/Paris]"};
+                "2018-04-04T10:15:30+01:00[Europe/Paris]", "2018-04-27T10:15:30+01:00[Europe/Paris]",
+                "2017-02-01T10:18:30+01:00[Europe/Paris]", "2017-02-03T10:15:31+01:00[Europe/Paris]",
+                "2017-02-01T10:15:30+01:00[Europe/Paris]", "2017-02-26T10:15:31+01:00[Europe/Paris]"};
         for (int i = 0; i < arr.length; i += 2) {
             Event e = new Event(ZonedDateTime.parse(arr[i]), ZonedDateTime.parse(arr[i + 1]),
                     Integer.toString(i / 2 + 1));
@@ -65,7 +67,7 @@ public class CalendarTest {
         c.addEvent(duplicateTime);
 
         Set<Event> resultSet1 = c.getDayEvents(LocalDate.of(2018, 2, 3));
-        assertTrue(resultSet1.size() == 3);
+        assertEquals(3, resultSet1.size());
         for (Event e : resultSet1) {
             if (e.getEventName().equals("1") || e.getEventName().equals("2") ||
                     e.getEventName().equals("dup")) {
@@ -76,8 +78,17 @@ public class CalendarTest {
         }
 
         Set<Event> resultSet2 = c.getDayEvents(LocalDate.of(2018, 4, 6));
-        assertTrue(resultSet2.size() == 2);
+        assertEquals(2, resultSet2.size());
+
+        int iResSet2 = 1;
         for (Event e : resultSet2) {
+            if (iResSet2 == 1) {
+                assertEquals("First event should be '4'", "4", e.getEventName());
+                iResSet2++;
+            } else if (iResSet2 == 2) {
+                assertEquals("Second event should be '5'", "5", e.getEventName());
+                iResSet2++;
+            }
             if (e.getEventName().equals("4") || e.getEventName().equals("5")) {
                 assertTrue(resultSet2.contains(e));
             } else {
@@ -86,12 +97,30 @@ public class CalendarTest {
         }
 
         Set<Event> resultSet3 = c.getDayEvents(LocalDate.of(2018, 4, 4));
-        assertTrue(resultSet3.size() == 2);
+        assertEquals(2, resultSet3.size());
         for (Event e : resultSet3) {
             if (e.getEventName().equals("4")|| e.getEventName().equals("5")) {
                 assertTrue(resultSet3.contains(e));
             } else {
                 assertFalse(resultSet3.contains(e));
+            }
+        }
+
+        Set<Event> resultSet4 = c.getDayEvents(LocalDate.of(2017, 2, 1));
+        assertEquals(2, resultSet4.size());
+        int iResSet4 = 1;
+        for (Event e: resultSet4) {
+            switch (iResSet4) {
+                case 1:
+                    assertEquals("First event should be '7'", "7", e.getEventName());
+                    iResSet4++;
+                    break;
+                case 2:
+                    assertEquals("Second event should be '6'", "6", e.getEventName());
+                    iResSet4++;
+                    break;
+                default:
+                    assertTrue("should not get here", false);
             }
         }
     }

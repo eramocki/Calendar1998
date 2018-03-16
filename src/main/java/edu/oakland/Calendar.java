@@ -26,8 +26,8 @@ public class Calendar implements Serializable {
         return union;
     }
 
-    public Set<Event> getDayEvents(LocalDate localDate) {
-        Set<Event> intersection = new HashSet<>();
+    public SortedSet<Event> getDayEvents(LocalDate localDate) {
+        TreeSet<Event> intersection = new TreeSet<>(StartComparator.INSTANCE);
 
         Instant minInstant = Instant.ofEpochMilli(Long.MIN_VALUE);
         Instant maxInstant = Instant.ofEpochMilli(Long.MAX_VALUE);
