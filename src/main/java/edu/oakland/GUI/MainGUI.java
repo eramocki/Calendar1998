@@ -209,29 +209,20 @@ public class MainGUI {
             int currC = columnIndex++ % 7;
             int currR = rowIndex;
 
-            Iterator<Event> ir = monthEvents.iterator();
+            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(current);
+            Iterator<Event> ir = dayEvents.iterator();
             while (ir.hasNext()) {
                 Event currEvent = ir.next();
-                if (currEvent.getStart().getDayOfMonth() == current.getDayOfMonth()) {
 
-//                    javafx.scene.shape.Rectangle rectangle = new javafx.scene.shape.Rectangle(0, 0, 75, 10);
-//                    rectangle.setFill(Color.ANTIQUEWHITE);
-                    Label eventLabel = new Label();
-                    eventLabel.setText(currEvent.getEventName());
-                    eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
-                    eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
-                    eventLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, this::viewEventDetail);
-                    eventsByLabel.put(eventLabel, currEvent);
+                Label eventLabel = new Label();
+                eventLabel.setText(currEvent.getEventName());
+                eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
+                eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
+                eventLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, this::viewEventDetail);
+                eventsByLabel.put(eventLabel, currEvent);
 
-                    dayVBox.getChildren().add(eventLabel);
-
-//                    calendarGridPane.add(rectangle, currC, currR);
-//                    nodesByDayRect.put(current, rectangle);
-//                    calendarGridPane.add(eventLabel, currC, currR);
-//                    nodesByDayEvent.put(current, eventLabel);
-                }
+                dayVBox.getChildren().add(eventLabel);
             }
-
 
             calendarGridPane.add(dayVBox, currC, currR);
             VBoxesByDay.put(current, dayVBox);
