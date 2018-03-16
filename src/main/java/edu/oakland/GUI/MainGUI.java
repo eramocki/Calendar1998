@@ -396,22 +396,20 @@ public class MainGUI {
             if (eventPointer.getEventAttendees() != null) {
                 temp.append("\n" + eventPointer.getEventAttendees());
             }
-            if(!eventPointer.getEventAllDay()) {
+            if (!eventPointer.getEventAllDay()) {
                 temp.append("\n" + eventPointer.getStart().getMonth() + " " + eventPointer.getStart().getDayOfMonth() + " " + eventPointer.getStart().getYear() + " " + eventPointer.getStart().getHour() + ":" + eventPointer.getStart().getMinute());
                 temp.append("\n" + eventPointer.getEnd().getMonth() + " " + eventPointer.getEnd().getDayOfMonth() + " " + eventPointer.getEnd().getYear() + " " + eventPointer.getEnd().getHour() + ":" + eventPointer.getEnd().getMinute());
-            }
-            else{
+            } else {
                 temp.append("\nAll Day Event");
                 temp.append("\n" + eventPointer.getStart().getMonth() + " " + eventPointer.getStart().getDayOfMonth() + " " + eventPointer.getStart().getYear());
                 temp.append("\n" + eventPointer.getEnd().getMonth() + " " + eventPointer.getEnd().getDayOfMonth() + " " + eventPointer.getEnd().getYear());
             }
-            if(eventPointer.getHighPriority()){
+            if (eventPointer.getHighPriority()) {
                 temp.append("\nHigh Priority");
             }
-            if(eventPointer.getFrequency().equals(Frequency.WEEKLY))
-            {
+            if (eventPointer.getFrequency().equals(Frequency.WEEKLY)) {
                 temp.append("\nRecurs Weekly");
-            }else if(eventPointer.getFrequency().equals(Frequency.MONTHLY)) {
+            } else if (eventPointer.getFrequency().equals(Frequency.MONTHLY)) {
                 temp.append("\nRecurs Monthly");
             }
             eventOutput.setText(temp.toString());
@@ -636,21 +634,22 @@ public class MainGUI {
             alert.setContentText("Your event name cannot be blank");
             alert.showAndWait();
         } else {
-            Event disEvent = new Event(start, end, eventNameField.getText());
-            disEvent.setEventAllDay(allDay.isSelected());
+            Event addEvent = new Event(start, end, eventNameField.getText());
+            addEvent.setEventAllDay(allDay.isSelected());
             if (allDay.isSelected()) {
-                disEvent.setStart(min);
-                disEvent.setEnd(max);
+                addEvent.setStart(min);
+                addEvent.setEnd(max);
             }
-            disEvent.setEventDesc(eventDescriptionField.getText());
-            disEvent.setEventLocation(eventAttendeesField.getText());
-            disEvent.setEventAttendees(eventAttendeesField.getText());
-            disEvent.setHighPriority(highPrior.isSelected());
-            disEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
-            if (disEvent.getFrequency().equals(Frequency.WEEKLY)) {
-
+            addEvent.setEventDesc(eventDescriptionField.getText());
+            addEvent.setEventLocation(eventAttendeesField.getText());
+            addEvent.setEventAttendees(eventAttendeesField.getText());
+            addEvent.setHighPriority(highPrior.isSelected());
+            addEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
+            if (addEvent.getFrequency().equals(Frequency.WEEKLY)) {
+                //Add x number of events
+                //Event addEventWeekly = new Event()
             }
-            getCurrentAccount().calendar.addEvent(disEvent);
+            getCurrentAccount().calendar.addEvent(addEvent);
             viewMonth(currentMonth);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Event was created!.");
