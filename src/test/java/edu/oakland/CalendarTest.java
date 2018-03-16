@@ -85,10 +85,10 @@ public class CalendarTest {
             }
         }
 
-        Set<Event> resultSet3 = c.getDayEvents(LocalDate.of(2018, 3, 16));
+        Set<Event> resultSet3 = c.getDayEvents(LocalDate.of(2018, 4, 4));
         assertTrue(resultSet3.size() == 2);
         for (Event e : resultSet3) {
-            if (e.getEventName().equals("3")|| e.getEventName().equals("4")) {
+            if (e.getEventName().equals("4")|| e.getEventName().equals("5")) {
                 assertTrue(resultSet3.contains(e));
             } else {
                 assertFalse(resultSet3.contains(e));
