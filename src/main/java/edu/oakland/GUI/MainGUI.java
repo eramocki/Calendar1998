@@ -233,7 +233,6 @@ public class MainGUI {
             }
 
 
-
             calendarGridPane.add(dayVBox, currC, currR);
             VBoxesByDay.put(current, dayVBox);
 
@@ -274,7 +273,12 @@ public class MainGUI {
             logger.log(Level.WARNING, "Event came from unexpected source or label got removed");
             return;
         }
-        event.consume();
+        event.consume(); //Prevent the event from being propogated up through normal channels
+        //FX normally calls getCellData again if event.consume was not called, but in that case
+        //the event source is set to the VBox, not the label, so we were overwriting
+        //the stuff shown in the right pane. By manually calling getCellDate ourselves,
+        //the source is still the Label and we can handle better based on that
+        getCellData(event);
     }
 
     private void displayEventDetail(Event theEvent) {
@@ -364,7 +368,17 @@ public class MainGUI {
      */
     @FXML
     private void getCellData(MouseEvent e) {
+        /*
+         * If an event label is pressed the source is a Label,
+         * but GridPane.getIndex needs the VBox that is in the cell to get row and column numbers
+         */
+        Node origSource = (Node) e.getSource();
         Node source = (Node) e.getSource();
+
+        if (origSource instanceof Label) {
+            //An event label was pressed
+            source = origSource.getParent();
+        }
 
         //Retrieves the position from the [6,7] grids
         Integer columnVal = (GridPane.getColumnIndex(source) == null) ? 0 : (GridPane.getColumnIndex(source));
@@ -401,7 +415,11 @@ public class MainGUI {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
             } else {
-                displayEventDetail(dayEvents.iterator().next());
+                //If an event label was pressed we shouldn't overwrite the event it already displayed
+                if (!(origSource instanceof Label)) {
+                    //It doesn't matter what event we show
+                    displayEventDetail(dayEvents.iterator().next());
+                }
             }
 
         }
