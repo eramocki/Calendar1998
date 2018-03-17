@@ -73,7 +73,9 @@ public class MainGUI {
     @FXML
     private TextArea eventOutput;
 
-    public int[][] daylayout;
+    private int[][] daylayout;
+
+    private Boolean beingDeleted;
 
     @FXML
     private Button updateButton;
@@ -145,6 +147,8 @@ public class MainGUI {
         recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
         recurField.getSelectionModel().selectFirst();
         //TODO update recur
+
+        beingDeleted = false;
     }
 
     public void postInit() {
@@ -348,7 +352,7 @@ public class MainGUI {
     }
 
     private void printToView() {
-        if (currentEvent != null) {
+        if (currentEvent != null && beingDeleted == false) {
             StringBuilder temp = new StringBuilder();
             temp.append(currentEvent.getEventName());
             if (currentEvent.getEventDesc() != null) {
@@ -378,6 +382,18 @@ public class MainGUI {
             }
             eventOutput.setText(temp.toString());
             eventOutput.setDisable(false);
+        } else if(beingDeleted){
+            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+            if (dayEvents.isEmpty()) {
+                eventOutput.setDisable(true);
+                eventOutput.setText("");
+            } else {
+                Event tempEvent = (dayEvents.iterator().next());
+                currentEvent = tempEvent;
+                beingDeleted = false;
+                printToView();
+
+            }
         } else {
             eventOutput.setText("");
             eventOutput.setDisable(true);
@@ -507,8 +523,8 @@ public class MainGUI {
     private void deleteE(ActionEvent event) {
         if (currentEvent != null) {
             getCurrentAccount().calendar.removeEvent(currentEvent);
+            beingDeleted = true;
             printToView();
-            currentEvent = null;
         }
     }
 
