@@ -459,7 +459,7 @@ public class MainGUI {
     private void viewNextEvent(ActionEvent event) {
         if (currentDate == null) return;
         SortedSet<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
-        
+
         if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
             eventOutput.setText("");
@@ -509,11 +509,9 @@ public class MainGUI {
 
     @FXML
     private void deleteE(ActionEvent event) {
-        try {
+        if (eventPointer != null) {
             getCurrentAccount().calendar.removeEvent(eventPointer);
             printToView();
-        } catch (NullPointerException e) {
-            System.out.println("Nothing to delete");
         }
     }
 
