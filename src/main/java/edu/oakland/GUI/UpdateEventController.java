@@ -53,10 +53,10 @@ public class UpdateEventController {
     private void modifyEvent(ActionEvent event) {
 
         //Doesn't work
-        eventNameField.setText(mainGUI.eventPointer.getEventName());
-        eventDescriptionField.setText(mainGUI.eventPointer.getEventDesc());
-        eventLocationField.setText(mainGUI.eventPointer.getEventLocation());
-        eventAttendeesField.setText(mainGUI.eventPointer.getEventAttendees());
+        eventNameField.setText(mainGUI.getCurrentEvent().getEventName());
+        eventDescriptionField.setText(mainGUI.getCurrentEvent().getEventDesc());
+        eventLocationField.setText(mainGUI.getCurrentEvent().getEventLocation());
+        eventAttendeesField.setText(mainGUI.getCurrentEvent().getEventAttendees());
 
         LocalDate startDateUpdate = startDateField.getValue();
         LocalDate endDateUpdate = endDateField.getValue();

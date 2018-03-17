@@ -24,7 +24,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.YearMonth;
@@ -54,6 +53,11 @@ public class MainGUI {
     private LocalDate currentDate;
 
     /**
+     * Currently selected event in detail pane
+     */
+    private Event currentEvent;
+
+    /**
      * Each day in the calendar view has a VBox to put things in
      */
     private HashMap<LocalDate, VBox> VBoxesByDay = new HashMap<>();
@@ -63,10 +67,6 @@ public class MainGUI {
      */
     private HashMap<Label, Event> eventsByLabel = new HashMap<>();
 
-//    private HashMap<LocalDate, Node> nodesByDayNumber = new HashMap<>();
-//    private HashMap<LocalDate, Node> nodesByDayEvent = new HashMap<>();
-//    private HashMap<LocalDate, Node> nodesByDayRect = new HashMap<>();
-
     @FXML
     private TabPane tabPane;
 
@@ -74,8 +74,6 @@ public class MainGUI {
     private TextArea eventOutput;
 
     public int[][] daylayout;
-
-    public Event eventPointer;
 
     @FXML
     private Button updateButton;
@@ -263,7 +261,7 @@ public class MainGUI {
         }
         if (eventsByLabel.containsKey(source)) {
             Event tempevent = (eventsByLabel.get(source));
-            eventPointer = tempevent;
+            currentEvent = tempevent;
             printToView();
         } else {
             logger.log(Level.WARNING, "Event came from unexpected source or label got removed");
@@ -350,32 +348,32 @@ public class MainGUI {
     }
 
     private void printToView() {
-        if (eventPointer != null) {
+        if (currentEvent != null) {
             StringBuilder temp = new StringBuilder();
-            temp.append(eventPointer.getEventName());
-            if (eventPointer.getEventDesc() != null) {
-                temp.append("\n" + eventPointer.getEventDesc());
+            temp.append(currentEvent.getEventName());
+            if (currentEvent.getEventDesc() != null) {
+                temp.append("\n" + currentEvent.getEventDesc());
             }
-            if (eventPointer.getEventLocation() != null) {
-                temp.append("\n" + eventPointer.getEventLocation());
+            if (currentEvent.getEventLocation() != null) {
+                temp.append("\n" + currentEvent.getEventLocation());
             }
-            if (eventPointer.getEventAttendees() != null) {
-                temp.append("\n" + eventPointer.getEventAttendees());
+            if (currentEvent.getEventAttendees() != null) {
+                temp.append("\n" + currentEvent.getEventAttendees());
             }
-            if (!eventPointer.getEventAllDay()) {
-                temp.append("\n" + eventPointer.getStart().getMonth() + " " + eventPointer.getStart().getDayOfMonth() + " " + eventPointer.getStart().getYear() + " " + eventPointer.getStart().getHour() + ":" + eventPointer.getStart().getMinute());
-                temp.append("\n" + eventPointer.getEnd().getMonth() + " " + eventPointer.getEnd().getDayOfMonth() + " " + eventPointer.getEnd().getYear() + " " + eventPointer.getEnd().getHour() + ":" + eventPointer.getEnd().getMinute());
+            if (!currentEvent.getEventAllDay()) {
+                temp.append("\n" + currentEvent.getStart().getMonth() + " " + currentEvent.getStart().getDayOfMonth() + " " + currentEvent.getStart().getYear() + " " + currentEvent.getStart().getHour() + ":" + currentEvent.getStart().getMinute());
+                temp.append("\n" + currentEvent.getEnd().getMonth() + " " + currentEvent.getEnd().getDayOfMonth() + " " + currentEvent.getEnd().getYear() + " " + currentEvent.getEnd().getHour() + ":" + currentEvent.getEnd().getMinute());
             } else {
                 temp.append("\nAll Day Event");
-                temp.append("\n" + eventPointer.getStart().getMonth() + " " + eventPointer.getStart().getDayOfMonth() + " " + eventPointer.getStart().getYear());
-                temp.append("\n" + eventPointer.getEnd().getMonth() + " " + eventPointer.getEnd().getDayOfMonth() + " " + eventPointer.getEnd().getYear());
+                temp.append("\n" + currentEvent.getStart().getMonth() + " " + currentEvent.getStart().getDayOfMonth() + " " + currentEvent.getStart().getYear());
+                temp.append("\n" + currentEvent.getEnd().getMonth() + " " + currentEvent.getEnd().getDayOfMonth() + " " + currentEvent.getEnd().getYear());
             }
-            if (eventPointer.getHighPriority()) {
+            if (currentEvent.getHighPriority()) {
                 temp.append("\nHigh Priority");
             }
-            if (eventPointer.getFrequency().equals(Frequency.WEEKLY)) {
+            if (currentEvent.getFrequency().equals(Frequency.WEEKLY)) {
                 temp.append("\nRecurs Weekly");
-            } else if (eventPointer.getFrequency().equals(Frequency.MONTHLY)) {
+            } else if (currentEvent.getFrequency().equals(Frequency.MONTHLY)) {
                 temp.append("\nRecurs Monthly");
             }
             eventOutput.setText(temp.toString());
@@ -448,7 +446,7 @@ public class MainGUI {
                 if (!(origSource instanceof Label)) {
                     //It doesn't matter what event we show
                     Event tempEvent = (dayEvents.iterator().next());
-                    eventPointer = tempEvent;
+                    currentEvent = tempEvent;
                     printToView();
                 }
             }
@@ -465,19 +463,19 @@ public class MainGUI {
             eventOutput.setText("");
             return;
         }
-        if (!dayEvents.contains(eventPointer)) {
+        if (!dayEvents.contains(currentEvent)) {
             logger.log(Level.INFO, "Wanted to view the next event, but the events of the day didn't contain our current event. Is everything ok?");
-            eventPointer = dayEvents.first();
+            currentEvent = dayEvents.first();
             printToView();
             return;
         }
-        if (dayEvents.last() == eventPointer) {
-            eventPointer = dayEvents.first();
+        if (dayEvents.last() == currentEvent) {
+            currentEvent = dayEvents.first();
             printToView();
         } else {
-            Iterator<Event> it = dayEvents.tailSet(eventPointer).iterator();
+            Iterator<Event> it = dayEvents.tailSet(currentEvent).iterator();
             it.next();
-            eventPointer = it.next(); //.tailSet() is inclusive, so need second in set
+            currentEvent = it.next(); //.tailSet() is inclusive, so need second in set
             printToView();
         }
     }
@@ -492,32 +490,32 @@ public class MainGUI {
             eventOutput.setText("");
             return;
         }
-        if (!dayEvents.contains(eventPointer)) {
+        if (!dayEvents.contains(currentEvent)) {
             logger.log(Level.INFO, "Wanted to view the previous event, but the events of the day didn't contain our current event. Is everything ok?");
-            eventPointer = dayEvents.first();
+            currentEvent = dayEvents.first();
             printToView();
             return;
         }
-        if (dayEvents.first() == eventPointer) {
-            eventPointer = dayEvents.last();
+        if (dayEvents.first() == currentEvent) {
+            currentEvent = dayEvents.last();
             printToView();
         } else {
-            eventPointer = dayEvents.headSet(eventPointer).last();
+            currentEvent = dayEvents.headSet(currentEvent).last();
             printToView();
         }
     }
 
     @FXML
     private void deleteE(ActionEvent event) {
-        if (eventPointer != null) {
-            getCurrentAccount().calendar.removeEvent(eventPointer);
+        if (currentEvent != null) {
+            getCurrentAccount().calendar.removeEvent(currentEvent);
             printToView();
         }
     }
 
     @FXML
     private void openUpdate(ActionEvent event) {
-        if (eventPointer != null) {
+        if (currentEvent != null) {
             Stage stage;
             try {
                 stage = new Stage();
@@ -533,7 +531,7 @@ public class MainGUI {
                 updateEventController.postInit();
 
                 stage.setScene(new Scene(root4, 800, 650));
-                stage.setTitle("Update Event " + eventPointer.getEventName());
+                stage.setTitle("Update Event " + currentEvent.getEventName());
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.initOwner(updateButton.getScene().getWindow());
                 stage.showAndWait();
@@ -614,6 +612,10 @@ public class MainGUI {
 
     public void setCurrentAccount(Account currentAccount) {
         this.currentAccount = currentAccount;
+    }
+
+    public Event getCurrentEvent() {
+        return currentEvent;
     }
 
     /**
