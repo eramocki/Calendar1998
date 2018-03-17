@@ -463,8 +463,7 @@ public class MainGUI {
             eventOutput.setText("");
             return;
         }
-        if (!dayEvents.contains(currentEvent)) {
-            logger.log(Level.INFO, "Wanted to view the next event, but the events of the day didn't contain our current event. Is everything ok?");
+        if (currentEvent == null || !dayEvents.contains(currentEvent)) {
             currentEvent = dayEvents.first();
             printToView();
             return;
@@ -490,8 +489,7 @@ public class MainGUI {
             eventOutput.setText("");
             return;
         }
-        if (!dayEvents.contains(currentEvent)) {
-            logger.log(Level.INFO, "Wanted to view the previous event, but the events of the day didn't contain our current event. Is everything ok?");
+        if (currentEvent == null || !dayEvents.contains(currentEvent)) {
             currentEvent = dayEvents.first();
             printToView();
             return;
@@ -510,6 +508,7 @@ public class MainGUI {
         if (currentEvent != null) {
             getCurrentAccount().calendar.removeEvent(currentEvent);
             printToView();
+            currentEvent = null;
         }
     }
 
