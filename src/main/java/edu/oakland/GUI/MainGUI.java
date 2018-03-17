@@ -322,14 +322,13 @@ public class MainGUI {
         }
     }
 
-    //TODO
 
-    /**
-     * @param event
-     */
     @FXML
-    private void tryLogout(ActionEvent event) {
-        setCurrentAccount(null);
+    private void logout(ActionEvent event) {
+        if (currentAccount == null) {
+            logger.warning("Wanted to logout but the current user was already null");
+            return;
+        }
         try {
             java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
             if (resource == null) {
@@ -342,9 +341,10 @@ public class MainGUI {
             stage.setScene(new Scene(root, 600, 300));
             stage.show();
 
+            setCurrentAccount(null);
             ((Node) (event.getSource())).getScene().getWindow().hide();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
         }
     }
 
