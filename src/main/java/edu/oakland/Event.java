@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 public class Event implements Serializable {
 
     private ZonedDateTime start, end;
+    private ZonedDateTime recurrenceBegin, recurrenceEnd;
     private String eventName, eventDesc, eventLocation, eventAttendees;
     private Boolean eventAllDay = false;
     private Boolean isHighPriority = false;
@@ -112,5 +113,21 @@ public class Event implements Serializable {
 
     public void setEnd(ZonedDateTime end) {
         this.end = end;
+    }
+
+    public ZonedDateTime getRecurrenceBegin() {
+        return recurrenceBegin;
+    }
+
+    public void setRecurrenceBegin(ZonedDateTime recurrenceBegin) {
+        this.recurrenceBegin = recurrenceBegin;
+    }
+
+    public ZonedDateTime getRecurrenceEnd() {
+        return recurrenceEnd;
+    }
+
+    public void setRecurrenceEnd(ZonedDateTime recurrenceEnd) {
+        this.recurrenceEnd = recurrenceEnd;
     }
 }
