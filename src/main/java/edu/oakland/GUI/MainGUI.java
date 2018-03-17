@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -456,23 +457,50 @@ public class MainGUI {
 
     @FXML
     private void viewNextEvent(ActionEvent event) {
-        Set<Event> setOfDayEvent = getCurrentAccount().calendar.getDayEvents(currentDate);
-        if (setOfDayEvent.isEmpty()) {
+        SortedSet<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+        if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
             eventOutput.setText("");
+            return;
+        }
+        if (!dayEvents.contains(eventPointer)) {
+            logger.log(Level.INFO, "Wanted to view the next event, but the events of the day didn't contain our current event. Is everything ok?");
+            eventPointer = dayEvents.first();
+            printToView();
+            return;
+        }
+        if (dayEvents.last() == eventPointer) {
+            eventPointer = dayEvents.first();
+            printToView();
         } else {
-            Iterator<Event> ir = setOfDayEvent.iterator();
-            if (ir.hasNext()) {
-                eventPointer = ir.next();
-                printToView();
-            }
+            Iterator<Event> it = dayEvents.tailSet(eventPointer).iterator();
+            it.next();
+            eventPointer = it.next(); //.tailSet() is inclusive, so need second in set
+            printToView();
         }
     }
 
     @FXML
     private void viewPreviousEvent(ActionEvent event) {
-        //TODO
-        System.out.println("TODO");
+        SortedSet<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+        if (dayEvents.isEmpty()) {
+            eventOutput.setDisable(true);
+            eventOutput.setText("");
+            return;
+        }
+        if (!dayEvents.contains(eventPointer)) {
+            logger.log(Level.INFO, "Wanted to view the previous event, but the events of the day didn't contain our current event. Is everything ok?");
+            eventPointer = dayEvents.first();
+            printToView();
+            return;
+        }
+        if (dayEvents.first() == eventPointer) {
+            eventPointer = dayEvents.last();
+            printToView();
+        } else {
+            eventPointer = dayEvents.headSet(eventPointer).last();
+            printToView();
+        }
     }
 
     @FXML
@@ -518,9 +546,6 @@ public class MainGUI {
         }
 
     }
-
-
-
 
 
     @FXML
