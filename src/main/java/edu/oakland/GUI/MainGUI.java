@@ -149,18 +149,24 @@ public class MainGUI {
     }
 
     public void postInit() {
-        Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "Event 1");
+        Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "High Prio Event");
         dummyEvent1.setHighPriority(true);
         dummyEvent1.setEventDesc("Description");
         Event dummyEventa = new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5");
-        Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 2");
-        Event dummyEvent3 = new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "Event 3");
-        Event dummyEvent4 = new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "Event 4");
+        Event dummyEvent2 = new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 123");
+        Event dummyEvent3 = new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "After 123");
+        Event dummyEvent4 = new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "WeekLongEvent");
+        Event dummyEvent5 = new Event(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1");
+        Event dummyEvent6 = new Event(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2");
+        Event dummyEvent7 = new Event(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent");
         getCurrentAccount().calendar.addEvent(dummyEvent1);
         getCurrentAccount().calendar.addEvent(dummyEventa);
         getCurrentAccount().calendar.addEvent(dummyEvent2);
         getCurrentAccount().calendar.addEvent(dummyEvent3);
         getCurrentAccount().calendar.addEvent(dummyEvent4);
+        getCurrentAccount().calendar.addEvent(dummyEvent5);
+        getCurrentAccount().calendar.addEvent(dummyEvent6);
+        getCurrentAccount().calendar.addEvent(dummyEvent7);
         viewMonth(ZonedDateTime.now());
     }
 
