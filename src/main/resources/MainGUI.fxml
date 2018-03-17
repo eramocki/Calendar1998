@@ -107,8 +107,8 @@
                            </rowConstraints>
                            <children>
                               <Label fx:id="dateLabel" prefHeight="17.0" prefWidth="174.0" text="Default" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Button fx:id="updateButton" mnemonicParsing="false" onAction="#openUpdate" text="Update" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-                              <Button mnemonicParsing="false" onAction="#deleteE" text="Remove" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                              <Button fx:id="updateButton" mnemonicParsing="false" onAction="#openUpdatePage" text="Update" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                              <Button mnemonicParsing="false" onAction="#deleteEventGUI" text="Remove" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
                               <TextArea fx:id="eventOutput" disable="true" editable="false" prefHeight="323.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="5" />
                               <Button mnemonicParsing="false" onAction="#viewPreviousEvent" text="&lt;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                               <Button mnemonicParsing="false" onAction="#viewNextEvent" text="&gt;" GridPane.columnIndex="4" GridPane.rowIndex="6" />

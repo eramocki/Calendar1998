@@ -351,6 +351,9 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Handles printing text to the side view of a selected evenet.
+     */
     private void printToView() {
         if (currentEvent != null && beingDeleted == false) {
             StringBuilder temp = new StringBuilder();
@@ -382,7 +385,7 @@ public class MainGUI {
             }
             eventOutput.setText(temp.toString());
             eventOutput.setDisable(false);
-        } else if(beingDeleted){
+        } else if (beingDeleted) {
             Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
             if (dayEvents.isEmpty()) {
                 eventOutput.setDisable(true);
@@ -392,7 +395,6 @@ public class MainGUI {
                 currentEvent = tempEvent;
                 beingDeleted = false;
                 printToView();
-
             }
         } else {
             eventOutput.setText("");
@@ -469,6 +471,10 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Views the next event for that given day. Triggered by the right arrow below event details.
+     * @param event
+     */
     @FXML
     private void viewNextEvent(ActionEvent event) {
         if (currentDate == null) return;
@@ -495,6 +501,10 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Views the next event for that given day. Triggered by the left arrow below event details.
+     * @param event
+     */
     @FXML
     private void viewPreviousEvent(ActionEvent event) {
         if (currentDate == null) return;
@@ -519,8 +529,12 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Deletes the event from the GUI, and triggers the calendar to remove it from the TreeSet
+     * @param event
+     */
     @FXML
-    private void deleteE(ActionEvent event) {
+    private void deleteEventGUI(ActionEvent event) {
         if (currentEvent != null) {
             getCurrentAccount().calendar.removeEvent(currentEvent);
             beingDeleted = true;
@@ -528,8 +542,12 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Opens the update event GUI page
+     * @param event
+     */
     @FXML
-    private void openUpdate(ActionEvent event) {
+    private void openUpdatePage(ActionEvent event) {
         if (currentEvent != null) {
             Stage stage;
             try {
@@ -563,6 +581,10 @@ public class MainGUI {
     }
 
 
+    /**
+     * Implementation for creating new Events from the add event tab.
+     * @param event
+     */
     @FXML
     private void submitEvent(ActionEvent event) {
 
