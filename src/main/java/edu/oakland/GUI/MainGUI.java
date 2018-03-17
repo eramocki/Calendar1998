@@ -457,7 +457,9 @@ public class MainGUI {
 
     @FXML
     private void viewNextEvent(ActionEvent event) {
+        if (currentDate == null) return;
         SortedSet<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+        
         if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
             eventOutput.setText("");
@@ -482,7 +484,9 @@ public class MainGUI {
 
     @FXML
     private void viewPreviousEvent(ActionEvent event) {
+        if (currentDate == null) return;
         SortedSet<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+
         if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
             eventOutput.setText("");
