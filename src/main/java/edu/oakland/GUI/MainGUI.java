@@ -39,6 +39,8 @@ import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class MainGUI {
 
     private transient static final Logger logger = Logger.getLogger(MainGUI.class.getName());
@@ -117,6 +119,8 @@ public class MainGUI {
     @FXML
     private Button updatePasswordButton, logoutButton;
 
+    private LocalDate oldDateValue;
+
     @FXML
     public void initialize() {
         //NB Only pure GUI setup! Others use postInit
@@ -139,7 +143,8 @@ public class MainGUI {
         endTimeDropdown.getSelectionModel().selectFirst();
 
         //Set the date fields
-        endDateField.setValue(LocalDate.now());
+        oldDateValue = LocalDate.now();
+        endDateField.setValue(oldDateValue);
         startDateField.setValue(LocalDate.now());
 
         //Set the recurrence dropdown
@@ -647,6 +652,15 @@ public class MainGUI {
             SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
             selector.selectFirst();
         }
+    }
+
+    @FXML
+    private void adjustEndDate(ActionEvent event) {
+        LocalDate startDate = startDateField.getValue();
+        long days = DAYS.between(oldDateValue, startDate);
+
+        endDateField.setValue(endDateField.getValue().plusDays(days));
+        oldDateValue = startDate;
     }
 
     public Account getCurrentAccount() {
