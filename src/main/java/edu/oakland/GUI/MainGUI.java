@@ -360,25 +360,31 @@ public class MainGUI {
      * Handles printing text to the side view of a selected evenet.
      */
     private void printToView() {
-        if (currentEvent != null && beingDeleted == false) {
+        if (currentEvent != null && !beingDeleted) {
             StringBuilder temp = new StringBuilder();
             temp.append(currentEvent.getEventName());
             if (currentEvent.getEventDesc() != null) {
-                temp.append("\n" + currentEvent.getEventDesc());
+                temp.append("\n").append(currentEvent.getEventDesc());
             }
             if (currentEvent.getEventLocation() != null) {
-                temp.append("\n" + currentEvent.getEventLocation());
+                temp.append("\n").append(currentEvent.getEventLocation());
             }
             if (currentEvent.getEventAttendees() != null) {
-                temp.append("\n" + currentEvent.getEventAttendees());
+                temp.append("\n").append(currentEvent.getEventAttendees());
             }
             if (!currentEvent.getEventAllDay()) {
-                temp.append("\n" + currentEvent.getStart().getMonth() + " " + currentEvent.getStart().getDayOfMonth() + " " + currentEvent.getStart().getYear() + " " + currentEvent.getStart().getHour() + ":" + currentEvent.getStart().getMinute());
-                temp.append("\n" + currentEvent.getEnd().getMonth() + " " + currentEvent.getEnd().getDayOfMonth() + " " + currentEvent.getEnd().getYear() + " " + currentEvent.getEnd().getHour() + ":" + currentEvent.getEnd().getMinute());
+                ZonedDateTime st = currentEvent.getStart();
+                ZonedDateTime end = currentEvent.getEnd();
+                temp.append(String.format("\n%s %s %s %s:%s", st.getMonth(), st.getDayOfMonth(), st.getYear(),
+                        st.getHour(), st.getMinute()));
+                temp.append(String.format("\n%s %s %s %s:%s", end.getMonth(), end.getDayOfMonth(), end.getYear(),
+                        end.getHour(), end.getMinute()));
             } else {
                 temp.append("\nAll Day Event");
-                temp.append("\n" + currentEvent.getStart().getMonth() + " " + currentEvent.getStart().getDayOfMonth() + " " + currentEvent.getStart().getYear());
-                temp.append("\n" + currentEvent.getEnd().getMonth() + " " + currentEvent.getEnd().getDayOfMonth() + " " + currentEvent.getEnd().getYear());
+                ZonedDateTime st = currentEvent.getStart();
+                ZonedDateTime end = currentEvent.getEnd();
+                temp.append(String.format("\n%s %s %s", st.getMonth(), st.getDayOfMonth(), st.getYear()));
+                temp.append(String.format("\n%s %s %s", end.getMonth(), end.getDayOfMonth(), end.getYear()));
             }
             if (currentEvent.getHighPriority()) {
                 temp.append("\nHigh Priority");
@@ -396,8 +402,7 @@ public class MainGUI {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
             } else {
-                Event tempEvent = (dayEvents.iterator().next());
-                currentEvent = tempEvent;
+                currentEvent = (dayEvents.iterator().next());
                 beingDeleted = false;
                 printToView();
             }
@@ -468,8 +473,7 @@ public class MainGUI {
                 //If an event label was pressed we shouldn't overwrite the event it already displayed
                 if (!(origSource instanceof Label)) {
                     //It doesn't matter what event we show
-                    Event tempEvent = (dayEvents.iterator().next());
-                    currentEvent = tempEvent;
+                    currentEvent = (dayEvents.iterator().next());
                     printToView();
                 }
             }
@@ -478,7 +482,7 @@ public class MainGUI {
 
     /**
      * Views the next event for that given day. Triggered by the right arrow below event details.
-     * @param event
+     * @param event GUI ActionEvent
      */
     @FXML
     private void viewNextEvent(ActionEvent event) {
@@ -508,7 +512,7 @@ public class MainGUI {
 
     /**
      * Views the next event for that given day. Triggered by the left arrow below event details.
-     * @param event
+     * @param event GUI ActionEvent
      */
     @FXML
     private void viewPreviousEvent(ActionEvent event) {
@@ -536,7 +540,7 @@ public class MainGUI {
 
     /**
      * Deletes the event from the GUI, and triggers the calendar to remove it from the TreeSet
-     * @param event
+     * @param event GUI ActionEvent
      */
     @FXML
     private void deleteEventGUI(ActionEvent event) {
@@ -549,7 +553,7 @@ public class MainGUI {
 
     /**
      * Opens the update event GUI page
-     * @param event
+     * @param event GUI ActionEvent
      */
     @FXML
     private void openUpdatePage(ActionEvent event) {
@@ -588,7 +592,7 @@ public class MainGUI {
 
     /**
      * Implementation for creating new Events from the add event tab.
-     * @param event
+     * @param event GUI ActionEvent
      */
     @FXML
     private void submitEvent(ActionEvent event) {
