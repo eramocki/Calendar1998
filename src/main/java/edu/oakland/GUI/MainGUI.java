@@ -601,13 +601,19 @@ public class MainGUI {
         ZonedDateTime min = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), LocalTime.MIN.getHour(), LocalTime.MIN.getMinute(), 0, 0, ZoneId.systemDefault());
         ZonedDateTime max = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), LocalTime.MAX.getHour(), LocalTime.MAX.getMinute(), 0, 0, ZoneId.systemDefault());
 
-
-        if (end.compareTo(start) == -1 || endingTime.compareTo(endingTime) == -1) {
+        int dateCompare = endDate.compareTo(startDate);
+        if (dateCompare < 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
-            alert.setContentText("You can't have your end date/time happen in the past!");
-
+            alert.setContentText("Your end date cannot be before your start date!");
+            alert.showAndWait();
+        } else if (dateCompare == 0 && end.compareTo(start) < 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("This will not do.");
+            alert.setHeaderText("Try again, friend.");
+            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " +
+                    "appropriately");
             alert.showAndWait();
         } else if (eventNameField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
