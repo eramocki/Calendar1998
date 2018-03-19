@@ -167,14 +167,14 @@ public class MainGUI {
         Event dummyEvent5 = new Event(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1");
         Event dummyEvent6 = new Event(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2");
         Event dummyEvent7 = new Event(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent");
-        getCurrentAccount().calendar.addEvent(dummyEvent1);
-        getCurrentAccount().calendar.addEvent(dummyEventa);
-        getCurrentAccount().calendar.addEvent(dummyEvent2);
-        getCurrentAccount().calendar.addEvent(dummyEvent3);
-        getCurrentAccount().calendar.addEvent(dummyEvent4);
-        getCurrentAccount().calendar.addEvent(dummyEvent5);
-        getCurrentAccount().calendar.addEvent(dummyEvent6);
-        getCurrentAccount().calendar.addEvent(dummyEvent7);
+//        getCurrentAccount().calendar.addEvent(dummyEvent1);
+//        getCurrentAccount().calendar.addEvent(dummyEventa);
+//        getCurrentAccount().calendar.addEvent(dummyEvent2);
+//        getCurrentAccount().calendar.addEvent(dummyEvent3);
+//        getCurrentAccount().calendar.addEvent(dummyEvent4);
+//        getCurrentAccount().calendar.addEvent(dummyEvent5);
+//        getCurrentAccount().calendar.addEvent(dummyEvent6);
+//        getCurrentAccount().calendar.addEvent(dummyEvent7);
         viewMonth(ZonedDateTime.now());
     }
 
@@ -546,6 +546,7 @@ public class MainGUI {
     private void deleteEventGUI(ActionEvent event) {
         if (currentEvent != null) {
             getCurrentAccount().calendar.removeEvent(currentEvent);
+            Account.saveAccounts();
             beingDeleted = true;
             printToView();
         }
@@ -647,6 +648,8 @@ public class MainGUI {
                 //Event addEventWeekly = new Event()
             }
             getCurrentAccount().calendar.addEvent(addEvent);
+            Account.saveAccounts();
+
             viewMonth(currentMonth);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Event was created!.");
