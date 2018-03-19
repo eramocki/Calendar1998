@@ -64,7 +64,7 @@ public class LoginGUI {
                     //Create the window
                     Stage stage = new Stage();
                     stage.setTitle(Account.getName(userField.getText()) + "'s Calendar");
-                    stage.setScene(new Scene(root, 800, 650));
+                    stage.setScene(new Scene(root));
                     stage.show();
 
                     //Hide login window
