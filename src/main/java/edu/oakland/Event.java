@@ -11,14 +11,11 @@ public class Event implements Serializable {
     private ZonedDateTime start, end;
     private ZonedDateTime recurrenceBegin, recurrenceEnd;
     private String eventName, eventDesc, eventLocation, eventAttendees;
-    private Boolean eventAllDay, isHighPriority, isCompleted;
+    private boolean eventAllDay, isHighPriority, isCompleted;
     private Frequency frequency;
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
         this(startDateTime, endDateTime, eventName, Frequency.NEVER);
-        this.eventAllDay = false;
-        this.isHighPriority = false;
-        this.isCompleted = false;
     }
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
@@ -26,9 +23,6 @@ public class Event implements Serializable {
         end = endDateTime;
         this.eventName = eventName;
         this.frequency = frequency;
-        this.eventAllDay = false;
-        this.isHighPriority = false;
-        this.isCompleted = false;
     }
 
     /**
