@@ -11,12 +11,14 @@ public class Event implements Serializable {
     private ZonedDateTime start, end;
     private ZonedDateTime recurrenceBegin, recurrenceEnd;
     private String eventName, eventDesc, eventLocation, eventAttendees;
-    private Boolean eventAllDay = false;
-    private Boolean isHighPriority = false;
+    private Boolean eventAllDay, isHighPriority, isCompleted;
     private Frequency frequency;
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
         this(startDateTime, endDateTime, eventName, Frequency.NEVER);
+        this.eventAllDay = false;
+        this.isHighPriority = false;
+        this.isCompleted = false;
     }
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
@@ -24,23 +26,25 @@ public class Event implements Serializable {
         end = endDateTime;
         this.eventName = eventName;
         this.frequency = frequency;
+        this.eventAllDay = false;
+        this.isHighPriority = false;
+        this.isCompleted = false;
     }
 
     /**
      * Determine if this event happens or is happening at some time on the specified day.
-     *
+     * <p>
      * e.g.
-     *  The event is one hour on the given day
-     *  The event spans multiple days around the given day
-     *  The event starts on this day and continues for days
-     *  etc.
+     * The event is one hour on the given day
+     * The event spans multiple days around the given day
+     * The event starts on this day and continues for days
+     * etc.
      *
      * @param date the date to check
      * @return True if this event happens on the date
      */
     public boolean happensSometimeOnDate(LocalDate date) {
-        return start.isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault()))
-                && end.isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
+        return start.isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault())) && end.isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
     }
 
     public String getEventName() {
@@ -130,4 +134,8 @@ public class Event implements Serializable {
     public void setRecurrenceEnd(ZonedDateTime recurrenceEnd) {
         this.recurrenceEnd = recurrenceEnd;
     }
+
+    public Boolean getCompleted() { return isCompleted; }
+
+    public void setCompleted(Boolean completed) { isCompleted = completed; }
 }

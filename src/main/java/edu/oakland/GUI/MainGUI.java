@@ -80,6 +80,9 @@ public class MainGUI {
     private Boolean beingDeleted;
 
     @FXML
+    private CheckBox completeBox;
+
+    @FXML
     private Button updateButton;
 
     @FXML
@@ -167,14 +170,15 @@ public class MainGUI {
         Event dummyEvent5 = new Event(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1");
         Event dummyEvent6 = new Event(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2");
         Event dummyEvent7 = new Event(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent");
-//        getCurrentAccount().calendar.addEvent(dummyEvent1);
-//        getCurrentAccount().calendar.addEvent(dummyEventa);
-//        getCurrentAccount().calendar.addEvent(dummyEvent2);
-//        getCurrentAccount().calendar.addEvent(dummyEvent3);
-//        getCurrentAccount().calendar.addEvent(dummyEvent4);
-//        getCurrentAccount().calendar.addEvent(dummyEvent5);
-//        getCurrentAccount().calendar.addEvent(dummyEvent6);
-//        getCurrentAccount().calendar.addEvent(dummyEvent7);
+        getCurrentAccount().calendar.addEvent(dummyEvent1);
+        getCurrentAccount().calendar.addEvent(dummyEventa);
+        getCurrentAccount().calendar.addEvent(dummyEvent2);
+        getCurrentAccount().calendar.addEvent(dummyEvent3);
+        getCurrentAccount().calendar.addEvent(dummyEvent4);
+        getCurrentAccount().calendar.addEvent(dummyEvent5);
+        getCurrentAccount().calendar.addEvent(dummyEvent6);
+        getCurrentAccount().calendar.addEvent(dummyEvent7);
+        dummyEvent1.setCompleted(true);
         viewMonth(ZonedDateTime.now());
     }
 
@@ -356,6 +360,16 @@ public class MainGUI {
         }
     }
 
+    @FXML
+    private void changeCompletion(ActionEvent event){
+        if(completeBox.isSelected()){
+            currentEvent.setCompleted(true);
+        }else{
+            currentEvent.setCompleted(false);
+        }
+        printToView();
+    }
+
     /**
      * Handles printing text to the side view of a selected evenet.
      */
@@ -394,6 +408,7 @@ public class MainGUI {
             } else if (currentEvent.getFrequency().equals(Frequency.MONTHLY)) {
                 temp.append("\nRecurs Monthly");
             }
+            temp.append("\nIs Complete? " + currentEvent.getCompleted());
             eventOutput.setText(temp.toString());
             eventOutput.setDisable(false);
         } else if (beingDeleted) {
@@ -410,6 +425,11 @@ public class MainGUI {
             eventOutput.setText("");
             eventOutput.setDisable(true);
 
+        }
+        if(currentEvent.getCompleted()){
+            completeBox.setSelected(true);
+        }else{
+            completeBox.setSelected(false);
         }
         viewMonth(currentMonth);
     }

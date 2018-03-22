@@ -80,7 +80,7 @@
                               <TextArea fx:id="eventOutput" disable="true" editable="false" prefHeight="323.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="2" GridPane.rowSpan="6" />
                               <Button mnemonicParsing="false" onAction="#viewPreviousEvent" text="&lt;" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
                               <Button mnemonicParsing="false" onAction="#viewNextEvent" text="&gt;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
-                              <CheckBox fx:id="completeBox" mnemonicParsing="false" text="Completed?" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                              <CheckBox fx:id="completeBox" mnemonicParsing="false" onAction="#changeCompletion" text="Completed?" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                            </children>
                            <BorderPane.margin>
                               <Insets left="10.0" right="10.0" />
@@ -145,7 +145,7 @@
                      <children>
                         <Label prefHeight="27.0" prefWidth="161.0" text="Add Event" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.columnSpan="2">
                            <font>
-                              <Font name="System Bold" size="18.0" />
+                              <Font name="System Bold" size="24.0" />
                            </font>
                            <padding>
                               <Insets left="15.0" />
@@ -243,9 +243,9 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label prefHeight="27.0" prefWidth="117.0" text="Settings" GridPane.columnIndex="6" GridPane.columnSpan="2">
+                        <Label prefHeight="35.0" prefWidth="92.0" text="Settings" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="18.0" />
+                              <Font name="System Bold" size="24.0" />
                            </font>
                            <opaqueInsets>
                               <Insets />
@@ -281,6 +281,15 @@
                         <PasswordField fx:id="verifyPasswordField" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                         <Button fx:id="updatePasswordButton" alignment="CENTER" mnemonicParsing="false" onAction="#changePassword" prefHeight="25.0" prefWidth="100.0" text="Update" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
                         <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="80.0" text="Logout" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                        <Label prefHeight="20.0" prefWidth="134.0" text="Completed Events" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <TextArea fx:id="completedEventsArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.rowSpan="7" />
                      </children>
                   </GridPane>
                </content>
