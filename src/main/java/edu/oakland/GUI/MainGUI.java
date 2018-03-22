@@ -181,7 +181,7 @@ public class MainGUI {
         Event dummyEventRecurring = new Event(ZonedDateTime.now().minusWeeks(2), ZonedDateTime.now().minusWeeks(2).plusHours(4), "repeating event");
         dummyEventRecurring.setRecurrenceBegin(ZonedDateTime.now().minusWeeks(2));
         dummyEventRecurring.setRecurrenceEnd(ZonedDateTime.now().minusWeeks(1));
-//        dummyEventRecurring.setFrequency(Frequency);
+        dummyEventRecurring.setFrequency(Frequency.DAILY);
         dummyEvents.add(dummyEventRecurring);
         dummyEvent1.setCompleted(true);
 
@@ -415,6 +415,8 @@ public class MainGUI {
                 temp.append("\nRecurs Weekly");
             } else if (currentEvent.getFrequency().equals(Frequency.MONTHLY)) {
                 temp.append("\nRecurs Monthly");
+            } else if (currentEvent.getFrequency().equals(Frequency.DAILY)) {
+                temp.append("\nRecurs Daily");
             }
             temp.append("\nIs Complete? " + currentEvent.getCompleted());
             eventOutput.setText(temp.toString());
