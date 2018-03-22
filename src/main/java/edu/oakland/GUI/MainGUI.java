@@ -122,6 +122,9 @@ public class MainGUI {
     @FXML
     private Button updatePasswordButton, logoutButton;
 
+    @FXML
+    private TextArea completedEventsArea;
+
     private LocalDate oldDateValue;
 
     @FXML
@@ -609,6 +612,24 @@ public class MainGUI {
         }
 
     }
+
+    @FXML
+    private void fetchCompleted(ActionEvent event){
+        Set<Event> completedEvents = getCurrentAccount().calendar.getCompletedEvents();
+        Iterator<Event> ir = completedEvents.iterator();
+        while (ir.hasNext()) {
+            Event currEvent = ir.next();
+            StringBuilder temp = new StringBuilder();
+            temp.append("\n").append(currEvent.getEventName());
+            completedEventsArea.setText(temp.toString());
+        }
+    }
+
+    @FXML
+    private void clearCompleted(ActionEvent event){
+        completedEventsArea.setText("");
+    }
+
 
 
     /**

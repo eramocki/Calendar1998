@@ -14,6 +14,11 @@ public class Calendar implements Serializable {
         endingSet = new TreeSet<>(EndComparator.INSTANCE);
     }
 
+    /**
+     *
+     * @param yearMonth
+     * @return
+     */
     public Set<Event> getMonthEvents(YearMonth yearMonth) {
         ZonedDateTime start = ZonedDateTime.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1, 0, 0,
                 0, 0, ZoneId.systemDefault());
@@ -26,6 +31,11 @@ public class Calendar implements Serializable {
         return union;
     }
 
+    /**
+     *
+     * @param localDate
+     * @return
+     */
     public SortedSet<Event> getDayEvents(LocalDate localDate) {
         TreeSet<Event> intersection = new TreeSet<>(StartComparator.INSTANCE);
 
@@ -43,33 +53,46 @@ public class Calendar implements Serializable {
         return intersection;
     }
 
-    //LocalDate myDate
-    public void viewEvent() {
-        //iterate through event treeset
-        //if startdate == myDate
-            //draw event information on calendar's right panel
-        System.out.println("works");
+    /**
+     *
+     * @return
+     */
+    public SortedSet<Event> getCompletedEvents(){
+        TreeSet<Event> completedSet = new TreeSet<>(StartComparator.INSTANCE);
+        Iterator<Event> ir = startingSet.iterator();
+        while (ir.hasNext()) {
+            Event currEvent = ir.next();
+            if (currEvent.getCompleted()) {
+                completedSet.add(currEvent);
+            }
+        }
+        return completedSet;
     }
 
-    public void displayEvent(LocalDate myDate){
-        //draw to grid on calendar setup
 
-        //if event exists on this day
-            //draw to calendar grid
-    }
-
-    public void listEvent(){} //TODO
-
+    /**
+     *
+     * @param event
+     */
     public void addEvent(Event event){
         startingSet.add(event);
         endingSet.add(event);
     }
 
+    /**
+     *
+     * @param event
+     */
     public void removeEvent(Event event){
         startingSet.remove(event);
         endingSet.remove(event);
     }
 
+    /**
+     *
+     * @param oldEvent
+     * @param newEvent
+     */
     public void updateEvent(Event oldEvent, Event newEvent){
         startingSet.remove(oldEvent);
         startingSet.add(newEvent);
@@ -78,6 +101,10 @@ public class Calendar implements Serializable {
     }
 
     //You can ignore these enums. They're a workaround to serialize lambdas.
+
+    /**
+     *
+     */
     private enum StartComparator implements Comparator<Event> {
         INSTANCE;
         @Override
@@ -91,6 +118,9 @@ public class Calendar implements Serializable {
         }
     }
 
+    /**
+     *
+     */
     private enum EndComparator implements Comparator<Event> {
         INSTANCE;
         @Override
