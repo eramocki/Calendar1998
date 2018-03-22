@@ -8,11 +8,11 @@ import java.time.ZonedDateTime;
 
 public class Event implements Serializable {
 
-    private ZonedDateTime start, end;
-    private ZonedDateTime recurrenceBegin, recurrenceEnd;
-    private String eventName, eventDesc, eventLocation, eventAttendees;
-    private boolean eventAllDay, isHighPriority, isCompleted;
-    private Frequency frequency;
+    protected ZonedDateTime start, end;
+    protected ZonedDateTime recurrenceBegin, recurrenceEnd;
+    protected String eventName, eventDesc, eventLocation, eventAttendees;
+    protected boolean eventAllDay, isHighPriority, isCompleted;
+    protected Frequency frequency;
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
         this(startDateTime, endDateTime, eventName, Frequency.NEVER);
