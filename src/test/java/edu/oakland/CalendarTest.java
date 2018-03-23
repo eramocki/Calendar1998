@@ -128,9 +128,10 @@ public class CalendarTest {
         Calendar c2 = new Calendar();
 
         Event recur1 = new Event(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
-                ZonedDateTime.parse("2017-02-01T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.DAILY);
-        recur1.setRecurrenceBegin(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"));
-        recur1.setRecurrenceEnd(ZonedDateTime.parse("2017-02-26T10:15:00+01:00[Europe/Paris]"));
+                ZonedDateTime.parse("2017-02-01T10:18:30+01:00[Europe/Paris]"),
+                "recurEvent1", Frequency.DAILY,
+                ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
+                ZonedDateTime.parse("2017-02-26T10:15:00+01:00[Europe/Paris]"));
 
         c2.addEvent(recur1);
 
@@ -146,9 +147,10 @@ public class CalendarTest {
         Calendar c3 = new Calendar();
 
         Event recur2 = new Event(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
-                ZonedDateTime.parse("2017-02-01T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.WEEKLY);
-        recur2.setRecurrenceBegin(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"));
-        recur2.setRecurrenceEnd(ZonedDateTime.parse("2017-02-26T10:15:00+01:00[Europe/Paris]"));
+                ZonedDateTime.parse("2017-02-01T10:18:30+01:00[Europe/Paris]"),
+                "recurEvent1", Frequency.WEEKLY,
+                ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
+                ZonedDateTime.parse("2017-02-26T10:15:00+01:00[Europe/Paris]"));
 
         c3.addEvent(recur2);
 
@@ -164,9 +166,9 @@ public class CalendarTest {
         Calendar c4 = new Calendar();
 
         Event recur3 = new Event(ZonedDateTime.parse("2017-01-01T10:15:30+01:00[Europe/Paris]"),
-                ZonedDateTime.parse("2017-08-01T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.MONTHLY);
-        recur3.setRecurrenceBegin(ZonedDateTime.parse("2017-01-01T10:10:30+01:00[Europe/Paris]"));
-        recur3.setRecurrenceEnd(ZonedDateTime.parse("2018-01-02T10:15:00+01:00[Europe/Paris]"));
+                ZonedDateTime.parse("2017-01-08T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.MONTHLY,
+                ZonedDateTime.parse("2017-01-01T10:10:30+01:00[Europe/Paris]"),
+                ZonedDateTime.parse("2018-01-02T10:15:00+01:00[Europe/Paris]"));
 
         c4.addEvent(recur3);
 
@@ -181,8 +183,7 @@ public class CalendarTest {
                 }
             }
         }
-        assertEquals(1, c4.getDayEvents(LocalDate.of(2018, 1, 1)).size());
-        //todo recurrence end is midway through the event duration--not clear what the result should be
+        assertEquals("recurrence ended midway through the event duration",0, c4.getDayEvents(LocalDate.of(2018, 1, 1)).size());
         assertEquals(0, c4.getDayEvents(LocalDate.of(2018, 2, 1)).size());
 
     }
