@@ -123,5 +123,67 @@ public class CalendarTest {
                     assertTrue("should not get here", false);
             }
         }
+
+        // Recurrence
+        Calendar c2 = new Calendar();
+
+        Event recur1 = new Event(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
+                ZonedDateTime.parse("2017-02-01T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.DAILY);
+        recur1.setRecurrenceBegin(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"));
+        recur1.setRecurrenceEnd(ZonedDateTime.parse("2017-02-26T10:15:00+01:00[Europe/Paris]"));
+
+        c2.addEvent(recur1);
+
+        assertTrue("Recurrence ended on this day, but before the event started", c2.getDayEvents(LocalDate.of(2017, 2, 26)).isEmpty());
+
+        for (int i = 1; i < 26; i++){
+            Set<Event> rs = c2.getDayEvents(LocalDate.of(2017, 2, i));
+
+            assertEquals(1, rs.size());
+        }
+
+
+        Calendar c3 = new Calendar();
+
+        Event recur2 = new Event(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
+                ZonedDateTime.parse("2017-02-01T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.WEEKLY);
+        recur2.setRecurrenceBegin(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"));
+        recur2.setRecurrenceEnd(ZonedDateTime.parse("2017-02-26T10:15:00+01:00[Europe/Paris]"));
+
+        c3.addEvent(recur2);
+
+        for (int i = 1; i < 28; i++){
+            Set<Event> rs = c3.getDayEvents(LocalDate.of(2017, 2, i));
+
+            assertEquals((i - 1) % 7 == 0 ? 1 : 0, rs.size());
+        }
+
+
+
+
+        Calendar c4 = new Calendar();
+
+        Event recur3 = new Event(ZonedDateTime.parse("2017-01-01T10:15:30+01:00[Europe/Paris]"),
+                ZonedDateTime.parse("2017-08-01T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.MONTHLY);
+        recur3.setRecurrenceBegin(ZonedDateTime.parse("2017-01-01T10:10:30+01:00[Europe/Paris]"));
+        recur3.setRecurrenceEnd(ZonedDateTime.parse("2018-01-02T10:15:00+01:00[Europe/Paris]"));
+
+        c4.addEvent(recur3);
+
+        for (int month = 1; month <= 12; month++){
+            for (int day = 1; day <= YearMonth.of(2017, month).lengthOfMonth(); day++) {
+                Set<Event> rs = c4.getDayEvents(LocalDate.of(2017, month, day));
+
+                if (day <= 8) {
+                    assertEquals(1, rs.size());
+                } else {
+                    assertEquals(0, rs.size());
+                }
+            }
+        }
+        assertEquals(1, c4.getDayEvents(LocalDate.of(2018, 1, 1)).size());
+        //todo recurrence end is midway through the event duration--not clear what the result should be
+        assertEquals(0, c4.getDayEvents(LocalDate.of(2018, 2, 1)).size());
+
     }
 }
