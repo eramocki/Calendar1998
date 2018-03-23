@@ -3,8 +3,12 @@ package edu.oakland;
 import java.io.Serializable;
 import java.time.*;
 import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Calendar implements Serializable {
+
+    private transient static final Logger logger = Logger.getLogger(Calendar.class.getName());
 
     public TreeSet<Event> startingSet;
     public TreeSet<Event> endingSet;
@@ -50,6 +54,52 @@ public class Calendar implements Serializable {
 
         intersection.addAll(startingSet.subSet(bound1, bound2));
         intersection.retainAll(endingSet.subSet(bound1, bound2));
+
+        // Do NOT change the formatting on this
+        // :)
+        Set<Event> recurringEvents = startingSet.stream()
+                .filter(e -> e.frequency != Frequency.NEVER)
+                .filter(e -> e.recurrenceBegin.isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
+                .filter(e -> !e.recurrenceEnd.isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
+                .collect(Collectors.toSet());
+
+        TreeSet<Event> ephemeralEvents = new TreeSet<>(StartComparator.INSTANCE);
+
+        for (Event recurringEvent : recurringEvents) {
+            ZonedDateTime startOfEvent = recurringEvent.getStart();
+            ZonedDateTime endOfEvent = recurringEvent.getEnd();
+
+            whileBeforeRecurrenceEnd:
+            while (endOfEvent.isBefore(recurringEvent.recurrenceEnd) ) { //&& endOfEvent.isBefore(localDate.atStartOfDay(ZoneId.systemDefault()).plusHours(23))
+                EphemeralEvent ee = new EphemeralEvent(startOfEvent, endOfEvent, recurringEvent);
+                switch (recurringEvent.frequency) {
+                    case DAILY:
+                        startOfEvent = startOfEvent.plusDays(1);
+                        endOfEvent = endOfEvent.plusDays(1);
+                        break;
+                    case WEEKLY:
+                        startOfEvent = startOfEvent.plusWeeks(1);
+                        endOfEvent = endOfEvent.plusWeeks(1);
+                        break;
+                    case MONTHLY:
+                        startOfEvent = startOfEvent.plusMonths(1);
+                        endOfEvent = endOfEvent.plusMonths(1);
+                        break;
+                    case NEVER:
+                    default:
+                        logger.info("Something spookys' going on!"); //Should not happen
+                        break whileBeforeRecurrenceEnd;
+                }
+                ephemeralEvents.add(ee);
+            }
+        }
+
+        Set<Event> ephemeralEventsWithinDay = ephemeralEvents.stream()
+                .filter(e -> e.happensSometimeOnDate(localDate))
+                .collect(Collectors.toSet());
+
+        intersection.addAll(ephemeralEventsWithinDay);
+
         return intersection;
     }
 

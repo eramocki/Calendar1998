@@ -15,14 +15,16 @@ public class Event implements Serializable {
     protected Frequency frequency;
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
-        this(startDateTime, endDateTime, eventName, Frequency.NEVER);
+        this(startDateTime, endDateTime, eventName, Frequency.NEVER, startDateTime, endDateTime);
     }
 
-    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
+    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency, ZonedDateTime recurrenceBegin, ZonedDateTime recurrenceEnd) {
         start = startDateTime;
         end = endDateTime;
         this.eventName = eventName;
         this.frequency = frequency;
+        this.recurrenceBegin = recurrenceBegin;
+        this.recurrenceEnd = recurrenceEnd;
     }
 
     /**

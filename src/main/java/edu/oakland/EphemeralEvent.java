@@ -6,8 +6,8 @@ public class EphemeralEvent extends Event {
 
     protected final Event parent;
 
-    protected EphemeralEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency, Event parent) {
-        super(startDateTime, endDateTime, eventName, frequency);
+    protected EphemeralEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, Event parent) {
+        super(startDateTime, endDateTime, parent.eventName);
         this.parent = parent;
     }
 }
