@@ -166,26 +166,30 @@ public class MainGUI {
     public void postInit() {
         Set<Event> dummyEvents = new HashSet<>();
 
-        Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "High Prio Event");
-        dummyEvent1.setHighPriority(true);
-        dummyEvent1.setEventDesc("Description");
-        dummyEvents.add(dummyEvent1);
-        dummyEvents.add(new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5"));
-        dummyEvents.add(new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 123"));
-        dummyEvents.add(new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "After 123"));
-        dummyEvents.add(new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "LongEvent"));
-        dummyEvents.add(new Event(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1"));
-        dummyEvents.add(new Event(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2"));
-        dummyEvents.add(new Event(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent"));
+        if (getCurrentAccount().getUserName().equals("y")) {
+            getCurrentAccount().calendar.getMonthEvents(YearMonth.now()).forEach(getCurrentAccount().calendar::removeEvent);
 
-        Event dummyEventRecurring = new Event(ZonedDateTime.now().minusWeeks(2), ZonedDateTime.now().minusWeeks(2).plusHours(4), "repeating event");
-        dummyEventRecurring.setRecurrenceBegin(ZonedDateTime.now().minusWeeks(2));
-        dummyEventRecurring.setRecurrenceEnd(ZonedDateTime.now().minusWeeks(1));
-        dummyEventRecurring.setFrequency(Frequency.DAILY);
-        dummyEvents.add(dummyEventRecurring);
-        dummyEvent1.setCompleted(true);
+            Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "High Prio Event");
+            dummyEvent1.setHighPriority(true);
+            dummyEvent1.setEventDesc("Description");
+            dummyEvents.add(dummyEvent1);
+            dummyEvents.add(new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5"));
+            dummyEvents.add(new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 123"));
+            dummyEvents.add(new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "After 123"));
+            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "LongEvent"));
+            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1"));
+            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2"));
+            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent"));
 
-        dummyEvents.forEach(getCurrentAccount().calendar::addEvent);
+            Event dummyEventRecurring = new Event(ZonedDateTime.now().minusWeeks(2), ZonedDateTime.now().minusWeeks(2).plusHours(4), "repeating event");
+            dummyEventRecurring.setRecurrenceBegin(ZonedDateTime.now().minusWeeks(2));
+            dummyEventRecurring.setRecurrenceEnd(ZonedDateTime.now().minusWeeks(1));
+            dummyEventRecurring.setFrequency(Frequency.DAILY);
+            dummyEvents.add(dummyEventRecurring);
+            dummyEvent1.setCompleted(true);
+
+            dummyEvents.forEach(getCurrentAccount().calendar::addEvent);
+        }
 
         viewMonth(ZonedDateTime.now());
     }
