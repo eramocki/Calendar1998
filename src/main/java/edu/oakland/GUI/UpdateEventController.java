@@ -53,6 +53,7 @@ public class UpdateEventController {
     private void modifyEvent(ActionEvent event) {
 
         //Doesn't work
+        //Needs to retrieve the current event data and print it to the fields
         eventNameField.setText(mainGUI.getCurrentEvent().getEventName());
         eventDescriptionField.setText(mainGUI.getCurrentEvent().getEventDesc());
         eventLocationField.setText(mainGUI.getCurrentEvent().getEventLocation());
@@ -69,7 +70,7 @@ public class UpdateEventController {
         ZonedDateTime start = ZonedDateTime.of(startDateUpdate.getYear(), startDateUpdate.getMonthValue(), startDateUpdate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
         ZonedDateTime end = ZonedDateTime.of(endDateUpdate.getYear(), endDateUpdate.getMonthValue(), endDateUpdate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
 
-        if (end.compareTo(start) == -1 || endingTimeUpdate.compareTo(endingTimeUpdate) == -1) {
+        if (end.compareTo(start) == -1 || endingTimeUpdate.compareTo(startingTimeUpdate) == -1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
@@ -91,7 +92,7 @@ public class UpdateEventController {
             updateEvent.setEventAllDay(allDay.isSelected());
             updateEvent.setHighPriority(highPrior.isSelected());
             updateEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
-            mainGUI.getCurrentAccount().calendar.addEvent(updateEvent);
+            mainGUI.getCurrentAccount().getCalendar().addEvent(updateEvent);
             mainGUI.viewMonth(mainGUI.getCurrentMonth());
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Event was updated!.");

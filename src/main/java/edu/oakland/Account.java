@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class Account implements Serializable {
 
-    public Calendar calendar;
+    private Calendar calendar;
 
     private transient static final Logger logger = Logger.getLogger(Account.class.getName());
 
@@ -235,4 +235,8 @@ public class Account implements Serializable {
      * @return
      */
     public String getName() { return name; }
+
+    public Calendar getCalendar() { return calendar; }
+
+    public void setCalendar(Calendar calendar) { this.calendar = calendar; }
 }

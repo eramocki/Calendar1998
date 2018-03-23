@@ -167,7 +167,7 @@ public class MainGUI {
         Set<Event> dummyEvents = new HashSet<>();
 
         if (getCurrentAccount().getUserName().equals("y")) {
-            getCurrentAccount().calendar.getMonthEvents(YearMonth.now()).forEach(getCurrentAccount().calendar::removeEvent);
+            getCurrentAccount().getCalendar().getMonthEvents(YearMonth.now()).forEach(getCurrentAccount().getCalendar()::removeEvent);
 
             Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "High Prio Event");
             dummyEvent1.setHighPriority(true);
@@ -188,7 +188,7 @@ public class MainGUI {
             dummyEvents.add(dummyEventRecurring);
             dummyEvent1.setCompleted(true);
 
-            dummyEvents.forEach(getCurrentAccount().calendar::addEvent);
+            dummyEvents.forEach(getCurrentAccount().getCalendar()::addEvent);
         }
 
         viewMonth(ZonedDateTime.now());
@@ -208,7 +208,7 @@ public class MainGUI {
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
         YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
-        Set<Event> monthEvents = getCurrentAccount().calendar.getMonthEvents(yearMonth);
+        Set<Event> monthEvents = getCurrentAccount().getCalendar().getMonthEvents(yearMonth);
 
         LocalDate current = currentMonth.toLocalDate();
         while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
@@ -230,7 +230,7 @@ public class MainGUI {
             int currC = columnIndex++ % 7;
             int currR = rowIndex;
 
-            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(current);
+            Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(current);
             Iterator<Event> ir = dayEvents.iterator();
             while (ir.hasNext()) {
                 Event currEvent = ir.next();
@@ -426,7 +426,7 @@ public class MainGUI {
             eventOutput.setText(temp.toString());
             eventOutput.setDisable(false);
         } else if (beingDeleted) {
-            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+            Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
             if (dayEvents.isEmpty()) {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
@@ -499,7 +499,7 @@ public class MainGUI {
             String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
             dateLabel.setText(output);
             currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
-            Set<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+            Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
             if (dayEvents.isEmpty()) {
                 eventOutput.setDisable(true);
                 eventOutput.setText("");
@@ -521,7 +521,7 @@ public class MainGUI {
     @FXML
     private void viewNextEvent(ActionEvent event) {
         if (currentDate == null) return;
-        SortedSet<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+        SortedSet<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
 
         if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
@@ -551,7 +551,7 @@ public class MainGUI {
     @FXML
     private void viewPreviousEvent(ActionEvent event) {
         if (currentDate == null) return;
-        SortedSet<Event> dayEvents = getCurrentAccount().calendar.getDayEvents(currentDate);
+        SortedSet<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
 
         if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
@@ -579,7 +579,7 @@ public class MainGUI {
     @FXML
     private void deleteEventGUI(ActionEvent event) {
         if (currentEvent != null) {
-            getCurrentAccount().calendar.removeEvent(currentEvent);
+            getCurrentAccount().getCalendar().removeEvent(currentEvent);
             Account.saveAccounts();
             beingDeleted = true;
             printToView();
@@ -626,7 +626,7 @@ public class MainGUI {
 
     @FXML
     private void fetchCompleted(ActionEvent event){
-        Set<Event> completedEvents = getCurrentAccount().calendar.getCompletedEvents();
+        Set<Event> completedEvents = getCurrentAccount().getCalendar().getCompletedEvents();
         Iterator<Event> ir = completedEvents.iterator();
         while (ir.hasNext()) {
             Event currEvent = ir.next();
@@ -698,7 +698,7 @@ public class MainGUI {
                 //Add x number of events
                 //Event addEventWeekly = new Event()
             }
-            getCurrentAccount().calendar.addEvent(addEvent);
+            getCurrentAccount().getCalendar().addEvent(addEvent);
             Account.saveAccounts();
 
             viewMonth(currentMonth);
