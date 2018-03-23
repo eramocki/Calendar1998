@@ -201,7 +201,7 @@ public class MainGUI {
         VBoxesByDay.clear();
         eventsByLabel.clear();
 
-        daylayout = new int[6][7];
+        daylayout = new int[7][7];
         currentMonth = theMonth.withDayOfMonth(1);
         int rowIndex = 1;
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
@@ -253,13 +253,8 @@ public class MainGUI {
             calendarGridPane.add(dayVBox, currC, currR);
             VBoxesByDay.put(current, dayVBox);
 
-            daylayout[currR - 1][currC] = Integer.valueOf(DoMLabel.getText());
+            daylayout[currR][currC] = Integer.valueOf(DoMLabel.getText());
             current = current.plusDays(1);
-        }
-
-        //Edits the first row of the array to have values of -1, which indicate those days take place in the prior month
-        for (int i = 0; daylayout[0][i] == 0; i++) {
-            daylayout[0][i] = -1;
         }
     }
 
@@ -373,10 +368,10 @@ public class MainGUI {
     }
 
     @FXML
-    private void changeCompletion(ActionEvent event){
-        if(completeBox.isSelected()){
+    private void changeCompletion(ActionEvent event) {
+        if (completeBox.isSelected()) {
             currentEvent.setCompleted(true);
-        }else{
+        } else {
             currentEvent.setCompleted(false);
         }
         printToView();
@@ -401,10 +396,8 @@ public class MainGUI {
             if (!currentEvent.getEventAllDay()) {
                 ZonedDateTime st = currentEvent.getStart();
                 ZonedDateTime end = currentEvent.getEnd();
-                temp.append(String.format("\n%s %s %s %s:%s", st.getMonth(), st.getDayOfMonth(), st.getYear(),
-                        st.getHour(), st.getMinute()));
-                temp.append(String.format("\n%s %s %s %s:%s", end.getMonth(), end.getDayOfMonth(), end.getYear(),
-                        end.getHour(), end.getMinute()));
+                temp.append(String.format("\n%s %s %s %s:%s", st.getMonth(), st.getDayOfMonth(), st.getYear(), st.getHour(), st.getMinute()));
+                temp.append(String.format("\n%s %s %s %s:%s", end.getMonth(), end.getDayOfMonth(), end.getYear(), end.getHour(), end.getMinute()));
             } else {
                 temp.append("\nAll Day Event");
                 ZonedDateTime st = currentEvent.getStart();
@@ -440,9 +433,9 @@ public class MainGUI {
             eventOutput.setDisable(true);
 
         }
-        if(currentEvent.getCompleted()){
+        if (currentEvent.getCompleted()) {
             completeBox.setSelected(true);
-        }else{
+        } else {
             completeBox.setSelected(false);
         }
         viewMonth(currentMonth);
@@ -469,13 +462,8 @@ public class MainGUI {
             source = origSource.getParent();
         }
 
-        //Retrieves the position from the [6,7] grids
         Integer columnVal = (GridPane.getColumnIndex(source) == null) ? 0 : (GridPane.getColumnIndex(source));
         Integer rowVal = (GridPane.getRowIndex(source) == null) ? 0 : (GridPane.getRowIndex(source));
-
-        //Bad programming
-        //Offset for 7x7 grid
-        rowVal -= 1;
 
         //Collects date that matches the 7x7 grid
         Integer curdate = daylayout[rowVal][columnVal];
@@ -485,37 +473,27 @@ public class MainGUI {
             columnVal = 7;
         }
 
-        if (curdate == -1) {
-            viewMonthPrevious();
-            dateLabel.setText("");
-            eventOutput.clear();
+        StringBuilder output = new StringBuilder();
+        output.append(DayOfWeek.of(columnVal)).append(" ").append(currentMonth.getMonth()).append(" ").append(curdate);
+        dateLabel.setText(output.toString());
+        currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
+        Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
+        if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
-        } else if (curdate == 0) {
-            viewMonthNext();
-            dateLabel.setText("");
-            eventOutput.clear();
-            eventOutput.setDisable(true);
+            eventOutput.setText("");
         } else {
-            String output = (DayOfWeek.of(columnVal) + " " + currentMonth.getMonth() + " " + curdate);
-            dateLabel.setText(output);
-            currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
-            Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
-            if (dayEvents.isEmpty()) {
-                eventOutput.setDisable(true);
-                eventOutput.setText("");
-            } else {
-                //If an event label was pressed we shouldn't overwrite the event it already displayed
-                if (!(origSource instanceof Label)) {
-                    //It doesn't matter what event we show
-                    currentEvent = (dayEvents.iterator().next());
-                    printToView();
-                }
+            //If an event label was pressed we shouldn't overwrite the event it already displayed
+            if (!(origSource instanceof Label)) {
+                //It doesn't matter what event we show
+                currentEvent = (dayEvents.iterator().next());
+                printToView();
             }
         }
     }
 
     /**
      * Views the next event for that given day. Triggered by the right arrow below event details.
+     *
      * @param event GUI ActionEvent
      */
     @FXML
@@ -546,6 +524,7 @@ public class MainGUI {
 
     /**
      * Views the next event for that given day. Triggered by the left arrow below event details.
+     *
      * @param event GUI ActionEvent
      */
     @FXML
@@ -574,6 +553,7 @@ public class MainGUI {
 
     /**
      * Deletes the event from the GUI, and triggers the calendar to remove it from the TreeSet
+     *
      * @param event GUI ActionEvent
      */
     @FXML
@@ -588,6 +568,7 @@ public class MainGUI {
 
     /**
      * Opens the update event GUI page
+     *
      * @param event GUI ActionEvent
      */
     @FXML
@@ -625,7 +606,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void fetchCompleted(ActionEvent event){
+    private void fetchCompleted(ActionEvent event) {
         Set<Event> completedEvents = getCurrentAccount().getCalendar().getCompletedEvents();
         Iterator<Event> ir = completedEvents.iterator();
         while (ir.hasNext()) {
@@ -637,13 +618,14 @@ public class MainGUI {
     }
 
     @FXML
-    private void clearCompleted(ActionEvent event){
+    private void clearCompleted(ActionEvent event) {
         completedEventsArea.setText("");
     }
 
 
     /**
      * Implementation for creating new Events from the add event tab.
+     *
      * @param event GUI ActionEvent
      */
     @FXML
@@ -673,8 +655,7 @@ public class MainGUI {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " +
-                    "appropriately");
+            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " + "appropriately");
             alert.showAndWait();
         } else if (eventNameField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
