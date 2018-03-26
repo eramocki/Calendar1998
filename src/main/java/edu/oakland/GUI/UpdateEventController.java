@@ -45,9 +45,15 @@ public class UpdateEventController {
             public void run() {
                 StringBuilder startTimeBuilder = new StringBuilder();
                 startTimeBuilder.append(mainGUI.getCurrentEvent().getStart().toLocalTime().getHour()).append(":");
+                if(mainGUI.getCurrentEvent().getStart().getMinute() < 10) {
+                    startTimeBuilder.append("0");
+                }
                 startTimeBuilder.append(mainGUI.getCurrentEvent().getStart().toLocalTime().getMinute());
                 StringBuilder endTimeBuilder = new StringBuilder();
                 endTimeBuilder.append(mainGUI.getCurrentEvent().getEnd().toLocalTime().getHour()).append(":");
+                if(mainGUI.getCurrentEvent().getEnd().getMinute() < 10) {
+                    endTimeBuilder.append("0");
+                }
                 endTimeBuilder.append(mainGUI.getCurrentEvent().getEnd().toLocalTime().getMinute());
                 startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
                 endDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
