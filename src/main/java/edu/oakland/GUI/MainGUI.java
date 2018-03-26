@@ -395,9 +395,19 @@ public class MainGUI {
             }
             if (!currentEvent.getEventAllDay()) {
                 ZonedDateTime st = currentEvent.getStart();
+                if (st.getMinute() < 10) {
+                    temp.append(String.format("\n%s %s %s %s:", st.getMonth(), st.getDayOfMonth(), st.getYear(), st.getHour()));
+                    temp.append(String.format("0%s", st.getMinute()));
+                } else {
+                    temp.append(String.format("\n%s %s %s %s:%s", st.getMonth(), st.getDayOfMonth(), st.getYear(), st.getHour(), st.getMinute()));
+                }
                 ZonedDateTime end = currentEvent.getEnd();
-                temp.append(String.format("\n%s %s %s %s:%s", st.getMonth(), st.getDayOfMonth(), st.getYear(), st.getHour(), st.getMinute()));
-                temp.append(String.format("\n%s %s %s %s:%s", end.getMonth(), end.getDayOfMonth(), end.getYear(), end.getHour(), end.getMinute()));
+                if (end.getMinute() < 10) {
+                    temp.append(String.format("\n%s %s %s %s:", end.getMonth(), end.getDayOfMonth(), end.getYear(), end.getHour()));
+                    temp.append(String.format("0%s", end.getMinute()));
+                } else {
+                    temp.append(String.format("\n%s %s %s %s:%s", end.getMonth(), end.getDayOfMonth(), end.getYear(), end.getHour(), end.getMinute()));
+                }
             } else {
                 temp.append("\nAll Day Event");
                 ZonedDateTime st = currentEvent.getStart();
