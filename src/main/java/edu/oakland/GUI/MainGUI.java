@@ -384,6 +384,8 @@ public class MainGUI {
         if (currentEvent != null && !beingDeleted) {
             StringBuilder temp = new StringBuilder();
             temp.append(currentEvent.getEventName());
+            ZonedDateTime st = currentEvent.getStart();
+            ZonedDateTime end = currentEvent.getEnd();
             if (currentEvent.getEventDesc() != null) {
                 temp.append("\n").append(currentEvent.getEventDesc());
             }
@@ -394,26 +396,12 @@ public class MainGUI {
                 temp.append("\n").append(currentEvent.getEventAttendees());
             }
             if (!currentEvent.getEventAllDay()) {
-                ZonedDateTime st = currentEvent.getStart();
-                if (st.getMinute() < 10) {
-                    temp.append(String.format("\n%s %s %s %s:", st.getMonth(), st.getDayOfMonth(), st.getYear(), st.getHour()));
-                    temp.append(String.format("0%s", st.getMinute()));
-                } else {
-                    temp.append(String.format("\n%s %s %s %s:%s", st.getMonth(), st.getDayOfMonth(), st.getYear(), st.getHour(), st.getMinute()));
-                }
-                ZonedDateTime end = currentEvent.getEnd();
-                if (end.getMinute() < 10) {
-                    temp.append(String.format("\n%s %s %s %s:", end.getMonth(), end.getDayOfMonth(), end.getYear(), end.getHour()));
-                    temp.append(String.format("0%s", end.getMinute()));
-                } else {
-                    temp.append(String.format("\n%s %s %s %s:%s", end.getMonth(), end.getDayOfMonth(), end.getYear(), end.getHour(), end.getMinute()));
-                }
+                temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
+                temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
             } else {
                 temp.append("\nAll Day Event");
-                ZonedDateTime st = currentEvent.getStart();
-                ZonedDateTime end = currentEvent.getEnd();
-                temp.append(String.format("\n%s %s %s", st.getMonth(), st.getDayOfMonth(), st.getYear()));
-                temp.append(String.format("\n%s %s %s", end.getMonth(), end.getDayOfMonth(), end.getYear()));
+                temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
+                temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
             }
             if (currentEvent.getHighPriority()) {
                 temp.append("\nHigh Priority");

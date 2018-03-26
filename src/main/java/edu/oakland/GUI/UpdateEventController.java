@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
 
 public class UpdateEventController {
@@ -43,22 +44,22 @@ public class UpdateEventController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+
+                ZonedDateTime st = mainGUI.getCurrentEvent().getStart();
+                ZonedDateTime end = mainGUI.getCurrentEvent().getEnd();
                 StringBuilder startTimeBuilder = new StringBuilder();
-                startTimeBuilder.append(mainGUI.getCurrentEvent().getStart().toLocalTime().getHour()).append(":");
-                if(mainGUI.getCurrentEvent().getStart().getMinute() < 10) {
-                    startTimeBuilder.append("0");
-                }
-                startTimeBuilder.append(mainGUI.getCurrentEvent().getStart().toLocalTime().getMinute());
                 StringBuilder endTimeBuilder = new StringBuilder();
-                endTimeBuilder.append(mainGUI.getCurrentEvent().getEnd().toLocalTime().getHour()).append(":");
-                if(mainGUI.getCurrentEvent().getEnd().getMinute() < 10) {
-                    endTimeBuilder.append("0");
+                if(mainGUI.getCurrentEvent().getEventAllDay()){
+                    startTimeBuilder.append("\n00:00");
+                    endTimeBuilder.append("\n00:00");
+                }else{
+                    startTimeBuilder.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nHH:mm")));
+                    endTimeBuilder.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nHH:mm")));
                 }
-                endTimeBuilder.append(mainGUI.getCurrentEvent().getEnd().toLocalTime().getMinute());
-                startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
-                endDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
                 startTimeDropdown.setValue(startTimeBuilder.toString());
                 endTimeDropdown.setValue(endTimeBuilder.toString());
+                startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
+                endDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
 
                 //TODO recur
                 //recurField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
