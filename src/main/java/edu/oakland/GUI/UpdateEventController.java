@@ -43,18 +43,16 @@ public class UpdateEventController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                int startTimeVal = mainGUI.getCurrentEvent().getStart().toLocalTime().getHour() * 2;
-                int endTimeVal = mainGUI.getCurrentEvent().getEnd().toLocalTime().getHour() * 2;
-                if (mainGUI.getCurrentEvent().getStart().toLocalTime().getMinute() != 0) {
-                    startTimeVal++;
-                }
-                if (mainGUI.getCurrentEvent().getEnd().toLocalTime().getMinute() != 0) {
-                    endTimeVal++;
-                }
+                StringBuilder startTimeBuilder = new StringBuilder();
+                startTimeBuilder.append(mainGUI.getCurrentEvent().getStart().toLocalTime().getHour()).append(":");
+                startTimeBuilder.append(mainGUI.getCurrentEvent().getStart().toLocalTime().getMinute());
+                StringBuilder endTimeBuilder = new StringBuilder();
+                endTimeBuilder.append(mainGUI.getCurrentEvent().getEnd().toLocalTime().getHour()).append(":");
+                endTimeBuilder.append(mainGUI.getCurrentEvent().getEnd().toLocalTime().getMinute());
                 startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
                 endDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
-                startTimeDropdown.getSelectionModel().select(startTimeVal);
-                endTimeDropdown.getSelectionModel().select(endTimeVal);
+                startTimeDropdown.setValue(startTimeBuilder.toString());
+                endTimeDropdown.setValue(endTimeBuilder.toString());
 
                 //TODO recur
                 //recurField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
