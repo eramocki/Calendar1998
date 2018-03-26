@@ -49,17 +49,17 @@ public class UpdateEventController {
                 ZonedDateTime end = mainGUI.getCurrentEvent().getEnd();
                 StringBuilder startTimeBuilder = new StringBuilder();
                 StringBuilder endTimeBuilder = new StringBuilder();
-                if(mainGUI.getCurrentEvent().getEventAllDay()){
+                if (mainGUI.getCurrentEvent().getEventAllDay()) {
                     startTimeBuilder.append("\n00:00");
                     endTimeBuilder.append("\n00:00");
-                }else{
+                } else {
                     startTimeBuilder.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nHH:mm")));
                     endTimeBuilder.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nHH:mm")));
                 }
                 startTimeDropdown.setValue(startTimeBuilder.toString());
                 endTimeDropdown.setValue(endTimeBuilder.toString());
                 startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
-                endDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
+                endDateField.setValue(mainGUI.getCurrentEvent().getEnd().toLocalDate());
 
                 //TODO recur
                 //recurField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
