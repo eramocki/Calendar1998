@@ -1,7 +1,9 @@
 package edu.oakland.GUI;
 
+import edu.oakland.Account;
 import edu.oakland.Event;
 import edu.oakland.Frequency;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,7 +20,7 @@ import java.util.logging.Logger;
 
 public class UpdateEventController {
 
-    private transient static final Logger logger = Logger.getLogger(UpdateEventController.class.getName());
+    private static final Logger logger = Logger.getLogger(UpdateEventController.class.getName());
 
     public MainGUI mainGUI;
 
@@ -38,27 +40,41 @@ public class UpdateEventController {
     public void initialize() {
         GUIHelper.setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
         GUIHelper.setupTimeCombobox(endTimeDropdown, LocalTime.MIDNIGHT.plusSeconds(1));
-        startTimeDropdown.getSelectionModel().selectFirst();
-        endTimeDropdown.getSelectionModel().selectFirst();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                int startTimeVal = mainGUI.getCurrentEvent().getStart().toLocalTime().getHour() * 2;
+                int endTimeVal = mainGUI.getCurrentEvent().getEnd().toLocalTime().getHour() * 2;
+                if (mainGUI.getCurrentEvent().getStart().toLocalTime().getMinute() != 0) {
+                    startTimeVal++;
+                }
+                if (mainGUI.getCurrentEvent().getEnd().toLocalTime().getMinute() != 0) {
+                    endTimeVal++;
+                }
+                startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
+                endDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
+                startTimeDropdown.getSelectionModel().select(startTimeVal);
+                endTimeDropdown.getSelectionModel().select(endTimeVal);
 
-        endDateField.setValue(LocalDate.now());
-        startDateField.setValue(LocalDate.now());
+                //TODO recur
+                //recurField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
+                eventNameField.setText(mainGUI.getCurrentEvent().getEventName());
+                eventDescriptionField.setText(mainGUI.getCurrentEvent().getEventDesc());
+                eventLocationField.setText(mainGUI.getCurrentEvent().getEventLocation());
+                eventAttendeesField.setText(mainGUI.getCurrentEvent().getEventAttendees());
+                if (mainGUI.getCurrentEvent().getEventAllDay()) {
+                    allDay.setSelected(true);
+                }
+                if (mainGUI.getCurrentEvent().getHighPriority()) {
+                    highPrior.setSelected(true);
+                }
+            }
+        });
+
     }
-
-    public void postInit() {
-    }
-
 
     @FXML
     private void modifyEvent(ActionEvent event) {
-
-        //Doesn't work
-        //Needs to retrieve the current event data and print it to the fields
-        eventNameField.setText(mainGUI.getCurrentEvent().getEventName());
-        eventDescriptionField.setText(mainGUI.getCurrentEvent().getEventDesc());
-        eventLocationField.setText(mainGUI.getCurrentEvent().getEventLocation());
-        eventAttendeesField.setText(mainGUI.getCurrentEvent().getEventAttendees());
-
         LocalDate startDateUpdate = startDateField.getValue();
         LocalDate endDateUpdate = endDateField.getValue();
         String startingTimeUpdate = startTimeDropdown.getSelectionModel().getSelectedItem().toString();
@@ -99,8 +115,7 @@ public class UpdateEventController {
             alert.setHeaderText("Well done");
             alert.setContentText("Your event has been update on the calendar");
             alert.showAndWait();
-//            SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
-//            selector.selectFirst();
+            Account.saveAccounts();
         }
     }
 }

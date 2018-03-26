@@ -44,7 +44,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class MainGUI {
 
-    private transient static final Logger logger = Logger.getLogger(MainGUI.class.getName());
+    private static final Logger logger = Logger.getLogger(MainGUI.class.getName());
 
     private Account currentAccount;
 
@@ -586,7 +586,6 @@ public class MainGUI {
 
                 UpdateEventController updateEventController = fxmlLoader.getController();
                 updateEventController.mainGUI = this;
-                updateEventController.postInit();
 
                 stage.setScene(new Scene(root4, 800, 650));
                 stage.setTitle("Update Event " + currentEvent.getEventName());

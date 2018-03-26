@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public class LoginGUI {
 
-    private transient static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
+    private static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
 
     @FXML
     private TextField userField, userFieldReset, nameField, sq1, sq2, sq3, sq1Reset, sq2Reset, sq3Reset;
