@@ -7,6 +7,9 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -30,6 +33,7 @@ public class CalendarTest {
                 "2018-03-14T10:15:30+01:00[Europe/Paris]", "2018-04-18T10:15:30+01:00[Europe/Paris]",
                 "2018-04-04T10:15:30+01:00[Europe/Paris]", "2018-04-27T10:15:30+01:00[Europe/Paris]",
                 "2018-02-03T10:15:30+01:00[Europe/Paris]", "2018-04-27T10:15:30+01:00[Europe/Paris]"};
+        List<String> successes = new ArrayList<>(Arrays.asList("1", "3", "4", "dup", "6"));
         for (int i = 0; i < arr.length; i += 2) {
             Event e = new Event(ZonedDateTime.parse(arr[i]), ZonedDateTime.parse(arr[i + 1]),
                     Integer.toString(i / 2 + 1));
@@ -38,10 +42,9 @@ public class CalendarTest {
         Event duplicateTime = new Event(ZonedDateTime.parse(arr[0]),  ZonedDateTime.parse(arr[1]), "dup");
         c.addEvent(duplicateTime);
         Set<Event> resultSet = c.getMonthEvents(YearMonth.of(2018, 3));
-        assertTrue(resultSet.size() == 5);
+        assertTrue(resultSet.size() == successes.size());
         for (Event e : c.startingSet) {
-            if (e.getEventName().equals("1") || e.getEventName().equals("3") || e.getEventName().equals("4") ||
-                    e.getEventName().equals("dup") || e.getEventName().equals("6")) {
+            if (successes.contains(e.getEventName())) {
                 assertTrue(resultSet.contains(e));
             } else {
                 assertFalse(resultSet.contains(e));
