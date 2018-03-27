@@ -93,6 +93,9 @@ public class MainGUI {
     @FXML
     private Label calendarHeaderLabel, dateLabel;
 
+    @FXML
+    private MenuBar myMenuBar;
+
 
     /* Add Event Page */
     @FXML
@@ -260,7 +263,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void exitApplication(ActionEvent event){
+    private void exitApplication(ActionEvent event) {
         Platform.exit();
     }
 
@@ -277,13 +280,14 @@ public class MainGUI {
             }
             FXMLLoader fxmlLoader = new FXMLLoader(resource);
             Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Cadmium Calendar");
-            stage.setScene(new Scene(root, 600, 300));
-            stage.show();
-
+            Stage oldStage = (Stage) myMenuBar.getScene().getWindow();
+            oldStage.close();
             setCurrentAccount(null);
-            ((Node) (event.getSource())).getScene().getWindow().hide();
+            
+            Stage newStage = new Stage();
+            newStage.setTitle("Cadmium Calendar");
+            newStage.setScene(new Scene(root, 600, 300));
+            newStage.show();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
         }
