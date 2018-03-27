@@ -1,9 +1,6 @@
 package edu.oakland.GUI;
 
-import edu.oakland.Account;
-import edu.oakland.Event;
-import edu.oakland.Frequency;
-import edu.oakland.RecurrentEvent;
+import edu.oakland.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +25,6 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.time.DayOfWeek;
@@ -104,7 +100,7 @@ public class MainGUI {
     private MenuBar myMenuBar;
 
 
-    /* Add Event Page */
+    /* Add SingularEvent Page */
     @FXML
     private Button addEventSubmitButton;
 
@@ -176,22 +172,22 @@ public class MainGUI {
     }
 
     public void postInit() {
-        Set<Event> dummyEvents = new HashSet<>();
+        Set<SingularEvent> dummyEvents = new HashSet<>();
 
         if (getCurrentAccount().getUserName().equals("y")) {
             getCurrentAccount().getCalendar().getMonthEvents(YearMonth.now()).forEach(getCurrentAccount().getCalendar()::removeEvent);
 
-            Event dummyEvent1 = new Event(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "High Prio Event");
+            SingularEvent dummyEvent1 = new SingularEvent(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "High Prio SingularEvent");
             dummyEvent1.setHighPriority(true);
             dummyEvent1.setEventDesc("Description");
             dummyEvents.add(dummyEvent1);
-            dummyEvents.add(new Event(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "Event 1.5"));
-            dummyEvents.add(new Event(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "Event 123"));
-            dummyEvents.add(new Event(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "After 123"));
-            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "LongEvent"));
-            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1"));
-            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2"));
-            dummyEvents.add(new Event(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "SingularEvent 1.5"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "SingularEvent 123"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "After 123"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "LongEvent"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent"));
 
             RecurrentEvent dummyEventRecurring = new RecurrentEvent(ZonedDateTime.now().minusWeeks(2),
                     ZonedDateTime.now().minusWeeks(2).plusMinutes(30), "repeating event", Frequency.DAILY,
@@ -413,7 +409,7 @@ public class MainGUI {
         try {
             source = (Label) sourceNode;
         } catch (ClassCastException e) {
-            logger.log(Level.WARNING, "Event came from unexpected source (not a label)", e);
+            logger.log(Level.WARNING, "SingularEvent came from unexpected source (not a label)", e);
             return;
         }
         if (eventsByLabel.containsKey(source)) {
@@ -421,7 +417,7 @@ public class MainGUI {
             currentEvent = tempevent;
             printToView();
         } else {
-            logger.log(Level.WARNING, "Event came from unexpected source or label got removed");
+            logger.log(Level.WARNING, "SingularEvent came from unexpected source or label got removed");
             return;
         }
         event.consume(); //Prevent the event from being propogated up through normal channels
@@ -510,7 +506,7 @@ public class MainGUI {
                 temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
                 temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
             } else {
-                temp.append("\nAll Day Event");
+                temp.append("\nAll Day SingularEvent");
                 temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
                 temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
             }
@@ -555,7 +551,7 @@ public class MainGUI {
      * Clicking on unlabeled date prior to the month will cause the calendar to go back a month, and clicking ahead will
      * move the calendar a month ahead.
      *
-     * @param e Event on mouseclick
+     * @param e SingularEvent on mouseclick
      */
     @FXML
     private void getCellData(MouseEvent e) {
@@ -697,7 +693,7 @@ public class MainGUI {
                 updateEventController.mainGUI = this;
 
                 stage.setScene(new Scene(root4, 800, 650));
-                stage.setTitle("Update Event " + currentEvent.getEventName());
+                stage.setTitle("Update SingularEvent " + currentEvent.getEventName());
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.initOwner(updateButton.getScene().getWindow());
                 stage.showAndWait();
@@ -766,7 +762,7 @@ public class MainGUI {
             alert.setContentText("Your event name cannot be blank");
             alert.showAndWait();
         } else {
-            Event addEvent = new Event(start, end, eventNameField.getText());
+            SingularEvent addEvent = new SingularEvent(start, end, eventNameField.getText());
             addEvent.setEventAllDay(allDay.isSelected());
             if (allDay.isSelected()) {
                 addEvent.setStart(min);
@@ -779,14 +775,14 @@ public class MainGUI {
             addEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
             if (addEvent.getFrequency().equals(Frequency.WEEKLY)) {
                 //Add x number of events
-                //Event addEventWeekly = new Event()
+                //SingularEvent addEventWeekly = new SingularEvent()
             }
             getCurrentAccount().getCalendar().addEvent(addEvent);
             Account.saveAccounts();
 
             viewMonth(currentMonth);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Event was created!.");
+            alert.setTitle("SingularEvent was created!.");
             alert.setHeaderText("Well done");
             alert.setContentText("Your event has been added to the calendar");
             alert.showAndWait();

@@ -1,7 +1,7 @@
 package edu.oakland.GUI;
 
 import edu.oakland.Account;
-import edu.oakland.Event;
+import edu.oakland.SingularEvent;
 import edu.oakland.Frequency;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -110,7 +110,7 @@ public class UpdateEventController {
 
             alert.showAndWait();
         } else {
-            Event updateEvent = new Event(start, end, eventNameField.getText());
+            SingularEvent updateEvent = new SingularEvent(start, end, eventNameField.getText());
             updateEvent.setEventDesc(eventDescriptionField.getText());
             updateEvent.setEventLocation(eventAttendeesField.getText());
             updateEvent.setEventAttendees(eventAttendeesField.getText());
@@ -120,7 +120,7 @@ public class UpdateEventController {
             mainGUI.getCurrentAccount().getCalendar().addEvent(updateEvent);
             mainGUI.viewMonth(mainGUI.getCurrentMonth());
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Event was updated!.");
+            alert.setTitle("SingularEvent was updated!.");
             alert.setHeaderText("Well done");
             alert.setContentText("Your event has been update on the calendar");
             alert.showAndWait();

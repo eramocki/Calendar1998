@@ -2,7 +2,7 @@ package edu.oakland;
 
 import java.time.ZonedDateTime;
 
-public class RecurrentEvent extends Event {
+public class RecurrentEvent extends SingularEvent {
 
     private ZonedDateTime recurrenceBegin, recurrenceEnd;
 

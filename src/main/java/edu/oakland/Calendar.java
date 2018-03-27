@@ -24,9 +24,9 @@ public class Calendar implements Serializable {
         ZonedDateTime starting = ZonedDateTime.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1, 0, 0,
                 0, 0, ZoneId.systemDefault());
         ZonedDateTime ending = ZonedDateTime.of(yearMonth.atEndOfMonth(), LocalTime.MAX, ZoneId.systemDefault());
-        Event earliest = new Event(starting, starting, "");
+        SingularEvent earliest = new SingularEvent(starting, starting, "");
         Set<Event> union = new HashSet<>();
-        union.addAll(endingSet.tailSet(earliest).stream().filter(e -> e.start.compareTo(ending) < 0)
+        union.addAll(endingSet.tailSet(earliest).stream().filter(e -> e.getStart().compareTo(ending) < 0)
                 .collect(Collectors.toSet()));
         return union;
     }
@@ -37,7 +37,7 @@ public class Calendar implements Serializable {
         // Do NOT change the formatting on this
         // :)
         Set<RecurrentEvent> recurringEvents = startingSet.stream()
-                .filter(e -> e.frequency != Frequency.NEVER)
+                .filter(e -> e.getFrequency() != Frequency.NEVER)
                 .map(obj -> (RecurrentEvent) obj) //Todo Update Once RecurrentEvents finalized
                 .filter(e -> e.getRecurrenceBegin().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
                 .filter(e -> !e.getRecurrenceEnd().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
@@ -99,20 +99,29 @@ public class Calendar implements Serializable {
 
 
     public void addEvent(Event event){
-        startingSet.add(event);
-        endingSet.add(event);
+        if (event instanceof RecurrentEvent) {
+            //Todo RecurrentEvent
+        } else {
+            startingSet.add(event);
+            endingSet.add(event);
+        }
     }
 
-    public void removeEvent(Event event){
-        startingSet.remove(event);
-        endingSet.remove(event);
+    public void removeEvent(Event event) {
+        if (event instanceof RecurrentEvent) {
+            //Todo RecurrentEvent
+        } else {
+            startingSet.remove(event);
+            endingSet.remove(event);
+        }
     }
 
-    public void updateEvent(Event oldEvent, Event newEvent){
-        startingSet.remove(oldEvent);
-        startingSet.add(newEvent);
-        endingSet.remove(oldEvent);
-        endingSet.add(newEvent);
+    public void updateEvent(SingularEvent oldEvent, SingularEvent newEvent){
+        //Todo update this
+//        startingSet.remove(oldEvent);
+//        startingSet.add(newEvent);
+//        endingSet.remove(oldEvent);
+//        endingSet.add(newEvent);
     }
 
     //You can ignore these enums. They're a workaround to serialize lambdas.

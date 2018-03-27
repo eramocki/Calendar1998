@@ -35,11 +35,11 @@ public class CalendarTest {
                 "2018-02-03T10:15:30+01:00[Europe/Paris]", "2018-04-27T10:15:30+01:00[Europe/Paris]"};
         List<String> successes = new ArrayList<>(Arrays.asList("1", "3", "4", "dup", "6"));
         for (int i = 0; i < arr.length; i += 2) {
-            Event e = new Event(ZonedDateTime.parse(arr[i]), ZonedDateTime.parse(arr[i + 1]),
+            SingularEvent e = new SingularEvent(ZonedDateTime.parse(arr[i]), ZonedDateTime.parse(arr[i + 1]),
                     Integer.toString(i / 2 + 1));
             c.addEvent(e);
         }
-        Event duplicateTime = new Event(ZonedDateTime.parse(arr[0]),  ZonedDateTime.parse(arr[1]), "dup");
+        SingularEvent duplicateTime = new SingularEvent(ZonedDateTime.parse(arr[0]),  ZonedDateTime.parse(arr[1]), "dup");
         c.addEvent(duplicateTime);
         Set<Event> resultSet = c.getMonthEvents(YearMonth.of(2018, 3));
         assertTrue(resultSet.size() == successes.size());
@@ -63,11 +63,11 @@ public class CalendarTest {
                 "2017-02-01T10:18:30+01:00[Europe/Paris]", "2017-02-03T10:15:31+01:00[Europe/Paris]",
                 "2017-02-01T10:15:30+01:00[Europe/Paris]", "2017-02-26T10:15:31+01:00[Europe/Paris]"};
         for (int i = 0; i < arr.length; i += 2) {
-            Event e = new Event(ZonedDateTime.parse(arr[i]), ZonedDateTime.parse(arr[i + 1]),
+            SingularEvent e = new SingularEvent(ZonedDateTime.parse(arr[i]), ZonedDateTime.parse(arr[i + 1]),
                     Integer.toString(i / 2 + 1));
             c.addEvent(e);
         }
-        Event duplicateTime = new Event(ZonedDateTime.parse(arr[0]),  ZonedDateTime.parse(arr[1]), "dup");
+        SingularEvent duplicateTime = new SingularEvent(ZonedDateTime.parse(arr[0]),  ZonedDateTime.parse(arr[1]), "dup");
         c.addEvent(duplicateTime);
 
         Set<Event> resultSet1 = c.getDayEvents(LocalDate.of(2018, 2, 3));
@@ -150,7 +150,7 @@ public class CalendarTest {
 
         Calendar c3 = new Calendar();
 
-        Event recur2 = new RecurrentEvent(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
+        SingularEvent recur2 = new RecurrentEvent(ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
                 ZonedDateTime.parse("2017-02-01T10:18:30+01:00[Europe/Paris]"),
                 "recurEvent1", Frequency.WEEKLY,
                 ZonedDateTime.parse("2017-02-01T10:15:30+01:00[Europe/Paris]"),
@@ -169,7 +169,7 @@ public class CalendarTest {
 
         Calendar c4 = new Calendar();
 
-        Event recur3 = new RecurrentEvent(ZonedDateTime.parse("2017-01-01T10:15:30+01:00[Europe/Paris]"),
+        SingularEvent recur3 = new RecurrentEvent(ZonedDateTime.parse("2017-01-01T10:15:30+01:00[Europe/Paris]"),
                 ZonedDateTime.parse("2017-01-08T10:18:30+01:00[Europe/Paris]"), "recurEvent1", Frequency.MONTHLY,
                 ZonedDateTime.parse("2017-01-01T10:10:30+01:00[Europe/Paris]"),
                 ZonedDateTime.parse("2018-01-02T10:15:00+01:00[Europe/Paris]"));

@@ -26,14 +26,14 @@ public class EventTest {
 //                "2018-03-03T10:15:30+01:00[Europe/Paris]", "2018-03-16T10:15:30+01:00[Europe/Paris]",
 //                "2018-03-14T10:15:30+01:00[Europe/Paris]", "2018-04-18T10:15:30+01:00[Europe/Paris]",
 //                "2018-04-04T10:15:30+01:00[Europe/Paris]", "2018-04-27T10:15:30+01:00[Europe/Paris]"};
-        Event e1 = new Event(ZonedDateTime.parse("2018-02-03T10:15:30+01:00[Europe/Paris]"), ZonedDateTime.parse("2018-03-17T10:15:30+01:00[Europe/Paris]"), "1");
+        SingularEvent e1 = new SingularEvent(ZonedDateTime.parse("2018-02-03T10:15:30+01:00[Europe/Paris]"), ZonedDateTime.parse("2018-03-17T10:15:30+01:00[Europe/Paris]"), "1");
         assertTrue(e1.happensOnDate(LocalDate.parse("2018-03-03")));
         assertTrue(e1.happensOnDate(LocalDate.parse("2018-02-03")));
         assertTrue(e1.happensOnDate(LocalDate.parse("2018-03-17")));
         assertFalse(e1.happensOnDate(LocalDate.parse("2018-03-18")));
         assertFalse(e1.happensOnDate(LocalDate.parse("2018-01-01")));
 
-        Event e2 = new Event(ZonedDateTime.parse("2018-02-27T10:15:30+01:00[Europe/Paris]"), ZonedDateTime.parse("2018-02-27T11:15:30+01:00[Europe/Paris]"), "2");
+        SingularEvent e2 = new SingularEvent(ZonedDateTime.parse("2018-02-27T10:15:30+01:00[Europe/Paris]"), ZonedDateTime.parse("2018-02-27T11:15:30+01:00[Europe/Paris]"), "2");
         assertTrue(e2.happensOnDate(LocalDate.parse("2018-02-27")));
         assertFalse(e2.happensOnDate(LocalDate.parse("2018-02-26")));
         assertFalse(e2.happensOnDate(LocalDate.parse("2018-02-28")));

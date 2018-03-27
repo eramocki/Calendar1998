@@ -1,28 +1,11 @@
 package edu.oakland;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-public class Event implements Serializable {
-
-    protected ZonedDateTime start, end;
-    protected String eventName, eventDesc, eventLocation, eventAttendees;
-    protected boolean eventAllDay, isHighPriority, isCompleted;
-    protected Frequency frequency;
-
-    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
-        this(startDateTime, endDateTime, eventName, Frequency.NEVER);
-    }
-
-    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
-        start = startDateTime;
-        end = endDateTime;
-        this.eventName = eventName;
-        this.frequency = frequency;
-    }
+public interface Event {
 
     /**
      * Determine if this event happens or is happening at some time on the specified day.
@@ -36,84 +19,48 @@ public class Event implements Serializable {
      * @param date the date to check
      * @return True if this event happens on the date
      */
-    public boolean happensOnDate(LocalDate date) {
-        return start.isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault())) &&
-                end.isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
+    default public boolean happensOnDate(LocalDate date) {
+        return getStart().isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault())) &&
+                getEnd().isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
     }
 
-    public String getEventName() {
-        return eventName;
-    }
+    public String getEventName();
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
+    public void setEventName(String eventName);
 
-    public String getEventDesc() {
-        return eventDesc;
-    }
+    public String getEventDesc();
 
-    public void setEventDesc(String eventDesc) {
-        this.eventDesc = eventDesc;
-    }
+    public void setEventDesc(String eventDesc);
 
-    public String getEventLocation() {
-        return eventLocation;
-    }
+    public String getEventLocation();
 
-    public void setEventLocation(String eventLocation) {
-        this.eventLocation = eventLocation;
-    }
+    public void setEventLocation(String eventLocation);
 
-    public String getEventAttendees() {
-        return eventAttendees;
-    }
+    public String getEventAttendees();
 
-    public void setEventAttendees(String eventAttendees) {
-        this.eventAttendees = eventAttendees;
-    }
+    public void setEventAttendees(String eventAttendees);
 
-    public Boolean getEventAllDay() {
-        return eventAllDay;
-    }
+    public Boolean getEventAllDay();
 
-    public void setEventAllDay(Boolean eventAllDay) {
-        this.eventAllDay = eventAllDay;
-    }
+    public void setEventAllDay(Boolean eventAllDay);
 
-    public Boolean getHighPriority() {
-        return isHighPriority;
-    }
+    public Boolean getHighPriority();
 
-    public void setHighPriority(Boolean highPriority) {
-        isHighPriority = highPriority;
-    }
+    public void setHighPriority(Boolean highPriority);
 
-    public Frequency getFrequency() {
-        return frequency;
-    }
+    public Frequency getFrequency();
 
-    public void setFrequency(Frequency frequency) {
-        this.frequency = frequency;
-    }
+    public void setFrequency(Frequency frequency);
 
-    public ZonedDateTime getStart() {
-        return start;
-    }
+    public ZonedDateTime getStart();
 
-    public void setStart(ZonedDateTime start) {
-        this.start = start;
-    }
+    public void setStart(ZonedDateTime start);
 
-    public ZonedDateTime getEnd() {
-        return end;
-    }
+    public ZonedDateTime getEnd();
 
-    public void setEnd(ZonedDateTime end) {
-        this.end = end;
-    }
+    public void setEnd(ZonedDateTime end);
 
-    public Boolean getCompleted() { return isCompleted; }
+    public boolean getCompleted();
 
-    public void setCompleted(Boolean completed) { isCompleted = completed; }
+    public void setCompleted(boolean completed);
 }
