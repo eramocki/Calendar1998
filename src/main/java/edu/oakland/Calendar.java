@@ -101,6 +101,8 @@ public class Calendar implements Serializable {
     public void addEvent(Event event){
         if (event instanceof RecurrentEvent) {
             //Todo RecurrentEvent
+            startingSet.add(event);
+            endingSet.add(event);
         } else {
             startingSet.add(event);
             endingSet.add(event);
@@ -109,7 +111,9 @@ public class Calendar implements Serializable {
 
     public void removeEvent(Event event) {
         if (event instanceof RecurrentEvent) {
-            //Todo RecurrentEvent
+            //Todo Finalize RecurrentEvent
+            startingSet.remove(event);
+            endingSet.remove(event);
         } else {
             startingSet.remove(event);
             endingSet.remove(event);

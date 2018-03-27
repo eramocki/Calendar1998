@@ -1,6 +1,5 @@
 package edu.oakland;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 public class EphemeralEvent implements Event {
@@ -13,11 +12,6 @@ public class EphemeralEvent implements Event {
         e = parent;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-    }
-
-    @Override
-    public boolean happensOnDate(LocalDate date) {
-        return false;
     }
 
     @Override

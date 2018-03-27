@@ -1,9 +1,6 @@
 package edu.oakland;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class SingularEvent implements Serializable, Event {
