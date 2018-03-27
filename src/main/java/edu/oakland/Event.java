@@ -19,9 +19,9 @@ public interface Event {
      * @param date the date to check
      * @return True if this event happens on the date
      */
-    default public boolean happensOnDate(LocalDate date) {
-        return getStart().isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault())) &&
-                getEnd().isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
+    default boolean happensOnDate(LocalDate date) {
+        return getStart().isBefore(ZonedDateTime.of(date.plusDays(1), LocalTime.MIN, ZoneId.systemDefault())) &&
+                getEnd().isAfter(ZonedDateTime.of(date.minusDays(1), LocalTime.MAX, ZoneId.systemDefault()));
     }
 
     String getEventName();

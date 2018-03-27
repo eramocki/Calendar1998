@@ -215,7 +215,7 @@ public class MainGUI {
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
         YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
-        Set<Event> monthEvents = getCurrentAccount().getCalendar().getMonthEvents(yearMonth);
+        //Set<Event> monthEvents = getCurrentAccount().getCalendar().getMonthEvents(yearMonth);
 
         LocalDate current = currentMonth.toLocalDate();
         while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
@@ -726,7 +726,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void submitEvent(ActionEvent event) {
+    private void submitEvent() {
 
         LocalDate startDate = startDateField.getValue();
         LocalDate endDate = endDateField.getValue();
@@ -752,7 +752,8 @@ public class MainGUI {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " + "appropriately");
+            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates "
+                    + "appropriately");
             alert.showAndWait();
         } else if (eventNameField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -761,22 +762,22 @@ public class MainGUI {
             alert.setContentText("Your event name cannot be blank");
             alert.showAndWait();
         } else {
-            SingularEvent addEvent = new SingularEvent(start, end, eventNameField.getText());
-            addEvent.setEventAllDay(allDay.isSelected());
+            SingularEvent event = new SingularEvent(start, end, eventNameField.getText());
+            event.setEventAllDay(allDay.isSelected());
             if (allDay.isSelected()) {
-                addEvent.setStart(min);
-                addEvent.setEnd(max);
+                event.setStart(min);
+                event.setEnd(max);
             }
-            addEvent.setEventDesc(eventDescriptionField.getText());
-            addEvent.setEventLocation(eventLocationField.getText());
-            addEvent.setEventAttendees(eventAttendeesField.getText());
-            addEvent.setHighPriority(highPrior.isSelected());
-            addEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
-            if (addEvent.getFrequency().equals(Frequency.WEEKLY)) {
+            event.setEventDesc(eventDescriptionField.getText());
+            event.setEventLocation(eventLocationField.getText());
+            event.setEventAttendees(eventAttendeesField.getText());
+            event.setHighPriority(highPrior.isSelected());
+            event.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
+            if (event.getFrequency().equals(Frequency.WEEKLY)) {
                 //Add x number of events
                 //SingularEvent addEventWeekly = new SingularEvent()
             }
-            getCurrentAccount().getCalendar().addEvent(addEvent);
+            getCurrentAccount().getCalendar().addEvent(event);
             Account.saveAccounts();
 
             viewMonth(currentMonth);
