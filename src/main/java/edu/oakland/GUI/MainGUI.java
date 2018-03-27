@@ -516,6 +516,11 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Views the next event for that given day. Triggered by the right arrow below event details.
+     *
+     * @param event GUI ActionEvent
+     */
     @FXML
     private void viewNextEvent(ActionEvent event) {
         if (currentDate == null) return;
@@ -542,6 +547,11 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Views the next event for that given day. Triggered by the left arrow below event details.
+     *
+     * @param event GUI ActionEvent
+     */
     @FXML
     private void viewPreviousEvent(ActionEvent event) {
         if (currentDate == null) return;
@@ -566,6 +576,11 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Deletes the event from the GUI, and triggers the calendar to remove it from the TreeSet
+     *
+     * @param event GUI ActionEvent
+     */
     @FXML
     private void deleteEventGUI(ActionEvent event) {
         if (currentEvent != null) {
@@ -576,6 +591,11 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Opens the update event GUI page
+     *
+     * @param event GUI ActionEvent
+     */
     @FXML
     private void openUpdatePage(ActionEvent event) {
         if (currentEvent != null) {
