@@ -31,19 +31,7 @@ public class Calendar implements Serializable {
     }
 
     public SortedSet<Event> getDayEvents(LocalDate localDate) {
-        TreeSet<Event> intersection = new TreeSet<>(StartComparator.INSTANCE);
-
-        Instant minInstant = Instant.ofEpochMilli(Long.MIN_VALUE);
-        Instant maxInstant = Instant.ofEpochMilli(Long.MAX_VALUE);
-        ZonedDateTime minZonedDateTime = minInstant.atZone(ZoneOffset.UTC);
-        ZonedDateTime maxZonedDateTime = maxInstant.atZone(ZoneOffset.UTC);
-
-        Event bound1 = new Event(minZonedDateTime, localDate.atStartOfDay(ZoneId.systemDefault()), "");
-
-        Event bound2 = new Event(ZonedDateTime.of(localDate.atTime(23, 59, 59), ZoneId.systemDefault()), maxZonedDateTime, "");
-
-        intersection.addAll(startingSet.subSet(bound1, bound2));
-        intersection.retainAll(endingSet.subSet(bound1, bound2));
+        TreeSet<Event> dayEvents = new TreeSet<>(StartComparator.INSTANCE);
 
         // Do NOT change the formatting on this
         // :)
@@ -86,9 +74,13 @@ public class Calendar implements Serializable {
                 .filter(e -> e.happensOnDate(localDate))
                 .collect(Collectors.toSet());
 
-        intersection.addAll(ephemeralEventsWithinDay);
+        dayEvents.addAll(ephemeralEventsWithinDay);
 
-        return intersection;
+        dayEvents.addAll(startingSet.stream()
+                .filter(e -> e.happensOnDate(localDate))
+                .collect(Collectors.toSet()));
+
+        return dayEvents;
     }
 
     public SortedSet<Event> getCompletedEvents(){
