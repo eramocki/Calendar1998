@@ -61,8 +61,12 @@ public class UpdateEventController {
                 startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
                 endDateField.setValue(mainGUI.getCurrentEvent().getEnd().toLocalDate());
 
-                //TODO recur
-                //recurField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
+                recurField.getItems().clear();
+                for (Frequency freq : Frequency.values()) {
+                    recurField.getItems().add(freq);
+                }
+                recurField.getSelectionModel().selectFirst();
+                
                 eventNameField.setText(mainGUI.getCurrentEvent().getEventName());
                 eventDescriptionField.setText(mainGUI.getCurrentEvent().getEventDesc());
                 eventLocationField.setText(mainGUI.getCurrentEvent().getEventLocation());

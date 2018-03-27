@@ -159,10 +159,11 @@ public class MainGUI {
         startDateField.setValue(LocalDate.now());
 
         //Set the recurrence dropdown
-        recurField.getItems().removeAll(recurField.getItems());
-        recurField.getItems().addAll("Never", "Daily", "Weekly", "Monthly", "Yearly");
+        recurField.getItems().clear();
+        for (Frequency freq : Frequency.values()) {
+            recurField.getItems().add(freq);
+        }
         recurField.getSelectionModel().selectFirst();
-        //TODO update recur
 
         beingDeleted = false;
     }
