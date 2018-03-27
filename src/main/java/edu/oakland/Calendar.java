@@ -59,7 +59,6 @@ public class Calendar implements Serializable {
             ZonedDateTime startOfEvent = recurringEvent.getStart();
             ZonedDateTime endOfEvent = recurringEvent.getEnd();
 
-            whileBeforeRecurrenceEnd:
             while (endOfEvent.isBefore(recurringEvent.recurrenceEnd) ) { //&& endOfEvent.isBefore(localDate.atStartOfDay(ZoneId.systemDefault()).plusHours(23))
                 EphemeralEvent ee = new EphemeralEvent(startOfEvent, endOfEvent, recurringEvent);
                 switch (recurringEvent.frequency) {
@@ -75,10 +74,9 @@ public class Calendar implements Serializable {
                         startOfEvent = startOfEvent.plusMonths(1);
                         endOfEvent = endOfEvent.plusMonths(1);
                         break;
-                    case NEVER:
                     default:
                         logger.info("Something spookys' going on!"); //Should not happen
-                        break whileBeforeRecurrenceEnd;
+                        break;
                 }
                 ephemeralEvents.add(ee);
             }
