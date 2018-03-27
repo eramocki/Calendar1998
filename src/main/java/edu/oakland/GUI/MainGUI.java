@@ -3,6 +3,7 @@ package edu.oakland.GUI;
 import edu.oakland.Account;
 import edu.oakland.Event;
 import edu.oakland.Frequency;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -258,6 +259,54 @@ public class MainGUI {
         }
     }
 
+    @FXML
+    private void exitApplication(ActionEvent event){
+        Platform.exit();
+    }
+
+    @FXML
+    private void logoutApplication(ActionEvent event) {
+        if (currentAccount == null) {
+            logger.warning("Wanted to logout but the current user was already null");
+            return;
+        }
+        try {
+            java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
+            if (resource == null) {
+                resource = getClass().getResource("LoginGUI.fxml");
+            }
+            FXMLLoader fxmlLoader = new FXMLLoader(resource);
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Cadmium Calendar");
+            stage.setScene(new Scene(root, 600, 300));
+            stage.show();
+
+            setCurrentAccount(null);
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
+        }
+    }
+
+    @FXML
+    private void saveApplication(ActionEvent event) {
+        Account.saveAccounts();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Saving Completed");
+        alert.setHeaderText("Saving Completed");
+        alert.setContentText("You did it! (I knew you could)");
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void aboutApplication(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Cadmium Calendar");
+        alert.setHeaderText("Copyright 2018");
+        alert.setContentText("Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel");
+        alert.showAndWait();
+    }
 
     @FXML
     private void viewMonthPrevious() {
@@ -338,31 +387,6 @@ public class MainGUI {
             alert.setContentText("Passwords do not match");
 
             alert.showAndWait();
-        }
-    }
-
-    @FXML
-    private void logout(ActionEvent event) {
-        if (currentAccount == null) {
-            logger.warning("Wanted to logout but the current user was already null");
-            return;
-        }
-        try {
-            java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
-            if (resource == null) {
-                resource = getClass().getResource("LoginGUI.fxml");
-            }
-            FXMLLoader fxmlLoader = new FXMLLoader(resource);
-            Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Cadmium Calendar");
-            stage.setScene(new Scene(root, 600, 300));
-            stage.show();
-
-            setCurrentAccount(null);
-            ((Node) (event.getSource())).getScene().getWindow().hide();
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
         }
     }
 

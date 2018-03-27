@@ -1,6 +1,7 @@
 package edu.oakland.GUI;
 
 import edu.oakland.Account;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -24,10 +26,15 @@ public class LoginGUI {
 
     @FXML
     private TextField userField, userFieldReset, nameField, sq1, sq2, sq3, sq1Reset, sq2Reset, sq3Reset;
+
     @FXML
     private PasswordField passwordField, passwordField_confirm, passwordFieldReset, passwordFieldReset_confirm;
+
     @FXML
     private Button loginButton, createAccountButton;
+
+    @FXML
+    private MenuItem exitButton, saveButton, logoutButton, helpButton;
 
     /**
      *
@@ -39,10 +46,38 @@ public class LoginGUI {
         Account.createAccount("y", "y", "Test Account", new String[] {"1", "2", "3"});
     }
 
-    /**
-     *
-     * @param event
-     */
+    @FXML
+    private void exitApplication(ActionEvent event){
+        Platform.exit();
+    }
+
+    @FXML
+    private void logoutApplication(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("This will not do.");
+        alert.setHeaderText("Woah! There was a problem logging out!");
+        alert.setContentText("How can you logout if you aren't logged in!");
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void saveApplication(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("This will not do.");
+        alert.setHeaderText("Woah! There was a problem saving!");
+        alert.setContentText("How can you save if you aren't logged in!");
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void aboutApplication(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Cadmium Calendar");
+        alert.setHeaderText("Copyright 2018");
+        alert.setContentText("Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel");
+        alert.showAndWait();
+    }
+
     @FXML
     private void tryLogin(ActionEvent event) {
         if (Account.accountExists(userField.getText())) {
