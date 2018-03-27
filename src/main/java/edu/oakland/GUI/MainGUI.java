@@ -3,6 +3,7 @@ package edu.oakland.GUI;
 import edu.oakland.Account;
 import edu.oakland.Event;
 import edu.oakland.Frequency;
+import edu.oakland.RecurrentEvent;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -192,10 +193,9 @@ public class MainGUI {
             dummyEvents.add(new Event(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2"));
             dummyEvents.add(new Event(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent"));
 
-            Event dummyEventRecurring = new Event(ZonedDateTime.now().minusWeeks(2), ZonedDateTime.now().minusWeeks(2).plusMinutes(30), "repeating event");
-            dummyEventRecurring.setRecurrenceBegin(ZonedDateTime.now().minusWeeks(2));
-            dummyEventRecurring.setRecurrenceEnd(ZonedDateTime.now().minusWeeks(1));
-            dummyEventRecurring.setFrequency(Frequency.DAILY);
+            RecurrentEvent dummyEventRecurring = new RecurrentEvent(ZonedDateTime.now().minusWeeks(2),
+                    ZonedDateTime.now().minusWeeks(2).plusMinutes(30), "repeating event", Frequency.DAILY,
+                    ZonedDateTime.now().minusWeeks(2), ZonedDateTime.now().minusWeeks(1));
             dummyEvents.add(dummyEventRecurring);
             dummyEvent1.setCompleted(true);
 

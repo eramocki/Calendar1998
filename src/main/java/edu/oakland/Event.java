@@ -9,22 +9,19 @@ import java.time.ZonedDateTime;
 public class Event implements Serializable {
 
     protected ZonedDateTime start, end;
-    protected ZonedDateTime recurrenceBegin, recurrenceEnd;
     protected String eventName, eventDesc, eventLocation, eventAttendees;
     protected boolean eventAllDay, isHighPriority, isCompleted;
     protected Frequency frequency;
 
     public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
-        this(startDateTime, endDateTime, eventName, Frequency.NEVER, startDateTime, endDateTime);
+        this(startDateTime, endDateTime, eventName, Frequency.NEVER);
     }
 
-    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency, ZonedDateTime recurrenceBegin, ZonedDateTime recurrenceEnd) {
+    public Event(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
         start = startDateTime;
         end = endDateTime;
         this.eventName = eventName;
         this.frequency = frequency;
-        this.recurrenceBegin = recurrenceBegin;
-        this.recurrenceEnd = recurrenceEnd;
     }
 
     /**
@@ -113,22 +110,6 @@ public class Event implements Serializable {
 
     public void setEnd(ZonedDateTime end) {
         this.end = end;
-    }
-
-    public ZonedDateTime getRecurrenceBegin() {
-        return recurrenceBegin;
-    }
-
-    public void setRecurrenceBegin(ZonedDateTime recurrenceBegin) {
-        this.recurrenceBegin = recurrenceBegin;
-    }
-
-    public ZonedDateTime getRecurrenceEnd() {
-        return recurrenceEnd;
-    }
-
-    public void setRecurrenceEnd(ZonedDateTime recurrenceEnd) {
-        this.recurrenceEnd = recurrenceEnd;
     }
 
     public Boolean getCompleted() { return isCompleted; }

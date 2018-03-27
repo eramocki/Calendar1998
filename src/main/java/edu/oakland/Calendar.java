@@ -35,19 +35,20 @@ public class Calendar implements Serializable {
 
         // Do NOT change the formatting on this
         // :)
-        Set<Event> recurringEvents = startingSet.stream()
+        Set<RecurrentEvent> recurringEvents = startingSet.stream()
                 .filter(e -> e.frequency != Frequency.NEVER)
-                .filter(e -> e.recurrenceBegin.isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
-                .filter(e -> !e.recurrenceEnd.isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
+                .map(obj -> (RecurrentEvent) obj)
+                .filter(e -> e.getRecurrenceBegin().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
+                .filter(e -> !e.getRecurrenceEnd().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
                 .collect(Collectors.toSet());
 
         TreeSet<Event> ephemeralEvents = new TreeSet<>(StartComparator.INSTANCE);
 
-        for (Event recurringEvent : recurringEvents) {
+        for (RecurrentEvent recurringEvent : recurringEvents) {
             ZonedDateTime startOfEvent = recurringEvent.getStart();
             ZonedDateTime endOfEvent = recurringEvent.getEnd();
 
-            while (endOfEvent.isBefore(recurringEvent.recurrenceEnd) ) { //&& endOfEvent.isBefore(localDate.atStartOfDay(ZoneId.systemDefault()).plusHours(23))
+            while (endOfEvent.isBefore(recurringEvent.getRecurrenceEnd()) ) { //&& endOfEvent.isBefore(localDate.atStartOfDay(ZoneId.systemDefault()).plusHours(23))
                 EphemeralEvent ee = new EphemeralEvent(startOfEvent, endOfEvent, recurringEvent);
                 switch (recurringEvent.frequency) {
                     case DAILY:
