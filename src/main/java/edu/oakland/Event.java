@@ -37,7 +37,8 @@ public class Event implements Serializable {
      * @return True if this event happens on the date
      */
     public boolean happensOnDate(LocalDate date) {
-        return start.isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault())) && end.isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
+        return start.isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault())) &&
+                end.isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
     }
 
     public String getEventName() {

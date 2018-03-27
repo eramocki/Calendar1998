@@ -12,6 +12,8 @@ public class Calendar implements Serializable {
 
     public TreeSet<Event> startingSet;
     public TreeSet<Event> endingSet;
+    private TreeSet<RecurrentEvent> recurringStartingSet;
+    private TreeSet<RecurrentEvent> recurringEndingSet;
 
     public Calendar() {
         startingSet = new TreeSet<>(StartComparator.INSTANCE);
@@ -19,14 +21,13 @@ public class Calendar implements Serializable {
     }
 
     public Set<Event> getMonthEvents(YearMonth yearMonth) {
-        ZonedDateTime start = ZonedDateTime.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1, 0, 0,
+        ZonedDateTime starting = ZonedDateTime.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1, 0, 0,
                 0, 0, ZoneId.systemDefault());
-        ZonedDateTime end = ZonedDateTime.of(yearMonth.atEndOfMonth(), LocalTime.MAX, ZoneId.systemDefault());
-        Event earliest = new Event(start, start, "");
-        Event latest = new Event(end, end, "");
+        ZonedDateTime ending = ZonedDateTime.of(yearMonth.atEndOfMonth(), LocalTime.MAX, ZoneId.systemDefault());
+        Event earliest = new Event(starting, starting, "");
         Set<Event> union = new HashSet<>();
-        union.addAll(endingSet.subSet(earliest, latest));
-        union.addAll(startingSet.subSet(earliest, latest));
+        union.addAll(endingSet.tailSet(earliest).stream().filter(e -> e.start.compareTo(ending) < 0)
+                .collect(Collectors.toSet()));
         return union;
     }
 
@@ -37,7 +38,7 @@ public class Calendar implements Serializable {
         // :)
         Set<RecurrentEvent> recurringEvents = startingSet.stream()
                 .filter(e -> e.frequency != Frequency.NEVER)
-                .map(obj -> (RecurrentEvent) obj)
+                .map(obj -> (RecurrentEvent) obj) //Todo Update Once RecurrentEvents finalized
                 .filter(e -> e.getRecurrenceBegin().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
                 .filter(e -> !e.getRecurrenceEnd().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
                 .collect(Collectors.toSet());
@@ -64,7 +65,7 @@ public class Calendar implements Serializable {
                         endOfEvent = endOfEvent.plusMonths(1);
                         break;
                     default:
-                        logger.info("Something spookys' going on!"); //Should not happen
+                        logger.info("Something spooky's going on!"); //Should not happen
                         break;
                 }
                 ephemeralEvents.add(ee);
