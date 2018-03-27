@@ -39,7 +39,7 @@ public class Event implements Serializable {
      * @param date the date to check
      * @return True if this event happens on the date
      */
-    public boolean happensSometimeOnDate(LocalDate date) {
+    public boolean happensOnDate(LocalDate date) {
         return start.isBefore(ZonedDateTime.of(date, LocalTime.MAX, ZoneId.systemDefault())) && end.isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
     }
 

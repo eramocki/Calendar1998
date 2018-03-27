@@ -83,7 +83,7 @@ public class Calendar implements Serializable {
         }
 
         Set<Event> ephemeralEventsWithinDay = ephemeralEvents.stream()
-                .filter(e -> e.happensSometimeOnDate(localDate))
+                .filter(e -> e.happensOnDate(localDate))
                 .collect(Collectors.toSet());
 
         intersection.addAll(ephemeralEventsWithinDay);
