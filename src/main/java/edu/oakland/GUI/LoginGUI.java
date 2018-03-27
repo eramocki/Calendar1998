@@ -40,27 +40,34 @@ public class LoginGUI {
     public void initialize() {
 
         //Dummy Account
-        Account.createAccount("y", "y", "Test Account", new String[] {"1", "2", "3"});
+        Account.createAccount("y", "y", "Test Account", new String[]{"1", "2", "3"});
     }
 
     @FXML
-    private void exitApplication(ActionEvent event){
+    private void exitApplication(ActionEvent event) {
         Platform.exit();
     }
 
     @FXML
     private void logoutApplication(ActionEvent event) {
-        GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging out!", "How can you logout if you aren't logged in?!");
+        GUIHelper.errorAlert("This will not do.",
+                "Woah! There was a problem logging out!",
+                "How can you logout if you aren't logged in?!");
     }
 
     @FXML
     private void saveApplication(ActionEvent event) {
-        GUIHelper.errorAlert("This will not do.", "Woah! There was a problem saving!", "How can you save if you aren't logged in?!");
+        GUIHelper.errorAlert("This will not do.",
+                "Woah! There was a problem saving!",
+                "How can you save if you aren't logged in?!");
     }
 
     @FXML
     private void aboutApplication(ActionEvent event) {
-        GUIHelper.alert("Cadmium Calendar", "Copyright 2018", "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel", Alert.AlertType.INFORMATION);
+        GUIHelper.alert("Cadmium Calendar",
+                "Copyright 2018",
+                "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel",
+                Alert.AlertType.INFORMATION);
     }
 
     @FXML
@@ -95,31 +102,35 @@ public class LoginGUI {
                     GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", e.getMessage());
                 }
             } else {
-                GUIHelper.errorAlert("This will not do.", "Try again, friend.", "Incorrect username / password combination");
+                GUIHelper.errorAlert("This will not do.",
+                        "Try again, friend.",
+                        "Incorrect username / password combination");
             }
         } else {
-            GUIHelper.errorAlert("This will not do.", "Account not found.", "No such account found. You can create one using the button below.");
+            GUIHelper.errorAlert("This will not do.",
+                    "Account not found.",
+                    "No such account found. You can create one using the button below.");
         }
     }
 
     @FXML
     public void openCreate(ActionEvent event) {
         Stage stage;
-            try {
-                stage = new Stage();
-                java.net.URL resource = getClass().getClassLoader().getResource("CreateGUI.fxml");
-                if (resource == null) {
-                    resource = getClass().getResource("CreateGUI.fxml");
-                }
-                Parent root2 = FXMLLoader.load(resource);
-                stage.setScene(new Scene(root2));
-                stage.setTitle("Create Account");
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.initOwner(createAccountButton.getScene().getWindow());
-                stage.showAndWait();
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            stage = new Stage();
+            java.net.URL resource = getClass().getClassLoader().getResource("CreateGUI.fxml");
+            if (resource == null) {
+                resource = getClass().getResource("CreateGUI.fxml");
             }
+            Parent root2 = FXMLLoader.load(resource);
+            stage.setScene(new Scene(root2));
+            stage.setTitle("Create Account");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(createAccountButton.getScene().getWindow());
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -145,24 +156,33 @@ public class LoginGUI {
 
 
     @FXML
-    private void tryResetAccount(ActionEvent event){
+    private void tryResetAccount(ActionEvent event) {
         if (Account.accountExists(userFieldReset.getText())) {
             if (!passwordFieldReset_confirm.getText().equals(passwordFieldReset.getText())) {
-                    GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Your confirmation " +
-                            "password did not match!");
+                GUIHelper.errorAlert("Reset Failed",
+                        "Account Reset Failed",
+                        "Your confirmation password did not match!");
             } else if (passwordFieldReset.getText().length() < 8 || passwordFieldReset.getText().equals("")) {
-                    GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Password must be at least " +
-                            "8 characters long");
+                GUIHelper.errorAlert("Reset Failed",
+                        "Account Reset Failed",
+                        "Password must be at least 8 characters long");
             } else if (!passwordFieldReset.getText().matches(".*\\d+.*")) {
-                GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
+                GUIHelper.errorAlert("Reset Failed",
+                        "Account Reset Failed",
+                        "Password must contain at least one number");
             } else {
                 Account temp = Account.getAccount(userFieldReset.getText());
-                if (temp.resetPassword(passwordFieldReset.getText(), new String[] {sq1Reset.getText(), sq2Reset.getText(), sq3Reset.getText()})){
-                    GUIHelper.alert("Account Reset", "Account Successfully Reset", "You can now login with" +
-                            " the updated password", Alert.AlertType.CONFIRMATION);
+                if (temp.resetPassword(passwordFieldReset.getText(),
+                        new String[]{sq1Reset.getText(), sq2Reset.getText(), sq3Reset.getText()})) {
+                    GUIHelper.alert("Account Reset",
+                            "Account Successfully Reset",
+                            "You can now login with the updated password",
+                            Alert.AlertType.CONFIRMATION);
                     ((Node) (event.getSource())).getScene().getWindow().hide();
                 } else {
-                    GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "One or more security questions are incorrect");
+                    GUIHelper.errorAlert("Reset Failed",
+                            "Account Reset Failed",
+                            "One or more security questions are incorrect");
                 }
             }
         } else {
@@ -174,34 +194,42 @@ public class LoginGUI {
     @FXML
     private void tryCreateAccount(ActionEvent event) {
         if (Account.accountExists(userField.getText())) {
-            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed",
-                    "Account with that name already exists");
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Account with that name already exists");
         } else if (passwordField.getText().equals("") || passwordField_confirm.getText().equals("")) {
-             GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
-                     "empty!");
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be empty!");
         } else if (sq1.getText().equals("") || sq2.getText().equals("") || sq3.getText().equals("")) {
-            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Security question fields " +
-                    "cannot be empty!");
+            GUIHelper.errorAlert("Creation Failed",
+                    "Account Creation Failed",
+                    "Security question fields cannot be empty!");
         } else if (!passwordField_confirm.getText().equals(passwordField.getText())) {
-            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Your confirmation " +
-                    "password did not match!");
+            GUIHelper.errorAlert("Creation Failed",
+                    "Account Creation Failed",
+                    "Your confirmation password did not match!");
         } else if (nameField.getText().equals("")) {
             GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Your name cannot be blank!");
         } else if (passwordField.getText().length() < 8) {
-            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Password must be at least " +
-                    "8 characters long");
-        } else if (!passwordField.getText().matches(".*\\d+.*")){
-            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Password must contain at " +
-                    "least one number");
+            GUIHelper.errorAlert("Creation Failed",
+                    "Account Creation Failed",
+                    "Password must be at least 8 characters long");
+        } else if (!passwordField.getText().matches(".*\\d+.*")) {
+            GUIHelper.errorAlert("Creation Failed",
+                    "Account Creation Failed",
+                    "Password must contain at least one number");
         } else {
             //Trys to create account, passes all fields to be stored in map
-            if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
-                GUIHelper.alert("Account Created", "Account Successfully Created", "You can now login with" +
-                        " the provided information", Alert.AlertType.CONFIRMATION);
+            if (Account.createAccount(userField.getText(),
+                    passwordField.getText(),
+                    nameField.getText(),
+                    new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
+                GUIHelper.alert("Account Created",
+                        "Account Successfully Created",
+                        "You can now login with the provided information",
+                        Alert.AlertType.CONFIRMATION);
                 ((Node) (event.getSource())).getScene().getWindow().hide();
             } else {
-                GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Account creation " +
-                        "failed for an unknown reason.");
+                GUIHelper.errorAlert("Creation Failed",
+                        "Account Creation Failed",
+                        "Account creation failed for an unknown reason.");
             }
         }
     }
