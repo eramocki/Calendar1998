@@ -36,9 +36,6 @@ public class LoginGUI {
     @FXML
     private MenuItem exitButton, saveButton, logoutButton, helpButton;
 
-    /**
-     *
-     */
     @FXML
     public void initialize() {
 
@@ -129,10 +126,6 @@ public class LoginGUI {
         }
     }
 
-    /**
-     *
-     * @param event
-     */
     @FXML
     public void openCreate(ActionEvent event) {
         Stage stage;
@@ -153,10 +146,7 @@ public class LoginGUI {
             }
     }
 
-    /**
-     *
-     * @param event
-     */
+
     @FXML
     public void openReset(ActionEvent event) {
         Stage stage;
@@ -177,10 +167,7 @@ public class LoginGUI {
         }
     }
 
-    /**
-     *
-     * @param event
-     */
+
     @FXML
     private void tryResetAccount(ActionEvent event){
         if (Account.accountExists(userFieldReset.getText())) {
@@ -207,10 +194,7 @@ public class LoginGUI {
         }
     }
 
-    /**
-     *
-     * @param event
-     */
+
     @FXML
     private void tryCreateAccount(ActionEvent event) {
         if (Account.accountExists(userField.getText())) {
@@ -248,23 +232,10 @@ public class LoginGUI {
 
     //To clean up the code a bit
 
-    /**
-     *
-     * @param title
-     * @param header
-     * @param content
-     */
     private void errorAlert(String title, String header, String content) {
         alert(title, header, content, Alert.AlertType.ERROR);
     }
 
-    /**
-     *
-     * @param title
-     * @param header
-     * @param content
-     * @param type
-     */
     private void alert(String title, String header, String content, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
