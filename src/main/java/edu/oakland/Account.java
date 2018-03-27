@@ -243,4 +243,6 @@ public class Account implements Serializable {
     public static File getAccountFile() { return ACCOUNT_FILE; }
 
     public static void setAccountFile(File file) { ACCOUNT_FILE = file; }
+
+    public static HashMap<String, Account> getAccountMap() { return accounts; }
 }

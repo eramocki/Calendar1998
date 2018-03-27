@@ -26,7 +26,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -291,13 +294,28 @@ public class MainGUI {
     private void importData(ActionEvent event) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open File");
-        File DATA_DIR = chooser.showOpenDialog(new Stage());
-        Account.setAccountFile(DATA_DIR);
+        File importData = chooser.showOpenDialog(new Stage());
+        Account.setAccountFile(importData);
+        //TODO don't unload local data when adding new
     }
 
     @FXML
     private void exportData(ActionEvent event) {
-        //TODO
+        //TODO doesn't finish saving to file
+        File exportData = Account.getAccountFile();
+        FileChooser chooser = new FileChooser();
+        chooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Calendar1998/"));
+        chooser.setInitialFileName("accounts.dat");
+        chooser.showSaveDialog(null);
+        try {
+            FileOutputStream fos = new FileOutputStream(exportData);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(Account.getAccountMap());
+            fos.close();
+            oos.close();
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Could not save accounts", e);
+        }
     }
 
     @FXML
