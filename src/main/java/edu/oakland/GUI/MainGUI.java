@@ -21,9 +21,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -264,12 +267,51 @@ public class MainGUI {
     }
 
     @FXML
-    private void exitApplication(ActionEvent event) {
-        Platform.exit();
+    private void openCreateAccountGUI(ActionEvent event) {
+        Stage stage;
+        try {
+            stage = new Stage();
+            java.net.URL resource = getClass().getClassLoader().getResource("CreateAccountGUI.fxml");
+            if (resource == null) {
+                resource = getClass().getResource("CreateAccountGUI.fxml");
+            }
+            Parent root2 = FXMLLoader.load(resource);
+            stage.setScene(new Scene(root2));
+            stage.setTitle("Create Account");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            Stage oldStage = (Stage) myMenuBar.getScene().getWindow();
+            stage.initOwner(oldStage.getScene().getWindow());
+            stage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    private void logoutApplication(ActionEvent event) {
+    private void importData(ActionEvent event) {
+        //TODO
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open File");
+        File DATA_DIR = chooser.showOpenDialog(new Stage());
+    }
+
+    @FXML
+    private void exportData(ActionEvent event) {
+        //TODO
+    }
+
+    @FXML
+    private void saveData(ActionEvent event) {
+        Account.saveAccounts();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Saving Completed");
+        alert.setHeaderText("Saving Completed");
+        alert.setContentText("You did it! (I knew you could)");
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void logoutApp(ActionEvent event) {
         if (currentAccount == null) {
             logger.warning("Wanted to logout but the current user was already null");
             return;
@@ -284,7 +326,7 @@ public class MainGUI {
             Stage oldStage = (Stage) myMenuBar.getScene().getWindow();
             oldStage.close();
             setCurrentAccount(null);
-            
+
             Stage newStage = new Stage();
             newStage.setTitle("Cadmium Calendar");
             newStage.setScene(new Scene(root, 600, 300));
@@ -295,17 +337,40 @@ public class MainGUI {
     }
 
     @FXML
-    private void saveApplication(ActionEvent event) {
-        Account.saveAccounts();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Saving Completed");
-        alert.setHeaderText("Saving Completed");
-        alert.setContentText("You did it! (I knew you could)");
-        alert.showAndWait();
+    private void exitApp(ActionEvent event) {
+        Platform.exit();
     }
 
     @FXML
-    private void aboutApplication(ActionEvent event) {
+    private void gotoAddEventTab(ActionEvent event) {
+        SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
+        selector.select(1);
+    }
+
+    @FXML
+    private void openSettingsGUI(ActionEvent event) {
+        //TODO fix
+        //javafx.fxml.LoadException: 
+        //        Stage stage;
+//        try {
+//            stage = new Stage();
+//            java.net.URL resource = getClass().getClassLoader().getResource("SettingsGUI.fxml");
+//            if (resource == null) {
+//                resource = getClass().getResource("SettingsGUI.fxml");
+//            }
+//            Parent root2 = FXMLLoader.load(resource);
+//            stage.setScene(new Scene(root2));
+//            stage.setTitle("Settings");
+//            stage.initModality(Modality.APPLICATION_MODAL);
+//            stage.initOwner(tabPane.getScene().getWindow());
+//            stage.showAndWait();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    @FXML
+    private void aboutApp(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Cadmium Calendar");
         alert.setHeaderText("Copyright 2018");

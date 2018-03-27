@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -31,10 +30,7 @@ public class LoginGUI {
     private PasswordField passwordField, passwordField_confirm, passwordFieldReset, passwordFieldReset_confirm;
 
     @FXML
-    private Button loginButton, createAccountButton;
-
-    @FXML
-    private MenuItem exitButton, saveButton, logoutButton, helpButton;
+    private Button createAccountButton;
 
     @FXML
     public void initialize() {
@@ -44,30 +40,54 @@ public class LoginGUI {
     }
 
     @FXML
-    private void exitApplication(ActionEvent event) {
-        Platform.exit();
+    private void importData(ActionEvent event) {
+        //TODO
     }
 
     @FXML
-    private void logoutApplication(ActionEvent event) {
-        GUIHelper.errorAlert("This will not do.",
-                "Woah! There was a problem logging out!",
-                "How can you logout if you aren't logged in?!");
+    private void exportData(ActionEvent event) {
+        //TODO
     }
 
     @FXML
-    private void saveApplication(ActionEvent event) {
+    private void saveData(ActionEvent event) {
         GUIHelper.errorAlert("This will not do.",
                 "Woah! There was a problem saving!",
                 "How can you save if you aren't logged in?!");
     }
 
     @FXML
-    private void aboutApplication(ActionEvent event) {
+    private void logoutApp(ActionEvent event) {
+        GUIHelper.errorAlert("This will not do.",
+                "Woah! There was a problem logging out!",
+                "How can you logout if you aren't logged in?!");
+    }
+
+    @FXML
+    private void exitApp(ActionEvent event) {
+        Platform.exit();
+    }
+
+    @FXML
+    private void aboutApp(ActionEvent event) {
         GUIHelper.alert("Cadmium Calendar",
                 "Copyright 2018",
                 "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel",
                 Alert.AlertType.INFORMATION);
+    }
+
+    @FXML
+    private void gotoAddEventPageTab(ActionEvent event) {
+        GUIHelper.errorAlert("This will not do.",
+                "Woah! There was a problem adding a new event!",
+                "How can you add events if you aren't logged in?!");
+    }
+
+    @FXML
+    private void openSettingsGUI(ActionEvent event) {
+        GUIHelper.errorAlert("This will not do.",
+                "Woah! There was a problem going to the settings page",
+                "How can you edit settings if you aren't logged in?!");
     }
 
     @FXML
@@ -114,13 +134,13 @@ public class LoginGUI {
     }
 
     @FXML
-    public void openCreate(ActionEvent event) {
+    public void openCreateAccountGUI(ActionEvent event) {
         Stage stage;
         try {
             stage = new Stage();
-            java.net.URL resource = getClass().getClassLoader().getResource("CreateGUI.fxml");
+            java.net.URL resource = getClass().getClassLoader().getResource("CreateAccountGUI.fxml");
             if (resource == null) {
-                resource = getClass().getResource("CreateGUI.fxml");
+                resource = getClass().getResource("CreateAccountGUI.fxml");
             }
             Parent root2 = FXMLLoader.load(resource);
             stage.setScene(new Scene(root2));
@@ -139,9 +159,9 @@ public class LoginGUI {
         Stage stage;
         try {
             stage = new Stage();
-            java.net.URL resource = getClass().getClassLoader().getResource("ResetGUI.fxml");
+            java.net.URL resource = getClass().getClassLoader().getResource("ResetAccountGUI.fxml");
             if (resource == null) {
-                resource = getClass().getResource("ResetGUI.fxml");
+                resource = getClass().getResource("ResetAccountGUI.fxml");
             }
             Parent root3 = FXMLLoader.load(resource);
             stage.setScene(new Scene(root3));
