@@ -50,29 +50,17 @@ public class LoginGUI {
 
     @FXML
     private void logoutApplication(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("This will not do.");
-        alert.setHeaderText("Woah! There was a problem logging out!");
-        alert.setContentText("How can you logout if you aren't logged in!");
-        alert.showAndWait();
+        GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging out!", "How can you logout if you aren't logged in?!");
     }
 
     @FXML
     private void saveApplication(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("This will not do.");
-        alert.setHeaderText("Woah! There was a problem saving!");
-        alert.setContentText("How can you save if you aren't logged in!");
-        alert.showAndWait();
+        GUIHelper.errorAlert("This will not do.", "Woah! There was a problem saving!", "How can you save if you aren't logged in?!");
     }
 
     @FXML
     private void aboutApplication(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Cadmium Calendar");
-        alert.setHeaderText("Copyright 2018");
-        alert.setContentText("Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel");
-        alert.showAndWait();
+        GUIHelper.alert("Cadmium Calendar", "Copyright 2018", "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel", Alert.AlertType.INFORMATION);
     }
 
     @FXML
@@ -103,26 +91,14 @@ public class LoginGUI {
                     ((Node) (event.getSource())).getScene().getWindow().hide();
 
                 } catch (IOException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("This will not do.");
-                    alert.setHeaderText("Woah! There was a problem logging in!");
-                    alert.setContentText(e.getMessage());
                     logger.log(Level.SEVERE, "Error logging in", e);
-                    alert.showAndWait();
+                    GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", e.getMessage());
                 }
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("This will not do.");
-                alert.setHeaderText("Try again, friend.");
-                alert.setContentText("Incorrect username / password combination");
-                alert.showAndWait();
+                GUIHelper.errorAlert("This will not do.", "Try again, friend.", "Incorrect username / password combination");
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Account not found.");
-            alert.setContentText("No such account found. You can create one using the button below.");
-            alert.showAndWait();
+            GUIHelper.errorAlert("This will not do.", "Account not found.", "No such account found. You can create one using the button below.");
         }
     }
 
