@@ -1,5 +1,6 @@
 package edu.oakland.GUI;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 
 import java.time.Duration;
@@ -72,5 +73,32 @@ public class GUIHelper {
         }
 
         theComboBox.setValue(selected.format(DateTimeFormatter.ofPattern("HH:mm")));
+    }
+
+    /**
+     * Create an error alert (dialog box) on screen.
+     *
+     * @param title   the Title of the dialog
+     * @param header  the string to show in the dialog header area
+     * @param content the string to show in the dialog content area
+     */
+    public static void errorAlert(String title, String header, String content) {
+        alert(title, header, content, Alert.AlertType.ERROR);
+    }
+
+    /**
+     * Create an alert (dialog box) on screen.
+     *
+     * @param title   the Title of the dialog
+     * @param header  the string to show in the dialog header area
+     * @param content the string to show in the dialog content area
+     * @param type    the AlertType
+     */
+    public static void alert(String title, String header, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

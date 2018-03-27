@@ -172,25 +172,25 @@ public class LoginGUI {
     private void tryResetAccount(ActionEvent event){
         if (Account.accountExists(userFieldReset.getText())) {
             if (!passwordFieldReset_confirm.getText().equals(passwordFieldReset.getText())) {
-                    errorAlert("Reset Failed", "Account Reset Failed", "Your confirmation " +
+                    GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Your confirmation " +
                             "password did not match!");
             } else if (passwordFieldReset.getText().length() < 8 || passwordFieldReset.getText().equals("")) {
-                    errorAlert("Reset Failed", "Account Reset Failed", "Password must be at least " +
+                    GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Password must be at least " +
                             "8 characters long");
             } else if (!passwordFieldReset.getText().matches(".*\\d+.*")) {
-                errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
+                GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Password must contain at " + "least one number");
             } else {
                 Account temp = Account.getAccount(userFieldReset.getText());
                 if (temp.resetPassword(passwordFieldReset.getText(), new String[] {sq1Reset.getText(), sq2Reset.getText(), sq3Reset.getText()})){
-                    alert("Account Reset", "Account Successfully Reset", "You can now login with" +
+                    GUIHelper.alert("Account Reset", "Account Successfully Reset", "You can now login with" +
                             " the updated password", Alert.AlertType.CONFIRMATION);
                     ((Node) (event.getSource())).getScene().getWindow().hide();
                 } else {
-                    errorAlert("Reset Failed", "Account Reset Failed", "One or more security questions are incorrect");
+                    GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "One or more security questions are incorrect");
                 }
             }
         } else {
-            errorAlert("Reset Failed", "Account Reset Failed", "Account doesn't exist");
+            GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Account doesn't exist");
         }
     }
 
@@ -198,49 +198,35 @@ public class LoginGUI {
     @FXML
     private void tryCreateAccount(ActionEvent event) {
         if (Account.accountExists(userField.getText())) {
-            errorAlert("Creation Failed", "Account Creation Failed",
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed",
                     "Account with that name already exists");
         } else if (passwordField.getText().equals("") || passwordField_confirm.getText().equals("")) {
-             errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
+             GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Password field cannot be " +
                      "empty!");
         } else if (sq1.getText().equals("") || sq2.getText().equals("") || sq3.getText().equals("")) {
-            errorAlert("Creation Failed", "Account Creation Failed", "Security question fields " +
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Security question fields " +
                     "cannot be empty!");
         } else if (!passwordField_confirm.getText().equals(passwordField.getText())) {
-            errorAlert("Creation Failed", "Account Creation Failed", "Your confirmation " +
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Your confirmation " +
                     "password did not match!");
         } else if (nameField.getText().equals("")) {
-            errorAlert("Creation Failed", "Account Creation Failed", "Your name cannot be blank!");
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Your name cannot be blank!");
         } else if (passwordField.getText().length() < 8) {
-            errorAlert("Creation Failed", "Account Creation Failed", "Password must be at least " +
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Password must be at least " +
                     "8 characters long");
         } else if (!passwordField.getText().matches(".*\\d+.*")){
-            errorAlert("Creation Failed", "Account Creation Failed", "Password must contain at " +
+            GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Password must contain at " +
                     "least one number");
         } else {
             //Trys to create account, passes all fields to be stored in map
             if (Account.createAccount(userField.getText(), passwordField.getText(), nameField.getText(), new String[]{sq1.getText(), sq2.getText(), sq3.getText()})) {
-                alert("Account Created", "Account Successfully Created", "You can now login with" +
+                GUIHelper.alert("Account Created", "Account Successfully Created", "You can now login with" +
                         " the provided information", Alert.AlertType.CONFIRMATION);
                 ((Node) (event.getSource())).getScene().getWindow().hide();
             } else {
-                errorAlert("Creation Failed", "Account Creation Failed", "Account creation " +
+                GUIHelper.errorAlert("Creation Failed", "Account Creation Failed", "Account creation " +
                         "failed for an unknown reason.");
             }
         }
-    }
-
-    //To clean up the code a bit
-
-    private void errorAlert(String title, String header, String content) {
-        alert(title, header, content, Alert.AlertType.ERROR);
-    }
-
-    private void alert(String title, String header, String content, Alert.AlertType type) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }
