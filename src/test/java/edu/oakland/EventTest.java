@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import static org.junit.Assert.*;
@@ -37,5 +38,26 @@ public class EventTest {
         assertTrue(e2.happensOnDate(LocalDate.parse("2018-02-27")));
         assertFalse(e2.happensOnDate(LocalDate.parse("2018-02-26")));
         assertFalse(e2.happensOnDate(LocalDate.parse("2018-02-28")));
+
+        SingularEvent e3 = new SingularEvent(
+                ZonedDateTime.of(2018,2,27,0,0,0, 0, ZoneId.systemDefault()),
+                ZonedDateTime.of(2018,2,27,11,15,30, 0, ZoneId.systemDefault()), "3");
+        assertTrue(e3.happensOnDate(LocalDate.parse("2018-02-27")));
+        assertFalse(e3.happensOnDate(LocalDate.parse("2018-02-28")));
+        assertFalse(e3.happensOnDate(LocalDate.parse("2018-02-26")));
+
+        SingularEvent e4 = new SingularEvent(
+                ZonedDateTime.of(2018,2,26,18,0,0,0, ZoneId.systemDefault()),
+                ZonedDateTime.of(2018,2,27,0,0,0,0, ZoneId.systemDefault()), "4");
+        assertTrue(e4.happensOnDate(LocalDate.parse("2018-02-26")));
+        assertFalse(e4.happensOnDate(LocalDate.parse("2018-02-27")));
+        assertFalse(e4.happensOnDate(LocalDate.parse("2018-02-25")));
+
+        SingularEvent e5 = new SingularEvent(
+                ZonedDateTime.of(2018,2,26,0,0,0,0, ZoneId.systemDefault()),
+                ZonedDateTime.of(2018,2,27,0,0,0,0, ZoneId.systemDefault()), "5");
+        assertTrue(e5.happensOnDate(LocalDate.parse("2018-02-26")));
+        assertFalse(e5.happensOnDate(LocalDate.parse("2018-02-27")));
+        assertFalse(e5.happensOnDate(LocalDate.parse("2018-02-25")));
     }
 }
