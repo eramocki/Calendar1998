@@ -24,43 +24,43 @@ public interface Event {
                 getEnd().isAfter(ZonedDateTime.of(date, LocalTime.MIN, ZoneId.systemDefault()));
     }
 
-    public String getEventName();
+    String getEventName();
 
-    public void setEventName(String eventName);
+    void setEventName(String eventName);
 
-    public String getEventDesc();
+    String getEventDesc();
 
-    public void setEventDesc(String eventDesc);
+    void setEventDesc(String eventDesc);
 
-    public String getEventLocation();
+    String getEventLocation();
 
-    public void setEventLocation(String eventLocation);
+    void setEventLocation(String eventLocation);
 
-    public String getEventAttendees();
+    String getEventAttendees();
 
-    public void setEventAttendees(String eventAttendees);
+    void setEventAttendees(String eventAttendees);
 
-    public Boolean getEventAllDay();
+    Boolean getEventAllDay();
 
-    public void setEventAllDay(Boolean eventAllDay);
+    void setEventAllDay(Boolean eventAllDay);
 
-    public Boolean getHighPriority();
+    Boolean getHighPriority();
 
-    public void setHighPriority(Boolean highPriority);
+    void setHighPriority(Boolean highPriority);
 
-    public Frequency getFrequency();
+    Frequency getFrequency();
 
-    public void setFrequency(Frequency frequency);
+    void setFrequency(Frequency frequency);
 
-    public ZonedDateTime getStart();
+    ZonedDateTime getStart();
 
-    public void setStart(ZonedDateTime start);
+    void setStart(ZonedDateTime start);
 
-    public ZonedDateTime getEnd();
+    ZonedDateTime getEnd();
 
-    public void setEnd(ZonedDateTime end);
+    void setEnd(ZonedDateTime end);
 
-    public boolean getCompleted();
+    boolean getCompleted();
 
-    public void setCompleted(boolean completed);
+    void setCompleted(boolean completed);
 }
