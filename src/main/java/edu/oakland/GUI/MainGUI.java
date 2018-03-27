@@ -289,10 +289,10 @@ public class MainGUI {
 
     @FXML
     private void importData(ActionEvent event) {
-        //TODO
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open File");
         File DATA_DIR = chooser.showOpenDialog(new Stage());
+        Account.setAccountFile(DATA_DIR);
     }
 
     @FXML
@@ -350,7 +350,7 @@ public class MainGUI {
     @FXML
     private void openSettingsGUI(ActionEvent event) {
         //TODO fix
-        //javafx.fxml.LoadException: 
+        //javafx.fxml.LoadException:
         //        Stage stage;
 //        try {
 //            stage = new Stage();
