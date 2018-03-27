@@ -94,7 +94,7 @@ public class MainGUI {
     private GridPane calendarGridPane;
 
     @FXML
-    private Label calendarHeaderLabel, dateLabel;
+    private Label calendarHeaderLabel, dateLabel, titleSet, curSet, newSet, verNewSet;
 
     @FXML
     private MenuBar myMenuBar;
@@ -364,23 +364,22 @@ public class MainGUI {
     @FXML
     private void openSettingsGUI(ActionEvent event) {
         //TODO fix
+
+
         //javafx.fxml.LoadException:
-        //        Stage stage;
-//        try {
-//            stage = new Stage();
-//            java.net.URL resource = getClass().getClassLoader().getResource("SettingsGUI.fxml");
-//            if (resource == null) {
-//                resource = getClass().getResource("SettingsGUI.fxml");
-//            }
-//            Parent root2 = FXMLLoader.load(resource);
-//            stage.setScene(new Scene(root2));
-//            stage.setTitle("Settings");
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//            stage.initOwner(tabPane.getScene().getWindow());
-//            stage.showAndWait();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+        try {
+
+            Parent rootSet = FXMLLoader.load(getClass().getClassLoader().getResource("SettingsGUI.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(rootSet));
+           stage.setTitle("Settings");
+            stage.initModality(Modality.APPLICATION_MODAL);
+           stage.initOwner(tabPane.getScene().getWindow());
+            stage.showAndWait();
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
     }
 
     @FXML

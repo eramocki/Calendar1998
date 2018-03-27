@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="562.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
+<AnchorPane prefHeight="562.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.SettingsGUI">
    <children>
       <TabPane prefHeight="600.0" prefWidth="609.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -42,7 +42,7 @@
                               </Label>
                               <PasswordField fx:id="oldPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" />
                               <PasswordField fx:id="newPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-                              <Label text="Current Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Label fx:id="CurSet" text="Current Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                               <Label text="New Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <PasswordField fx:id="verifyPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="2" />
                               <Label text="Verify New Password" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
