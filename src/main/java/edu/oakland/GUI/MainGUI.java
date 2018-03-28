@@ -259,7 +259,9 @@ public class MainGUI {
                 if (currEvent.getHighPriority()) {
                     eventLabel.setStyle("-fx-background-color: OrangeRed;");
                 } else {
-                    randInt = rand.nextInt(270)+1;
+                    randInt = rand.nextInt(270)+1;//A random integer [1-270] to represent hue
+                    //for some reason, javafx label can't accept a simple color
+                    //and needs a whole two extra objects to change the color
                     BackgroundFill fill = new BackgroundFill(Color.hsb(randInt,0.3,1.0),null,null);
                     Background background = new Background(fill);
                     eventLabel.setBackground(background);
