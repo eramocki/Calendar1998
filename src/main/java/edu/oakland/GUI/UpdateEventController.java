@@ -83,7 +83,7 @@ public class UpdateEventController {
     }
 
     @FXML
-    private void modifyEvent(ActionEvent event) {
+    private void modifyEvent() {
         LocalDate startDateUpdate = startDateField.getValue();
         LocalDate endDateUpdate = endDateField.getValue();
         String startingTimeUpdate = startTimeDropdown.getSelectionModel().getSelectedItem().toString();

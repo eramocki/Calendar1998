@@ -272,7 +272,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void openCreateAccountGUI(ActionEvent event) {
+    private void openCreateAccountGUI() {
         Stage stage;
         try {
             stage = new Stage();
@@ -293,7 +293,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void importData(ActionEvent event) {
+    private void importData() {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Import data");
         chooser.setInitialDirectory(Account.getAccountFile().getParentFile());
@@ -311,7 +311,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void exportData(ActionEvent event) {
+    private void exportData() {
         FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(Account.getAccountFile().getParentFile());
         chooser.setInitialFileName("accounts.dat");
@@ -327,7 +327,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void saveData(ActionEvent event) {
+    private void saveData() {
         Account.saveAccounts();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Saving Completed");
@@ -337,7 +337,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void logoutApp(ActionEvent event) {
+    private void logoutApp() {
         if (currentAccount == null) {
             logger.warning("Wanted to logout but the current user was already null");
             return;
@@ -363,16 +363,16 @@ public class MainGUI {
     }
 
     @FXML
-    private void exitApp(ActionEvent event) { Platform.exit(); }
+    private void exitApp() { Platform.exit(); }
 
     @FXML
-    private void gotoAddEventTab(ActionEvent event) {
+    private void gotoAddEventTab() {
         SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
         selector.select(1);
     }
 
     @FXML
-    private void openSettingsGUI(ActionEvent event) {
+    private void openSettingsGUI() {
         try {
             Parent rootSet = FXMLLoader.load(getClass().getClassLoader().getResource("SettingsGUI.fxml"));
             Stage stage = new Stage();
@@ -387,7 +387,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void aboutApp(ActionEvent event) {
+    private void aboutApp() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Cadmium Calendar");
         alert.setHeaderText("Copyright 2018");
@@ -429,7 +429,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void eventCompletionStatus(ActionEvent event) {
+    private void eventCompletionStatus() {
         if (completeBox.isSelected()) {
             currentEvent.setCompleted(true);
         } else {
@@ -556,11 +556,9 @@ public class MainGUI {
 
     /**
      * Views the next event for that given day. Triggered by the right arrow below event details.
-     *
-     * @param event GUI ActionEvent
      */
     @FXML
-    private void viewNextEvent(ActionEvent event) {
+    private void viewNextEvent() {
         if (currentDate == null) return;
         SortedSet<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
 
@@ -587,11 +585,9 @@ public class MainGUI {
 
     /**
      * Views the next event for that given day. Triggered by the left arrow below event details.
-     *
-     * @param event GUI ActionEvent
      */
     @FXML
-    private void viewPreviousEvent(ActionEvent event) {
+    private void viewPreviousEvent() {
         if (currentDate == null) return;
         SortedSet<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
 
@@ -616,11 +612,9 @@ public class MainGUI {
 
     /**
      * Deletes the event from the GUI, and triggers the calendar to remove it from the TreeSet
-     *
-     * @param event GUI ActionEvent
      */
     @FXML
-    private void deleteEventGUI(ActionEvent event) {
+    private void deleteEventGUI() {
         if (currentEvent != null) {
             getCurrentAccount().getCalendar().removeEvent(currentEvent);
             Account.saveAccounts();
@@ -631,11 +625,9 @@ public class MainGUI {
 
     /**
      * Opens the update event GUI page
-     *
-     * @param event GUI ActionEvent
      */
     @FXML
-    private void openUpdatePage(ActionEvent event) {
+    private void openUpdatePage() {
         if (currentEvent != null) {
             Stage stage;
             try {
@@ -668,7 +660,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void fetchCompleted(ActionEvent event) {
+    private void fetchCompleted() {
         Set<Event> completedEvents = getCurrentAccount().getCalendar().getCompletedEvents();
         Iterator<Event> ir = completedEvents.iterator();
         while (ir.hasNext()) {
@@ -802,7 +794,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void adjustEndDate(ActionEvent event) {
+    private void adjustEndDate() {
         LocalDate startDate = startDateField.getValue();
         long days = DAYS.between(oldDateValue, startDate);
 

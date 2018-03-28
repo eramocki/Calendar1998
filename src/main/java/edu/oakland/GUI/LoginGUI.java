@@ -51,36 +51,36 @@ public class LoginGUI {
     }
 
     @FXML
-    private void importData(ActionEvent event) {
+    private void importData() {
         //TODO
     }
 
     @FXML
-    private void exportData(ActionEvent event) {
+    private void exportData() {
         //TODO
     }
 
     @FXML
-    private void saveData(ActionEvent event) {
+    private void saveData() {
         GUIHelper.errorAlert("This will not do.",
                 "Woah! There was a problem saving!",
                 "How can you save if you aren't logged in?!");
     }
 
     @FXML
-    private void logoutApp(ActionEvent event) {
+    private void logoutApp() {
         GUIHelper.errorAlert("This will not do.",
                 "Woah! There was a problem logging out!",
                 "How can you logout if you aren't logged in?!");
     }
 
     @FXML
-    private void exitApp(ActionEvent event) {
+    private void exitApp() {
         Platform.exit();
     }
 
     @FXML
-    private void aboutApp(ActionEvent event) {
+    private void aboutApp() {
         GUIHelper.alert("Cadmium Calendar",
                 "Copyright 2018",
                 "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel",
@@ -88,14 +88,14 @@ public class LoginGUI {
     }
 
     @FXML
-    private void gotoAddEventPageTab(ActionEvent event) {
+    private void gotoAddEventPageTab() {
         GUIHelper.errorAlert("This will not do.",
                 "Woah! There was a problem adding a new event!",
                 "How can you add events if you aren't logged in?!");
     }
 
     @FXML
-    private void openSettingsGUI(ActionEvent event) {
+    private void openSettingsGUI() {
         GUIHelper.errorAlert("This will not do.",
                 "Woah! There was a problem going to the settings page",
                 "How can you edit settings if you aren't logged in?!");
@@ -147,7 +147,7 @@ public class LoginGUI {
     }
 
     @FXML
-    public void openCreateAccountGUI(ActionEvent event) {
+    public void openCreateAccountGUI() {
         Stage stage;
         try {
             stage = new Stage();
@@ -168,7 +168,7 @@ public class LoginGUI {
 
 
     @FXML
-    public void openReset(ActionEvent event) {
+    public void openReset() {
         Stage stage;
         try {
             stage = new Stage();

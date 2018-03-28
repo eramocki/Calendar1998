@@ -37,7 +37,7 @@ public class SettingsGUI {
     }
 
     @FXML
-    private void changePassword(ActionEvent event) {
+    private void changePassword() {
         //Check that new password boxes match
         if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
             boolean success = false;
