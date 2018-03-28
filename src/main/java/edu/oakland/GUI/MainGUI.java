@@ -79,8 +79,6 @@ public class MainGUI {
 
     private int[][] daylayout;
 
-    private Boolean beingDeleted;
-
     @FXML
     private CheckBox completeBox;
 
@@ -151,8 +149,6 @@ public class MainGUI {
             recurField.getItems().add(freq);
         }
         recurField.getSelectionModel().selectFirst();
-
-        beingDeleted = false;
     }
 
     public void postInit() {
@@ -440,61 +436,54 @@ public class MainGUI {
      * Handles printing text to the side view of a selected event.
      */
     private void printToView() {
-        if (currentEvent != null && !beingDeleted) {
-            StringBuilder temp = new StringBuilder();
-            temp.append(currentEvent.getEventName());
-            ZonedDateTime st = currentEvent.getStart();
-            ZonedDateTime end = currentEvent.getEnd();
-            if (currentEvent.getEventDesc() != null) {
-                temp.append("\n").append(currentEvent.getEventDesc());
-            }
-            if (currentEvent.getEventLocation() != null) {
-                temp.append("\n").append(currentEvent.getEventLocation());
-            }
-            if (currentEvent.getEventAttendees() != null) {
-                temp.append("\n").append(currentEvent.getEventAttendees());
-            }
-            if (!currentEvent.getEventAllDay()) {
-                temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
-                temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
-            } else {
-                temp.append("\nAll Day SingularEvent");
-                temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
-                temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
-            }
-            if (currentEvent.getHighPriority()) {
-                temp.append("\nHigh Priority");
-            }
-            if (currentEvent.getFrequency().equals(Frequency.WEEKLY)) {
-                temp.append("\nRecurs Weekly");
-            } else if (currentEvent.getFrequency().equals(Frequency.MONTHLY)) {
-                temp.append("\nRecurs Monthly");
-            } else if (currentEvent.getFrequency().equals(Frequency.DAILY)) {
-                temp.append("\nRecurs Daily");
-            }
-            temp.append("\nIs Complete? ").append(currentEvent.getCompleted());
-            eventOutput.setText(temp.toString());
-            eventOutput.setDisable(false);
-        } else if (beingDeleted) {
-            Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
-            if (dayEvents.isEmpty()) {
-                eventOutput.setDisable(true);
-                eventOutput.setText("");
-            } else {
-                currentEvent = (dayEvents.iterator().next());
-                beingDeleted = false;
-                printToView();
-            }
-        } else {
+        if (currentEvent == null) {
             eventOutput.setText("");
             eventOutput.setDisable(true);
-
+            viewMonth(currentMonth);
+            return;
         }
+
+        StringBuilder temp = new StringBuilder();
+        temp.append(currentEvent.getEventName());
+        ZonedDateTime st = currentEvent.getStart();
+        ZonedDateTime end = currentEvent.getEnd();
+        if (currentEvent.getEventDesc() != null) {
+            temp.append("\n").append(currentEvent.getEventDesc());
+        }
+        if (currentEvent.getEventLocation() != null) {
+            temp.append("\n").append(currentEvent.getEventLocation());
+        }
+        if (currentEvent.getEventAttendees() != null) {
+            temp.append("\n").append(currentEvent.getEventAttendees());
+        }
+        if (!currentEvent.getEventAllDay()) {
+            temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
+            temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
+        } else {
+            temp.append("\nAll Day SingularEvent");
+            temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
+            temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
+        }
+        if (currentEvent.getHighPriority()) {
+            temp.append("\nHigh Priority");
+        }
+        if (currentEvent.getFrequency().equals(Frequency.WEEKLY)) {
+            temp.append("\nRecurs Weekly");
+        } else if (currentEvent.getFrequency().equals(Frequency.MONTHLY)) {
+            temp.append("\nRecurs Monthly");
+        } else if (currentEvent.getFrequency().equals(Frequency.DAILY)) {
+            temp.append("\nRecurs Daily");
+        }
+        temp.append("\nIs Complete? ").append(currentEvent.getCompleted());
+        eventOutput.setText(temp.toString());
+        eventOutput.setDisable(false);
+
         if (currentEvent.getCompleted()) {
             completeBox.setSelected(true);
         } else {
             completeBox.setSelected(false);
         }
+
         viewMonth(currentMonth);
     }
 
@@ -612,11 +601,15 @@ public class MainGUI {
      * Deletes the event from the GUI, and triggers the calendar to remove it from the TreeSet
      */
     @FXML
-    private void deleteEventGUI() {
+    private void deleteCurrentEvent() {
         if (currentEvent != null) {
-            getCurrentAccount().getCalendar().removeEvent(currentEvent);
+            Event eventToDelete = currentEvent;
+            viewNextEvent();
+            getCurrentAccount().getCalendar().removeEvent(eventToDelete);
             Account.saveAccounts();
-            beingDeleted = true;
+            if (!getCurrentAccount().getCalendar().getDayEvents(currentDate).contains(currentEvent)) {
+                currentEvent = null;
+            }
             printToView();
         }
     }
