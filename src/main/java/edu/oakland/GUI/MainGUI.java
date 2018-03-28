@@ -311,28 +311,34 @@ public class MainGUI {
     @FXML
     private void importData(ActionEvent event) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Open File");
-        File importData = chooser.showOpenDialog(new Stage());
-        Account.setAccountFile(importData);
-        //TODO don't unload local data when adding new
+        chooser.setTitle("Import data");
+        chooser.setInitialDirectory(Account.getAccountFile().getParentFile());
+        File importFile = chooser.showOpenDialog(new Stage());
+
+        if (importFile == null) return;
+
+        if (Account.loadAccounts(importFile)){
+            setCurrentAccount(Account.getAccount(getCurrentAccount().getUserName())); //Refresh from what was loaded
+            viewMonth(currentMonth);
+            GUIHelper.alert("Load me", "Data were loaded", "Loaded data successfully!", Alert.AlertType.INFORMATION);
+        } else {
+            GUIHelper.errorAlert("This will not do.", "Couldn't load data!", "There was an error loading that file!");
+        }
     }
 
     @FXML
     private void exportData(ActionEvent event) {
-        //TODO doesn't finish saving to file
-        File exportData = Account.getAccountFile();
         FileChooser chooser = new FileChooser();
-        chooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Calendar1998/"));
+        chooser.setInitialDirectory(Account.getAccountFile().getParentFile());
         chooser.setInitialFileName("accounts.dat");
-        chooser.showSaveDialog(null);
-        try {
-            FileOutputStream fos = new FileOutputStream(exportData);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(Account.getAccountMap());
-            fos.close();
-            oos.close();
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Could not save accounts", e);
+        File exportFile = chooser.showSaveDialog(null);
+
+        if (exportFile == null) return;
+
+        if (Account.saveAccounts(exportFile)){
+            GUIHelper.alert("Save me", "Data were saved", "Exported data successfully!", Alert.AlertType.INFORMATION);
+        } else {
+            GUIHelper.errorAlert("This will not do.", "Couldn't save data!", "There was an error saving that file!");
         }
     }
 

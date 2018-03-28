@@ -19,7 +19,7 @@ public class Account implements Serializable {
     private transient static final Logger logger = Logger.getLogger(Account.class.getName());
 
     private transient static HashMap<String, Account> accounts = new HashMap<>();
-    private transient static File ACCOUNT_FILE = new File(Main.DATA_DIR, "accounts.dat");
+    private transient static final File ACCOUNT_FILE = new File(Main.DATA_DIR, "accounts.dat");
 
     private String userName;
     private String name;
@@ -261,8 +261,6 @@ public class Account implements Serializable {
     public void setCalendar(Calendar calendar) { this.calendar = calendar; }
 
     public static File getAccountFile() { return ACCOUNT_FILE; }
-
-    public static void setAccountFile(File file) { ACCOUNT_FILE = file; }
 
     public static HashMap<String, Account> getAccountMap() { return accounts; }
 }
