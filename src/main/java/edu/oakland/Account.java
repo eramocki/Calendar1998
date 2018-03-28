@@ -43,7 +43,9 @@ public class Account implements Serializable {
      * @return Returns true if successfully created, else false
      */
     public static boolean createAccount(String user, String pass, String name, String[] securityQuestions) {
-        if (accounts.containsKey(user) || user == null) { return false;}
+        if (accounts.containsKey(user) || user == null) {
+            return false;
+        }
         Account acc = new Account(user, pass, name, securityQuestions); //Todo manage email and questions
         accounts.put(user, acc);
         saveAccounts();
@@ -57,7 +59,9 @@ public class Account implements Serializable {
      * @return True if the account was removed
      */
     public static boolean removeAccount(String userName) {
-        if (!accounts.containsKey(userName)) { return false; }
+        if (!accounts.containsKey(userName)) {
+            return false;
+        }
         accounts.remove(userName);
         saveAccounts();
         return true;
@@ -83,10 +87,14 @@ public class Account implements Serializable {
      */
     public boolean resetPassword(String newPassword, String[] securityQuestionAnswers) {
         //Check the answers
-        if (this.securityQuestions.length != securityQuestionAnswers.length) { return false; }
+        if (this.securityQuestions.length != securityQuestionAnswers.length) {
+            return false;
+        }
 
-        for (int i = 0; i < this.securityQuestions.length; i++){
-            if(!this.securityQuestions[i].equals(securityQuestionAnswers[i])){ return false; }
+        for (int i = 0; i < this.securityQuestions.length; i++) {
+            if (!this.securityQuestions[i].equals(securityQuestionAnswers[i])) {
+                return false;
+            }
         }
         return setPassword(newPassword);
     }
@@ -126,7 +134,9 @@ public class Account implements Serializable {
      * @return the Account
      */
     public static Account getAccount(String userName) {
-        if (!accountExists(userName)) { return null; }
+        if (!accountExists(userName)) {
+            return null;
+        }
         return accounts.get(userName);
     }
 
@@ -137,7 +147,9 @@ public class Account implements Serializable {
      * @return real name
      */
     public static String getName(String userName) {
-        if (!accountExists(userName)) { return null; }
+        if (!accountExists(userName)) {
+            return null;
+        }
         Account acc = accounts.get(userName);
         return acc.name;
     }
@@ -161,7 +173,9 @@ public class Account implements Serializable {
      * @return True if it matches the Account's stored password hash
      */
     public boolean checkPassword(String password) {
-        if (password == null) { return false; }
+        if (password == null) {
+            return false;
+        }
         try {
             return PasswordStorage.verifyPassword(password, passwordHash);
         } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException e) {
@@ -250,17 +264,31 @@ public class Account implements Serializable {
      *
      * @return answers to the security questions
      */
-    public String[] getSecurityQuestions() { return this.securityQuestions; }
+    public String[] getSecurityQuestions() {
+        return this.securityQuestions;
+    }
 
-    public String getUserName() { return userName; }
+    public String getUserName() {
+        return userName;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public Calendar getCalendar() { return calendar; }
+    public Calendar getCalendar() {
+        return calendar;
+    }
 
-    public void setCalendar(Calendar calendar) { this.calendar = calendar; }
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
 
-    public static File getAccountFile() { return ACCOUNT_FILE; }
+    public static File getAccountFile() {
+        return ACCOUNT_FILE;
+    }
 
-    public static HashMap<String, Account> getAccountMap() { return accounts; }
+    public static HashMap<String, Account> getAccountMap() {
+        return accounts;
+    }
 }

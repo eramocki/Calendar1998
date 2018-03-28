@@ -6,8 +6,7 @@ public class RecurrentEvent extends SingularEvent {
 
     private ZonedDateTime recurrenceBegin, recurrenceEnd;
 
-    public RecurrentEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency,
-                          ZonedDateTime recurrenceBegin, ZonedDateTime recurrenceEnd) {
+    public RecurrentEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency, ZonedDateTime recurrenceBegin, ZonedDateTime recurrenceEnd) {
         super(startDateTime, endDateTime, eventName, frequency);
         this.recurrenceBegin = recurrenceBegin;
         this.recurrenceEnd = recurrenceEnd;

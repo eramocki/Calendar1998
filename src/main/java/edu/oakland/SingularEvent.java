@@ -93,7 +93,11 @@ public class SingularEvent implements Serializable, Event {
         this.end = end;
     }
 
-    public boolean getCompleted() { return isCompleted; }
+    public boolean getCompleted() {
+        return isCompleted;
+    }
 
-    public void setCompleted(boolean completed) { isCompleted = completed; }
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
 }

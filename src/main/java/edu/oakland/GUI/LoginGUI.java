@@ -40,8 +40,7 @@ public class LoginGUI {
         //Dummy Account
         Account.createAccount("y", "y", "Test Account", new String[]{"1", "2", "3"});
         loginButton.setStyle(
-                "-fx-background-color: #cc2b1c; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1;\n" + "    " +
-                        "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );");
+                "-fx-background-color: #cc2b1c; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1;\n" + "    " + "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );");
     }
 
     @FXML
@@ -97,8 +96,10 @@ public class LoginGUI {
 
     @FXML
     private void tryLogin(ActionEvent event) {
-        if(userField.getText().equals("") || passwordField.getText().equals("")) {
-            GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", "You left the login fields blank!");
+        if (userField.getText().equals("") || passwordField.getText().equals("")) {
+            GUIHelper.errorAlert("This will not do.",
+                    "Woah! There was a problem logging in!",
+                    "You left the login fields blank!");
         } else if (Account.accountExists(userField.getText())) {
             if (Account.checkCredentials(userField.getText(), passwordField.getText())) {
                 try {

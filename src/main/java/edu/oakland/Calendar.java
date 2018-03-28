@@ -21,13 +21,19 @@ public class Calendar implements Serializable {
     }
 
     public Set<Event> getMonthEvents(YearMonth yearMonth) {
-        ZonedDateTime starting = ZonedDateTime.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1, 0, 0,
-                0, 0, ZoneId.systemDefault());
+        ZonedDateTime starting = ZonedDateTime.of(yearMonth.getYear(),
+                yearMonth.getMonthValue(),
+                1,
+                0,
+                0,
+                0,
+                0,
+                ZoneId.systemDefault());
         ZonedDateTime ending = ZonedDateTime.of(yearMonth.atEndOfMonth(), LocalTime.MAX, ZoneId.systemDefault());
         SingularEvent earliest = new SingularEvent(starting, starting, "");
         Set<Event> union = new HashSet<>();
-        union.addAll(endingSet.tailSet(earliest).stream().filter(e -> e.getStart().compareTo(ending) < 0)
-                .collect(Collectors.toSet()));
+        union.addAll(endingSet.tailSet(earliest).stream().filter(e -> e.getStart().compareTo(ending) < 0).collect(
+                Collectors.toSet()));
         return union;
     }
 
@@ -36,12 +42,10 @@ public class Calendar implements Serializable {
 
         // Do NOT change the formatting on this
         // :)
-        Set<RecurrentEvent> recurringEvents = startingSet.stream()
-                .filter(e -> e.getFrequency() != Frequency.NEVER)
-                .map(obj -> (RecurrentEvent) obj) //Todo Update Once RecurrentEvents finalized
-                .filter(e -> e.getRecurrenceBegin().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
-                .filter(e -> !e.getRecurrenceEnd().isBefore(localDate.atStartOfDay(ZoneId.systemDefault())))
-                .collect(Collectors.toSet());
+        Set<RecurrentEvent> recurringEvents = startingSet.stream().filter(e -> e.getFrequency() != Frequency.NEVER).map(
+                obj -> (RecurrentEvent) obj) //Todo Update Once RecurrentEvents finalized
+                .filter(e -> e.getRecurrenceBegin().isBefore(localDate.atStartOfDay(ZoneId.systemDefault()))).filter(e -> !e.getRecurrenceEnd().isBefore(
+                        localDate.atStartOfDay(ZoneId.systemDefault()))).collect(Collectors.toSet());
 
         TreeSet<Event> ephemeralEvents = new TreeSet<>(StartComparator.INSTANCE);
 
@@ -49,7 +53,7 @@ public class Calendar implements Serializable {
             ZonedDateTime startOfEvent = recurringEvent.getStart();
             ZonedDateTime endOfEvent = recurringEvent.getEnd();
 
-            while (endOfEvent.isBefore(recurringEvent.getRecurrenceEnd()) ) { //&& endOfEvent.isBefore(localDate.atStartOfDay(ZoneId.systemDefault()).plusHours(23))
+            while (endOfEvent.isBefore(recurringEvent.getRecurrenceEnd())) { //&& endOfEvent.isBefore(localDate.atStartOfDay(ZoneId.systemDefault()).plusHours(23))
                 EphemeralEvent ee = new EphemeralEvent(startOfEvent, endOfEvent, recurringEvent);
                 switch (recurringEvent.frequency) {
                     case DAILY:
@@ -72,20 +76,17 @@ public class Calendar implements Serializable {
             }
         }
 
-        Set<Event> ephemeralEventsWithinDay = ephemeralEvents.stream()
-                .filter(e -> e.happensOnDate(localDate))
-                .collect(Collectors.toSet());
+        Set<Event> ephemeralEventsWithinDay = ephemeralEvents.stream().filter(e -> e.happensOnDate(localDate)).collect(
+                Collectors.toSet());
 
         dayEvents.addAll(ephemeralEventsWithinDay);
 
-        dayEvents.addAll(startingSet.stream()
-                .filter(e -> e.happensOnDate(localDate))
-                .collect(Collectors.toSet()));
+        dayEvents.addAll(startingSet.stream().filter(e -> e.happensOnDate(localDate)).collect(Collectors.toSet()));
 
         return dayEvents;
     }
 
-    public SortedSet<Event> getCompletedEvents(){
+    public SortedSet<Event> getCompletedEvents() {
         TreeSet<Event> completedSet = new TreeSet<>(StartComparator.INSTANCE);
         Iterator<Event> ir = startingSet.iterator();
         while (ir.hasNext()) {
@@ -98,7 +99,7 @@ public class Calendar implements Serializable {
     }
 
 
-    public void addEvent(Event event){
+    public void addEvent(Event event) {
         if (event instanceof RecurrentEvent) {
             //Todo RecurrentEvent
             startingSet.add(event);
@@ -120,7 +121,7 @@ public class Calendar implements Serializable {
         }
     }
 
-    public void updateEvent(SingularEvent oldEvent, SingularEvent newEvent){
+    public void updateEvent(SingularEvent oldEvent, SingularEvent newEvent) {
         //Todo update this
 //        startingSet.remove(oldEvent);
 //        startingSet.add(newEvent);
@@ -131,6 +132,7 @@ public class Calendar implements Serializable {
     //You can ignore these enums. They're a workaround to serialize lambdas.
     private enum StartComparator implements Comparator<Event> {
         INSTANCE;
+
         @Override
         public int compare(Event o1, Event o2) {
             int c = o1.getStart().compareTo(o2.getStart());
@@ -144,6 +146,7 @@ public class Calendar implements Serializable {
 
     private enum EndComparator implements Comparator<Event> {
         INSTANCE;
+
         @Override
         public int compare(Event o1, Event o2) {
             int c = o1.getEnd().compareTo(o2.getEnd());
