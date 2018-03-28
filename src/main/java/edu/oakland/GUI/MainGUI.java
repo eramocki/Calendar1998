@@ -317,7 +317,7 @@ public class MainGUI {
 
         if (importFile == null) return;
 
-        if (Account.loadAccounts(importFile)) {
+        if (Account.loadAccounts(importFile)){
             setCurrentAccount(Account.getAccount(getCurrentAccount().getUserName())); //Refresh from what was loaded
             viewMonth(currentMonth);
             GUIHelper.alert("Load me", "Data were loaded", "Loaded data successfully!", Alert.AlertType.INFORMATION);
@@ -335,7 +335,7 @@ public class MainGUI {
 
         if (exportFile == null) return;
 
-        if (Account.saveAccounts(exportFile)) {
+        if (Account.saveAccounts(exportFile)){
             GUIHelper.alert("Save me", "Data were saved", "Exported data successfully!", Alert.AlertType.INFORMATION);
         } else {
             GUIHelper.errorAlert("This will not do.", "Couldn't save data!", "There was an error saving that file!");
@@ -379,9 +379,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void exitApp(ActionEvent event) {
-        Platform.exit();
-    }
+    private void exitApp(ActionEvent event) { Platform.exit(); }
 
     @FXML
     private void gotoAddEventTab(ActionEvent event) {
@@ -415,14 +413,10 @@ public class MainGUI {
     }
 
     @FXML
-    private void viewMonthPrevious() {
-        viewMonth(currentMonth.minusMonths(1));
-    }
+    private void viewMonthPrevious() { viewMonth(currentMonth.minusMonths(1)); }
 
     @FXML
-    private void viewMonthNext() {
-        viewMonth(currentMonth.plusMonths(1));
-    }
+    private void viewMonthNext() { viewMonth(currentMonth.plusMonths(1)); }
 
     @FXML
     private void viewEventDetail(MouseEvent event) {
@@ -559,8 +553,7 @@ public class MainGUI {
         String dayWeek = new String(weekArray);
 
         StringBuilder output = new StringBuilder();
-        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(
-                curdate);
+        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(curdate);
         dateLabel.setText(output.toString());
         currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
         Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);

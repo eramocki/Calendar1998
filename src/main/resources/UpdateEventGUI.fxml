@@ -59,8 +59,7 @@
                 <CheckBox fx:id="allDay" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                 <CheckBox fx:id="highPrior" mnemonicParsing="false" text="High Priority" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" />
                 <ComboBox fx:id="startTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="7" GridPane.rowIndex="4" GridPane.rowSpan="2" />
-                <ComboBox fx:id="endTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="8"
-                          GridPane.rowIndex="4" GridPane.rowSpan="2"/>
+                <ComboBox fx:id="endTimeDropdown" editable="true" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="4" GridPane.rowSpan="2" />
                 <ComboBox fx:id="recurField" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="5" GridPane.rowSpan="2" />
                 <Button fx:id="updateSubmitButton" mnemonicParsing="false" onAction="#modifyEvent" prefHeight="25.0" prefWidth="141.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="8" />
                 <Label alignment="CENTER" prefHeight="17.0" prefWidth="94.0" text="Start Time" textAlignment="CENTER" GridPane.columnIndex="7" GridPane.rowIndex="1" />
