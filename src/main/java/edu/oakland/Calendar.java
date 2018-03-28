@@ -10,6 +10,8 @@ public class Calendar implements Serializable {
 
     private transient static final Logger logger = Logger.getLogger(Calendar.class.getName());
 
+    public HashMap<YearMonth, Set<Event>> monthCache;
+
     public TreeSet<Event> startingSet;
     public TreeSet<Event> endingSet;
     private TreeSet<RecurrentEvent> recurringStartingSet;
@@ -18,9 +20,14 @@ public class Calendar implements Serializable {
     public Calendar() {
         startingSet = new TreeSet<>(StartComparator.INSTANCE);
         endingSet = new TreeSet<>(EndComparator.INSTANCE);
+        monthCache = new HashMap<>();
     }
 
     public Set<Event> getMonthEvents(YearMonth yearMonth) {
+        return monthCache.computeIfAbsent(yearMonth, this::computeMonthEvents);
+    }
+
+    private Set<Event> computeMonthEvents(YearMonth yearMonth) {
         ZonedDateTime starting = ZonedDateTime.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1, 0, 0,
                 0, 0, ZoneId.systemDefault());
         ZonedDateTime ending = ZonedDateTime.of(yearMonth.atEndOfMonth(), LocalTime.MAX, ZoneId.systemDefault());
@@ -107,6 +114,7 @@ public class Calendar implements Serializable {
             startingSet.add(event);
             endingSet.add(event);
         }
+        updateCache(event);
     }
 
     public void removeEvent(Event event) {
@@ -118,6 +126,7 @@ public class Calendar implements Serializable {
             startingSet.remove(event);
             endingSet.remove(event);
         }
+        updateCache(event);
     }
 
     public void updateEvent(SingularEvent oldEvent, SingularEvent newEvent){
@@ -126,6 +135,31 @@ public class Calendar implements Serializable {
 //        startingSet.add(newEvent);
 //        endingSet.remove(oldEvent);
 //        endingSet.add(newEvent);
+        //Todo handle caching
+    }
+
+    private void updateCache(Event event) {
+        List<YearMonth> list = getMonthSpan(YearMonth.from(event.getStart()), YearMonth.from(event.getEnd()));
+        for (YearMonth ym : list) {
+            monthCache.remove(ym);
+        }
+    }
+
+    /**
+     * Gets the YearMonth objects included in the given range
+     * @param start The earlier of the two YearMonths
+     * @param end The later of the two YearMonths
+     * @return List of YearMonths in the range
+     */
+    public static List<YearMonth> getMonthSpan(YearMonth start, YearMonth end) {
+        ArrayList<YearMonth> list = new ArrayList<>();
+        YearMonth temp = YearMonth.from(start);
+        while (temp.isBefore(end)) {
+            list.add(temp);
+            temp = temp.plusMonths(1);
+        }
+        list.add(end);
+        return list;
     }
 
     //You can ignore these enums. They're a workaround to serialize lambdas.

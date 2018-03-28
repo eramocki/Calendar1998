@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -190,5 +191,35 @@ public class CalendarTest {
         assertEquals("recurrence ended midway through the event duration",0, c4.getDayEvents(LocalDate.of(2018, 1, 1)).size());
         assertEquals(0, c4.getDayEvents(LocalDate.of(2018, 2, 1)).size());
 
+    }
+
+    @Test
+    public void getMonthSpan() {
+        String[] ym1 = new String[] {"2017-01", "2017-06", "2017-12"};
+        String[] ym2 = new String[] {"2017-05", "2017-12", "2018-01"};
+        int[] goalLengths = new int[] {5, 7, 2};
+
+        List<YearMonth> y1 = Arrays.stream(ym1).map(YearMonth::parse).collect(Collectors.toList());
+        List<YearMonth> y2 = Arrays.stream(ym2).map(YearMonth::parse).collect(Collectors.toList());
+
+        for (int i = 0; i < ym1.length; i++) {
+            List<YearMonth> list = Calendar.getMonthSpan(y1.get(i), y2.get(i));
+            assertEquals(list.size(), goalLengths[i]);
+        }
+    }
+
+    @Test
+    public void checkProperCaching() {
+        Calendar c = new Calendar();
+        YearMonth[] ym1 = new YearMonth[] {YearMonth.of(2017, 1), YearMonth.of(2017, 6),
+        YearMonth.of(2017, 3), YearMonth.of(2016, 7)};
+        for (YearMonth y : ym1) {
+            c.getMonthEvents(y);
+        }
+        assertEquals(c.monthCache.size(), 4);
+        Event e = new SingularEvent(ZonedDateTime.parse("2017-01-08T10:18:30+01:00[Europe/Paris]"),
+                ZonedDateTime.parse("2017-03-12T10:18:30+01:00[Europe/Paris]"), "example");
+        c.addEvent(e);
+        assertEquals(c.monthCache.size(), 2);
     }
 }
