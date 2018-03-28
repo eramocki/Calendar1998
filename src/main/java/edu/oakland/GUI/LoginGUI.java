@@ -10,11 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +32,7 @@ public class LoginGUI {
     private PasswordField passwordField, passwordField_confirm, passwordFieldReset, passwordFieldReset_confirm;
 
     @FXML
-    private Button createAccountButton;
+    private Button loginButton;
 
     @FXML
     public void initialize() {
@@ -146,7 +148,7 @@ public class LoginGUI {
             stage.setScene(new Scene(root2));
             stage.setTitle("Create Account");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(createAccountButton.getScene().getWindow());
+            stage.initOwner(loginButton.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,7 +169,7 @@ public class LoginGUI {
             stage.setScene(new Scene(root3));
             stage.setTitle("Reset Account");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(createAccountButton.getScene().getWindow());
+            stage.initOwner(loginButton.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();

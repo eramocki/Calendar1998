@@ -34,7 +34,7 @@ public class Main extends Application {
         }
         Parent root = FXMLLoader.load(resource);
         primaryStage.setTitle("Cadmium Calendar");
-        primaryStage.setScene(new Scene(root, 600, 300));
+        primaryStage.setScene(new Scene(root, 400, 400));
         primaryStage.show();
     }
 }
