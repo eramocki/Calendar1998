@@ -371,7 +371,7 @@ public class MainGUI {
 
             Stage newStage = new Stage();
             newStage.setTitle("Cadmium Calendar");
-            newStage.setScene(new Scene(root, 600, 300));
+            newStage.setScene(new Scene(root, 400, 400));
             newStage.show();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
