@@ -97,7 +97,9 @@ public class LoginGUI {
 
     @FXML
     private void tryLogin(ActionEvent event) {
-        if (Account.accountExists(userField.getText())) {
+        if(userField.getText().equals("") || passwordField.getText().equals("")) {
+            GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", "You left the login fields blank!");
+        } else if (Account.accountExists(userField.getText())) {
             if (Account.checkCredentials(userField.getText(), passwordField.getText())) {
                 try {
                     //Get resource for FXML file
