@@ -680,7 +680,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void clearCompleted(ActionEvent event) {
+    private void clearCompleted() {
         completedEventsArea.setText("");
     }
 
@@ -693,88 +693,95 @@ public class MainGUI {
         String endingTime = endTimeDropdown.getSelectionModel().getSelectedItem().toString();
         String[] splitStartHM = startingTime.split(":");
         String[] splitEndHM = endingTime.split(":");
+        try {
+            ZonedDateTime start = ZonedDateTime.of(startDate.getYear(),
+                    startDate.getMonthValue(),
+                    startDate.getDayOfMonth(),
+                    Integer.parseInt(splitStartHM[0]),
+                    Integer.parseInt(splitStartHM[1]),
+                    0,
+                    0,
+                    ZoneId.systemDefault());
+            ZonedDateTime end = ZonedDateTime.of(endDate.getYear(),
+                    endDate.getMonthValue(),
+                    endDate.getDayOfMonth(),
+                    Integer.parseInt(splitEndHM[0]),
+                    Integer.parseInt(splitEndHM[1]),
+                    0,
+                    0,
+                    ZoneId.systemDefault());
 
-        ZonedDateTime start = ZonedDateTime.of(startDate.getYear(),
-                startDate.getMonthValue(),
-                startDate.getDayOfMonth(),
-                Integer.parseInt(splitStartHM[0]),
-                Integer.parseInt(splitStartHM[1]),
-                0,
-                0,
-                ZoneId.systemDefault());
-        ZonedDateTime end = ZonedDateTime.of(endDate.getYear(),
-                endDate.getMonthValue(),
-                endDate.getDayOfMonth(),
-                Integer.parseInt(splitEndHM[0]),
-                Integer.parseInt(splitEndHM[1]),
-                0,
-                0,
-                ZoneId.systemDefault());
+            ZonedDateTime min = ZonedDateTime.of(startDate.getYear(),
+                    startDate.getMonthValue(),
+                    startDate.getDayOfMonth(),
+                    LocalTime.MIN.getHour(),
+                    LocalTime.MIN.getMinute(),
+                    0,
+                    0,
+                    ZoneId.systemDefault());
+            ZonedDateTime max = ZonedDateTime.of(startDate.getYear(),
+                    startDate.getMonthValue(),
+                    startDate.getDayOfMonth(),
+                    LocalTime.MAX.getHour(),
+                    LocalTime.MAX.getMinute(),
+                    0,
+                    0,
+                    ZoneId.systemDefault());
 
-        ZonedDateTime min = ZonedDateTime.of(startDate.getYear(),
-                startDate.getMonthValue(),
-                startDate.getDayOfMonth(),
-                LocalTime.MIN.getHour(),
-                LocalTime.MIN.getMinute(),
-                0,
-                0,
-                ZoneId.systemDefault());
-        ZonedDateTime max = ZonedDateTime.of(startDate.getYear(),
-                startDate.getMonthValue(),
-                startDate.getDayOfMonth(),
-                LocalTime.MAX.getHour(),
-                LocalTime.MAX.getMinute(),
-                0,
-                0,
-                ZoneId.systemDefault());
+            int dateCompare = endDate.compareTo(startDate);
+            if (dateCompare < 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Try again, friend.");
+                alert.setContentText("Your end date cannot be before your start date!");
+                alert.showAndWait();
+            } else if (dateCompare == 0 && end.compareTo(start) < 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Try again, friend.");
+                alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " + "appropriately");
+                alert.showAndWait();
+            } else if (eventNameField.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Try again, friend.");
+                alert.setContentText("Your event name cannot be blank");
+                alert.showAndWait();
+            } else {
+                SingularEvent event = new SingularEvent(start, end, eventNameField.getText());
+                event.setEventAllDay(allDay.isSelected());
+                if (allDay.isSelected()) {
+                    event.setStart(min);
+                    event.setEnd(max);
+                }
+                event.setEventDesc(eventDescriptionField.getText());
+                event.setEventLocation(eventLocationField.getText());
+                event.setEventAttendees(eventAttendeesField.getText());
+                event.setHighPriority(highPrior.isSelected());
+                event.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
+                if (event.getFrequency().equals(Frequency.WEEKLY)) {
+                    //Add x number of events
+                    //SingularEvent addEventWeekly = new SingularEvent()
+                }
+                getCurrentAccount().getCalendar().addEvent(event);
+                Account.saveAccounts();
 
-        int dateCompare = endDate.compareTo(startDate);
-        if (dateCompare < 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your end date cannot be before your start date!");
-            alert.showAndWait();
-        } else if (dateCompare == 0 && end.compareTo(start) < 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " + "appropriately");
-            alert.showAndWait();
-        } else if (eventNameField.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your event name cannot be blank");
-            alert.showAndWait();
-        } else {
-            SingularEvent event = new SingularEvent(start, end, eventNameField.getText());
-            event.setEventAllDay(allDay.isSelected());
-            if (allDay.isSelected()) {
-                event.setStart(min);
-                event.setEnd(max);
+                viewMonth(currentMonth);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Event was created!");
+                alert.setHeaderText("Well done");
+                alert.setContentText("Your event has been added to the calendar");
+                alert.showAndWait();
+                SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
+                clearEvent();
+                selector.selectFirst();
             }
-            event.setEventDesc(eventDescriptionField.getText());
-            event.setEventLocation(eventLocationField.getText());
-            event.setEventAttendees(eventAttendeesField.getText());
-            event.setHighPriority(highPrior.isSelected());
-            event.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
-            if (event.getFrequency().equals(Frequency.WEEKLY)) {
-                //Add x number of events
-                //SingularEvent addEventWeekly = new SingularEvent()
-            }
-            getCurrentAccount().getCalendar().addEvent(event);
-            Account.saveAccounts();
-
-            viewMonth(currentMonth);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("SingularEvent was created!.");
-            alert.setHeaderText("Well done");
-            alert.setContentText("Your event has been added to the calendar");
+        } catch (Exception e) { //Unable to parse start/end times
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Unable to Parse Time(s)");
+            alert.setHeaderText("Unable to Parse Start/End Times");
+            alert.setContentText("Please ensure that your times are valid.");
             alert.showAndWait();
-            SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
-            clearEvent();
-            selector.selectFirst();
         }
     }
 
