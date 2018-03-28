@@ -94,15 +94,13 @@ public class MainGUI {
     private GridPane calendarGridPane;
 
     @FXML
-    private Label calendarHeaderLabel, dateLabel, titleSet, curSet, newSet, verNewSet;
+    private Label calendarHeaderLabel, dateLabel;
 
     @FXML
     private MenuBar myMenuBar;
 
 
-    /* Add SingularEvent Page */
-    @FXML
-    private Button addEventSubmitButton;
+    /* Add Event Page */
 
     @FXML
     private DatePicker startDateField, endDateField;
@@ -118,20 +116,6 @@ public class MainGUI {
 
     @FXML
     private CheckBox allDay, highPrior;
-
-    /* Settings Page */
-
-    @FXML
-    private PasswordField oldPasswordField;
-
-    @FXML
-    private PasswordField newPasswordField;
-
-    @FXML
-    private PasswordField verifyPasswordField;
-
-    @FXML
-    private Button updatePasswordButton, logoutButton;
 
     @FXML
     private TextArea completedEventsArea;
