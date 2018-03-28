@@ -711,23 +711,6 @@ public class MainGUI {
                     0,
                     ZoneId.systemDefault());
 
-            ZonedDateTime min = ZonedDateTime.of(startDate.getYear(),
-                    startDate.getMonthValue(),
-                    startDate.getDayOfMonth(),
-                    LocalTime.MIN.getHour(),
-                    LocalTime.MIN.getMinute(),
-                    0,
-                    0,
-                    ZoneId.systemDefault());
-            ZonedDateTime max = ZonedDateTime.of(startDate.getYear(),
-                    startDate.getMonthValue(),
-                    startDate.getDayOfMonth(),
-                    LocalTime.MAX.getHour(),
-                    LocalTime.MAX.getMinute(),
-                    0,
-                    0,
-                    ZoneId.systemDefault());
-
             int dateCompare = endDate.compareTo(startDate);
             if (dateCompare < 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -748,9 +731,33 @@ public class MainGUI {
                 alert.setContentText("Your event name cannot be blank");
                 alert.showAndWait();
             } else {
-                SingularEvent event = new SingularEvent(start, end, eventNameField.getText());
+                SingularEvent event;
+                Frequency freq = (Frequency) recurField.getSelectionModel().getSelectedItem();
+                switch (freq) {
+                    case NEVER:
+                        event = new SingularEvent(start, end, eventNameField.getText(), freq);
+                        break;
+                    default:
+                        event = new RecurrentEvent(start, end, eventNameField.getText(), freq, start, end); //Todo fix end
+                }
                 event.setEventAllDay(allDay.isSelected());
                 if (allDay.isSelected()) {
+                    ZonedDateTime min = ZonedDateTime.of(startDate.getYear(),
+                            startDate.getMonthValue(),
+                            startDate.getDayOfMonth(),
+                            LocalTime.MIN.getHour(),
+                            LocalTime.MIN.getMinute(),
+                            0,
+                            0,
+                            ZoneId.systemDefault());
+                    ZonedDateTime max = ZonedDateTime.of(startDate.getYear(),
+                            startDate.getMonthValue(),
+                            startDate.getDayOfMonth(),
+                            LocalTime.MAX.getHour(),
+                            LocalTime.MAX.getMinute(),
+                            0,
+                            0,
+                            ZoneId.systemDefault());
                     event.setStart(min);
                     event.setEnd(max);
                 }
@@ -758,11 +765,7 @@ public class MainGUI {
                 event.setEventLocation(eventLocationField.getText());
                 event.setEventAttendees(eventAttendeesField.getText());
                 event.setHighPriority(highPrior.isSelected());
-                event.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
-                if (event.getFrequency().equals(Frequency.WEEKLY)) {
-                    //Add x number of events
-                    //SingularEvent addEventWeekly = new SingularEvent()
-                }
+
                 getCurrentAccount().getCalendar().addEvent(event);
                 Account.saveAccounts();
 
