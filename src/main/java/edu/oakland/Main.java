@@ -1,5 +1,7 @@
 package edu.oakland;
 
+import edu.oakland.GUI.LoginGUI;
+import edu.oakland.GUI.MainGUI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,7 +34,11 @@ public class Main extends Application {
         if (resource == null) {
             resource = getClass().getResource("LoginGUI.fxml");
         }
-        Parent root = FXMLLoader.load(resource);
+        FXMLLoader fxmlLoader = new FXMLLoader(resource);
+        Parent root = fxmlLoader.load();
+        LoginGUI loginGUI = fxmlLoader.getController();
+        loginGUI.postInit();
+
         primaryStage.setTitle("Cadmium Calendar");
         primaryStage.setScene(new Scene(root, 400, 400));
         primaryStage.show();

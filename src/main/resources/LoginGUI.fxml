@@ -74,8 +74,8 @@
                   <Image url="@image.png" />
                </image>
             </ImageView>
-            <Hyperlink onAction="#openCreateAccountGUI" text="Sign Up" textFill="#2f2d2d" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP" />
-            <Hyperlink onAction="#openReset" text="Forgot your password?" textFill="#3c3939" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+            <Hyperlink fx:id="signupLink" onAction="#openCreateAccountGUI" text="Sign Up" textFill="#2f2d2d" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP" />
+            <Hyperlink fx:id="forgotLink" onAction="#openReset" text="Forgot your password?" textFill="#3c3939" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="TOP" />
             </children>
         </GridPane>
     </children>

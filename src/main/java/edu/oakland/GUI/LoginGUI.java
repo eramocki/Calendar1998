@@ -35,10 +35,16 @@ public class LoginGUI {
     private Button loginButton;
 
     @FXML
+    private Hyperlink signupLink, forgotLink;
+
+    @FXML
     public void initialize() {
 
         //Dummy Account
         Account.createAccount("y", "y", "Test Account", new String[]{"1", "2", "3"});
+    }
+
+    public void postInit() {
         loginButton.setStyle(
                 "-fx-background-color: #cc2b1c; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1;\n" + "    " +
                         "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );");
@@ -153,7 +159,7 @@ public class LoginGUI {
             stage.setScene(new Scene(root2));
             stage.setTitle("Create Account");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(loginButton.getScene().getWindow());
+            stage.initOwner(signupLink.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,7 +180,7 @@ public class LoginGUI {
             stage.setScene(new Scene(root3));
             stage.setTitle("Reset Account");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(loginButton.getScene().getWindow());
+            stage.initOwner(forgotLink.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
