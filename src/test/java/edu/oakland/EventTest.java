@@ -50,14 +50,16 @@ public class EventTest {
                 ZonedDateTime.of(2018,2,26,18,0,0,0, ZoneId.systemDefault()),
                 ZonedDateTime.of(2018,2,27,0,0,0,0, ZoneId.systemDefault()), "4");
         assertTrue(e4.happensOnDate(LocalDate.parse("2018-02-26")));
-        assertFalse(e4.happensOnDate(LocalDate.parse("2018-02-27")));
+        assertTrue(e4.happensOnDate(LocalDate.parse("2018-02-27")));
+//        assertFalse(e4.happensOnDate(LocalDate.parse("2018-02-27")));
         assertFalse(e4.happensOnDate(LocalDate.parse("2018-02-25")));
 
         SingularEvent e5 = new SingularEvent(
                 ZonedDateTime.of(2018,2,26,0,0,0,0, ZoneId.systemDefault()),
                 ZonedDateTime.of(2018,2,27,0,0,0,0, ZoneId.systemDefault()), "5");
         assertTrue(e5.happensOnDate(LocalDate.parse("2018-02-26")));
-        assertFalse(e5.happensOnDate(LocalDate.parse("2018-02-27")));
+        assertTrue(e5.happensOnDate(LocalDate.parse("2018-02-27")));
+//        assertFalse(e5.happensOnDate(LocalDate.parse("2018-02-27")));
         assertFalse(e5.happensOnDate(LocalDate.parse("2018-02-25")));
     }
 }
