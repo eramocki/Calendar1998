@@ -19,6 +19,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,6 +46,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Random;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -245,6 +249,8 @@ public class MainGUI {
 
             Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(current);
             Iterator<Event> ir = dayEvents.iterator();
+            Random rand = new Random();
+            int randInt;
             while (ir.hasNext()) {
                 Event currEvent = ir.next();
 
@@ -253,7 +259,10 @@ public class MainGUI {
                 if (currEvent.getHighPriority()) {
                     eventLabel.setStyle("-fx-background-color: OrangeRed;");
                 } else {
-                    eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
+                    randInt = rand.nextInt(270)+1;
+                    BackgroundFill fill = new BackgroundFill(Color.hsb(randInt,0.3,1.0),null,null);
+                    Background background = new Background(fill);
+                    eventLabel.setBackground(background);
                 }
 
                 eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
