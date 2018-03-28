@@ -39,6 +39,9 @@ public class LoginGUI {
 
         //Dummy Account
         Account.createAccount("y", "y", "Test Account", new String[]{"1", "2", "3"});
+        loginButton.setStyle(
+                "-fx-background-color: #cc2b1c; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1;\n" + "    " +
+                        "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );");
     }
 
     @FXML
