@@ -177,21 +177,40 @@ public class MainGUI {
         if (getCurrentAccount().getUserName().equals("y")) {
             getCurrentAccount().getCalendar().getMonthEvents(YearMonth.now()).forEach(getCurrentAccount().getCalendar()::removeEvent);
 
-            SingularEvent dummyEvent1 = new SingularEvent(ZonedDateTime.now(), ZonedDateTime.now().plusSeconds(120), "High Prio SingularEvent");
+            SingularEvent dummyEvent1 = new SingularEvent(ZonedDateTime.now(),
+                    ZonedDateTime.now().plusSeconds(120),
+                    "High Prio SingularEvent");
             dummyEvent1.setHighPriority(true);
             dummyEvent1.setEventDesc("Description");
             dummyEvents.add(dummyEvent1);
-            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusMinutes(5), ZonedDateTime.now().plusMinutes(120), "SingularEvent 1.5"));
-            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusDays(2), ZonedDateTime.now().plusDays(3), "SingularEvent 123"));
-            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusDays(2).plusSeconds(1), ZonedDateTime.now().plusDays(3).plusMinutes(1), "After 123"));
-            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(7), ZonedDateTime.now().minusDays(3), "LongEvent"));
-            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(8).plusHours(6), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 1"));
-            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(8), ZonedDateTime.now().minusDays(6).plusHours(6), "Overlap 2"));
-            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(6), ZonedDateTime.now().minusDays(4), "48HrEvent"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusMinutes(5),
+                    ZonedDateTime.now().plusMinutes(120),
+                    "SingularEvent 1.5"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusDays(2),
+                    ZonedDateTime.now().plusDays(3),
+                    "SingularEvent 123"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().plusDays(2).plusSeconds(1),
+                    ZonedDateTime.now().plusDays(3).plusMinutes(1),
+                    "After 123"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(7),
+                    ZonedDateTime.now().minusDays(3),
+                    "LongEvent"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(8).plusHours(6),
+                    ZonedDateTime.now().minusDays(6).plusHours(6),
+                    "Overlap 1"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(8),
+                    ZonedDateTime.now().minusDays(6).plusHours(6),
+                    "Overlap 2"));
+            dummyEvents.add(new SingularEvent(ZonedDateTime.now().minusDays(6),
+                    ZonedDateTime.now().minusDays(4),
+                    "48HrEvent"));
 
             RecurrentEvent dummyEventRecurring = new RecurrentEvent(ZonedDateTime.now().minusWeeks(2),
-                    ZonedDateTime.now().minusWeeks(2).plusMinutes(30), "repeating event", Frequency.DAILY,
-                    ZonedDateTime.now().minusWeeks(2), ZonedDateTime.now().minusWeeks(1));
+                    ZonedDateTime.now().minusWeeks(2).plusMinutes(30),
+                    "repeating event",
+                    Frequency.DAILY,
+                    ZonedDateTime.now().minusWeeks(2),
+                    ZonedDateTime.now().minusWeeks(1));
             dummyEvents.add(dummyEventRecurring);
             dummyEvent1.setCompleted(true);
 
@@ -351,9 +370,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void exitApp(ActionEvent event) {
-        Platform.exit();
-    }
+    private void exitApp(ActionEvent event) { Platform.exit(); }
 
     @FXML
     private void gotoAddEventTab(ActionEvent event) {
@@ -363,22 +380,16 @@ public class MainGUI {
 
     @FXML
     private void openSettingsGUI(ActionEvent event) {
-        //TODO fix
-
-
-        //javafx.fxml.LoadException:
-
         try {
-
             Parent rootSet = FXMLLoader.load(getClass().getClassLoader().getResource("SettingsGUI.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(rootSet));
-           stage.setTitle("Settings");
+            stage.setTitle("Settings");
             stage.initModality(Modality.APPLICATION_MODAL);
-           stage.initOwner(tabPane.getScene().getWindow());
+            stage.initOwner(tabPane.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -387,19 +398,16 @@ public class MainGUI {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Cadmium Calendar");
         alert.setHeaderText("Copyright 2018");
-        alert.setContentText("Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel");
+        alert.setContentText(
+                "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel");
         alert.showAndWait();
     }
 
     @FXML
-    private void viewMonthPrevious() {
-        viewMonth(currentMonth.minusMonths(1));
-    }
+    private void viewMonthPrevious() { viewMonth(currentMonth.minusMonths(1)); }
 
     @FXML
-    private void viewMonthNext() {
-        viewMonth(currentMonth.plusMonths(1));
-    }
+    private void viewMonthNext() { viewMonth(currentMonth.plusMonths(1)); }
 
     @FXML
     private void viewEventDetail(MouseEvent event) {
@@ -419,7 +427,7 @@ public class MainGUI {
             logger.log(Level.WARNING, "SingularEvent came from unexpected source or label got removed");
             return;
         }
-        event.consume(); //Prevent the event from being propogated up through normal channels
+        event.consume(); //Prevent the event from being propagated up through normal channels
         //FX normally calls getCellData again if event.consume was not called, but in that case
         //the event source is set to the VBox, not the label, so we were overwriting
         //the stuff shown in the right pane. By manually calling getCellDate ourselves,
@@ -428,53 +436,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void changePassword(ActionEvent event) {
-        //Check that new password boxes match
-        if (newPasswordField.getText().equals(verifyPasswordField.getText())) {
-            boolean success = false;
-            try {
-                //Try and change the password
-                success = getCurrentAccount().changePassword(oldPasswordField.getText(), newPasswordField.getText());
-
-            } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("This will not do.");
-                alert.setHeaderText("Oh no. There was an error changing the password!");
-                alert.setContentText(e.getMessage());
-                logger.log(Level.SEVERE, "Can't change password", e);
-
-                alert.showAndWait();
-            }
-            if (success) {
-                oldPasswordField.setText("");
-                newPasswordField.setText("");
-                verifyPasswordField.setText("");
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Woo-hoo!");
-                alert.setHeaderText("Your password has been changed!");
-                alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("This will not do.");
-                alert.setHeaderText("Try again, friend.");
-                alert.setContentText("Passwords do not match");
-                alert.setContentText("Incorrect Current Password");
-
-                alert.showAndWait();
-            }
-
-        } else { //New passwords didn't match
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Passwords do not match");
-
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    private void changeCompletion(ActionEvent event) {
+    private void eventCompletionStatus(ActionEvent event) {
         if (completeBox.isSelected()) {
             currentEvent.setCompleted(true);
         } else {
@@ -484,7 +446,7 @@ public class MainGUI {
     }
 
     /**
-     * Handles printing text to the side view of a selected evenet.
+     * Handles printing text to the side view of a selected event.
      */
     private void printToView() {
         if (currentEvent != null && !beingDeleted) {
@@ -577,8 +539,12 @@ public class MainGUI {
             columnVal = 7;
         }
 
+        char[] weekArray = DayOfWeek.of(columnVal).toString().toLowerCase().toCharArray();
+        weekArray[0] = Character.toUpperCase(weekArray[0]);
+        String dayWeek = new String(weekArray);
+
         StringBuilder output = new StringBuilder();
-        output.append(DayOfWeek.of(columnVal)).append(" ").append(currentMonth.getMonth()).append(" ").append(curdate);
+        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(curdate);
         dateLabel.setText(output.toString());
         currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
         Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
@@ -735,11 +701,39 @@ public class MainGUI {
         String[] splitStartHM = startingTime.split(":");
         String[] splitEndHM = endingTime.split(":");
 
-        ZonedDateTime start = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
-        ZonedDateTime end = ZonedDateTime.of(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
+        ZonedDateTime start = ZonedDateTime.of(startDate.getYear(),
+                startDate.getMonthValue(),
+                startDate.getDayOfMonth(),
+                Integer.parseInt(splitStartHM[0]),
+                Integer.parseInt(splitStartHM[1]),
+                0,
+                0,
+                ZoneId.systemDefault());
+        ZonedDateTime end = ZonedDateTime.of(endDate.getYear(),
+                endDate.getMonthValue(),
+                endDate.getDayOfMonth(),
+                Integer.parseInt(splitEndHM[0]),
+                Integer.parseInt(splitEndHM[1]),
+                0,
+                0,
+                ZoneId.systemDefault());
 
-        ZonedDateTime min = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), LocalTime.MIN.getHour(), LocalTime.MIN.getMinute(), 0, 0, ZoneId.systemDefault());
-        ZonedDateTime max = ZonedDateTime.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), LocalTime.MAX.getHour(), LocalTime.MAX.getMinute(), 0, 0, ZoneId.systemDefault());
+        ZonedDateTime min = ZonedDateTime.of(startDate.getYear(),
+                startDate.getMonthValue(),
+                startDate.getDayOfMonth(),
+                LocalTime.MIN.getHour(),
+                LocalTime.MIN.getMinute(),
+                0,
+                0,
+                ZoneId.systemDefault());
+        ZonedDateTime max = ZonedDateTime.of(startDate.getYear(),
+                startDate.getMonthValue(),
+                startDate.getDayOfMonth(),
+                LocalTime.MAX.getHour(),
+                LocalTime.MAX.getMinute(),
+                0,
+                0,
+                ZoneId.systemDefault());
 
         int dateCompare = endDate.compareTo(startDate);
         if (dateCompare < 0) {
@@ -752,8 +746,7 @@ public class MainGUI {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("This will not do.");
             alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates "
-                    + "appropriately");
+            alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " + "appropriately");
             alert.showAndWait();
         } else if (eventNameField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
