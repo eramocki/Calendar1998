@@ -171,16 +171,18 @@ public class Account implements Serializable {
     }
 
     /**
-     * Load accounts from disk to the current HashMap of accounts, overwriting it
+     * Load accounts from the given file to the current HashMap of accounts, overwriting it
+     *
+     * @param fromFile the File to load from
+     * @return true iff the load was successful
      */
-    public static void loadAccounts() {
-        if (!ACCOUNT_FILE.exists()) {
-            logger.warning("Wanted to load accounts but the file didn't exist");
-            return;
+    public static boolean loadAccounts(File fromFile) {
+        if (!fromFile.exists()) {
+            logger.info("Wanted to load accounts but the file didn't exist");
+            return false;
         }
-
         try {
-            FileInputStream fis = new FileInputStream(ACCOUNT_FILE);
+            FileInputStream fis = new FileInputStream(fromFile);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
             accounts = (HashMap<String, Account>) ois.readObject();
@@ -189,21 +191,35 @@ public class Account implements Serializable {
             fis.close();
             ois.close();
 
+            return true;
+
         } catch (IOException | ClassNotFoundException | ClassCastException e) {
             logger.log(Level.SEVERE, "Could not load accounts", e);
+            return false;
         }
     }
 
     /**
-     * Write the current HashMap of accounts to disk, overwriting the file
+     * Load accounts from default file to the current HashMap of accounts, overwriting it
+     *
+     * @return true iff the load was successful
      */
-    public static void saveAccounts() {
-        if (!ACCOUNT_FILE.exists()) {
+    public static boolean loadAccounts() {
+        return loadAccounts(ACCOUNT_FILE);
+    }
+
+    /**
+     * Write the current HashMap of accounts to the given file, overwriting it
+     *
+     * @param toFile the File to write to
+     * @return true iff the save was successful
+     */
+    public static boolean saveAccounts(File toFile) {
+        if (!toFile.exists()) {
             logger.fine("Creating new account file");
         }
-
         try {
-            FileOutputStream fos = new FileOutputStream(ACCOUNT_FILE);
+            FileOutputStream fos = new FileOutputStream(toFile);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             oos.writeObject(accounts);
@@ -212,9 +228,21 @@ public class Account implements Serializable {
             fos.close();
             oos.close();
 
+            return true;
+
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Could not save accounts", e);
+            return false;
         }
+    }
+
+    /**
+     * Write the current HashMap of accounts to default file, overwriting it
+     *
+     * @return true iff the save was successful
+     */
+    public static boolean saveAccounts() {
+        return saveAccounts(ACCOUNT_FILE);
     }
 
     /**
@@ -224,16 +252,8 @@ public class Account implements Serializable {
      */
     public String[] getSecurityQuestions() { return this.securityQuestions; }
 
-    /**
-     *
-     * @return
-     */
     public String getUserName() { return userName; }
 
-    /**
-     *
-     * @return
-     */
     public String getName() { return name; }
 
     public Calendar getCalendar() { return calendar; }
