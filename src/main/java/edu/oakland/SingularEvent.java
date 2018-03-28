@@ -2,6 +2,11 @@ package edu.oakland;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
+
+import java.util.Random;
 
 public class SingularEvent implements Serializable, Event {
 
@@ -9,9 +14,14 @@ public class SingularEvent implements Serializable, Event {
     protected String eventName, eventDesc, eventLocation, eventAttendees;
     protected boolean eventAllDay, isHighPriority, isCompleted;
     protected Frequency frequency;
+    protected Background bg;
 
     public SingularEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
         this(startDateTime, endDateTime, eventName, Frequency.NEVER);
+        Random rand = new Random();
+        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(270)+1,0.3,1),null,null);
+        this.bg = new Background(fill);
+
     }
 
     public SingularEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName, Frequency frequency) {
@@ -19,6 +29,9 @@ public class SingularEvent implements Serializable, Event {
         end = endDateTime;
         this.eventName = eventName;
         this.frequency = frequency;
+        Random rand = new Random();
+        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt()+1,0.3,1.0),null,null);
+        this.bg = new Background(fill);
     }
 
     public String getEventName() {
@@ -96,4 +109,6 @@ public class SingularEvent implements Serializable, Event {
     public boolean getCompleted() { return isCompleted; }
 
     public void setCompleted(boolean completed) { isCompleted = completed; }
+
+    public Background getBackground(){return this.bg;}
 }
