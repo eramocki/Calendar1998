@@ -24,9 +24,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -220,7 +217,7 @@ public class MainGUI {
         int columnIndex = currentMonth.getDayOfWeek().getValue() % 7; //Sunday -> 0
 
         calendarHeaderLabel.setText(currentMonth.format(DateTimeFormatter.ofPattern("MMMM YYYY")));
-        YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
+        //YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
         //Set<Event> monthEvents = getCurrentAccount().getCalendar().getMonthEvents(yearMonth);
 
         LocalDate current = currentMonth.toLocalDate();
@@ -244,10 +241,7 @@ public class MainGUI {
             int currR = rowIndex;
 
             Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(current);
-            Iterator<Event> ir = dayEvents.iterator();
-            while (ir.hasNext()) {
-                Event currEvent = ir.next();
-
+            for (Event currEvent : dayEvents) {
                 Label eventLabel = new Label();
                 eventLabel.setText(currEvent.getEventName());
                 if (currEvent.getHighPriority()) {
@@ -374,9 +368,14 @@ public class MainGUI {
     @FXML
     private void openSettingsGUI() {
         try {
-            Parent rootSet = FXMLLoader.load(getClass().getClassLoader().getResource("SettingsGUI.fxml"));
+            java.net.URL resource = getClass().getClassLoader().getResource("SettingsGUI.fxml");
+            if (resource == null) {
+                resource = getClass().getResource("SettingsGUI.fxml");
+            }
+            FXMLLoader fxmlLoader = new FXMLLoader(resource);
+            Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setScene(new Scene(rootSet));
+            stage.setScene(new Scene(root));
             stage.setTitle("Settings");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(tabPane.getScene().getWindow());
@@ -413,8 +412,7 @@ public class MainGUI {
             return;
         }
         if (eventsByLabel.containsKey(source)) {
-            Event tempevent = (eventsByLabel.get(source));
-            currentEvent = tempevent;
+            currentEvent = eventsByLabel.get(source);
             printToView();
         } else {
             logger.log(Level.WARNING, "SingularEvent came from unexpected source or label got removed");
@@ -474,7 +472,7 @@ public class MainGUI {
             } else if (currentEvent.getFrequency().equals(Frequency.DAILY)) {
                 temp.append("\nRecurs Daily");
             }
-            temp.append("\nIs Complete? " + currentEvent.getCompleted());
+            temp.append("\nIs Complete? ").append(currentEvent.getCompleted());
             eventOutput.setText(temp.toString());
             eventOutput.setDisable(false);
         } else if (beingDeleted) {
@@ -662,9 +660,7 @@ public class MainGUI {
     @FXML
     private void fetchCompleted() {
         Set<Event> completedEvents = getCurrentAccount().getCalendar().getCompletedEvents();
-        Iterator<Event> ir = completedEvents.iterator();
-        while (ir.hasNext()) {
-            Event currEvent = ir.next();
+        for (Event currEvent : completedEvents) {
             StringBuilder temp = new StringBuilder();
             temp.append("\n").append(currEvent.getEventName());
             completedEventsArea.setText(temp.toString());

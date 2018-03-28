@@ -1,11 +1,8 @@
 package edu.oakland.GUI;
 
 import edu.oakland.Account;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 
 import java.util.logging.Level;
@@ -18,8 +15,6 @@ public class SettingsGUI {
     private Account currentAccount;
 
     @FXML
-    private Label calendarHeaderLabel, dateLabel, titleSet, curSet, newSet, verNewSet;
-    @FXML
     private PasswordField oldPasswordField;
 
     @FXML
@@ -27,9 +22,6 @@ public class SettingsGUI {
 
     @FXML
     private PasswordField verifyPasswordField;
-
-    @FXML
-    private Button updatePasswordButton;
 
     @FXML
     public void initialize() {
