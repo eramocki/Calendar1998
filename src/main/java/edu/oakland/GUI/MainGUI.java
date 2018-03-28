@@ -797,8 +797,8 @@ public class MainGUI {
         allDay.setSelected(false);
         startDateField.setValue(LocalDate.now());
         endDateField.setValue(LocalDate.now());
-        startTimeDropdown.setValue("00:00");
-        endTimeDropdown.setValue("00:00");
+        startTimeDropdown.getSelectionModel().selectFirst();
+        endTimeDropdown.getSelectionModel().selectFirst();
     }
 
     @FXML
