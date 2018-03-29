@@ -83,7 +83,7 @@ public class MainGUI {
     private ToggleButton toggleCompleted;
 
     @FXML
-    private Button updateButton;
+    private Button updateButton, removeButton;
 
     @FXML
     private GridPane calendarGridPane;
@@ -196,9 +196,10 @@ public class MainGUI {
             dummyEvent1.setCompleted(true);
 
             dummyEvents.forEach(getCurrentAccount().getCalendar()::addEvent);
-            toggleCompleted.setDisable(true);
         }
-
+        toggleCompleted.setDisable(true);
+        updateButton.setDisable(true);
+        removeButton.setDisable(true);
         viewMonth(ZonedDateTime.now());
     }
 
@@ -480,6 +481,8 @@ public class MainGUI {
         eventOutput.setText(temp.toString());
         eventOutput.setDisable(false);
         toggleCompleted.setDisable(false);
+        updateButton.setDisable(false);
+        removeButton.setDisable(false);
 
         if (currentEvent.getCompleted()) {
             toggleCompleted.setSelected(true);
@@ -536,6 +539,8 @@ public class MainGUI {
             eventOutput.setText("");
             toggleCompleted.setDisable(true);
             toggleCompleted.setSelected(false);
+            updateButton.setDisable(true);
+            removeButton.setDisable(true);
 
         } else {
             //If an event label was pressed we shouldn't overwrite the event it already displayed
