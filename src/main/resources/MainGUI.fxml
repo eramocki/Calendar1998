@@ -230,21 +230,24 @@
                                 </TextField>
                                 <Label text="Start Time" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
                                 <DatePicker fx:id="startDateField" onAction="#adjustEndDate" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-                                <ComboBox fx:id="startTimeDropdown" editable="true" prefWidth="120.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                                <ComboBox fx:id="startTimeDropdown" editable="true" prefHeight="25.0" prefWidth="142.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin></ComboBox>
                                 <Label text="End Time" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                                 <DatePicker fx:id="endDateField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                                <ComboBox fx:id="endTimeDropdown" editable="true" prefWidth="120.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                                <ComboBox fx:id="endTimeDropdown" editable="true" prefHeight="25.0" prefWidth="142.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin></ComboBox>
-                                <CheckBox fx:id="allDay" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-                                <CheckBox fx:id="highPrior" mnemonicParsing="false" text="High Priority" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                                <Label prefHeight="17.0" text="Recurrence" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
-                                <ComboBox fx:id="recurField" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                                <TextArea fx:id="eventDescriptionField" prefHeight="200.0" prefWidth="200.0" promptText="Description" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="4" GridPane.rowSpan="5">
+                                <CheckBox fx:id="allDay" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                                <CheckBox fx:id="highPrior" mnemonicParsing="false" text="High Priority" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin></CheckBox>
+                                <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="81.0" text="Recur Amount" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+                                <ComboBox fx:id="recurField" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+                                <TextArea fx:id="eventDescriptionField" prefHeight="200.0" prefWidth="200.0" promptText="Description" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="5" GridPane.rowSpan="4">
                                     <tooltip>
                                         <Tooltip text="Event Description" />
                                     </tooltip>
@@ -254,6 +257,8 @@
                                         <Tooltip text="Confirm Event" />
                                     </tooltip>
                                 </Button>
+                        <DatePicker fx:id="recurrenceEndDate" prefHeight="25.0" prefWidth="182.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                        <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="81.0" text="Recur End" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                             </children>
                         </GridPane>
                     </content>
