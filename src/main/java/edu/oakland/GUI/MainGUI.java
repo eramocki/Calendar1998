@@ -155,7 +155,8 @@ public class MainGUI {
         Set<SingularEvent> dummyEvents = new HashSet<>();
 
         if (getCurrentAccount().getUserName().equals("y")) {
-            getCurrentAccount().getCalendar().getMonthEvents(YearMonth.now()).forEach(getCurrentAccount().getCalendar()::removeEvent);
+            getCurrentAccount().getCalendar().getMonthEvents(YearMonth.now())
+                    .forEach(getCurrentAccount().getCalendar()::removeEvent);
 
             SingularEvent dummyEvent1 = new SingularEvent(ZonedDateTime.now(),
                     ZonedDateTime.now().plusSeconds(120),
