@@ -13,9 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ import java.util.logging.Logger;
 public class LoginGUI {
 
     private static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
+    private Account currentAccount;
 
     @FXML
     private TextField userField, userFieldReset, nameField, sq1, sq2, sq3, sq1Reset, sq2Reset, sq3Reset;
@@ -31,7 +34,7 @@ public class LoginGUI {
     private PasswordField passwordField, passwordField_confirm, passwordFieldReset, passwordFieldReset_confirm;
 
     @FXML
-    private Button loginButton;
+    private Button loginButton, resetAccountButton;
 
     @FXML
     private Hyperlink signupLink, forgotLink;
@@ -45,32 +48,24 @@ public class LoginGUI {
 
     public void postInit() {
         loginButton.setStyle(
-                "-fx-background-color: #cc2b1c; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1;\n" + "    " +
+                "-fx-background-color: #7ba8f2; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1;\n" + "    " +
                         "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );");
     }
 
     @FXML
     private void importData() {
-        //TODO
-    }
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Import data");
+        chooser.setInitialDirectory(Account.getAccountFile().getParentFile());
+        File importFile = chooser.showOpenDialog(new Stage());
 
-    @FXML
-    private void exportData() {
-        //TODO
-    }
+        if (importFile == null) return;
 
-    @FXML
-    private void saveData() {
-        GUIHelper.errorAlert("This will not do.",
-                "Woah! There was a problem saving!",
-                "How can you save if you aren't logged in?!");
-    }
-
-    @FXML
-    private void logoutApp() {
-        GUIHelper.errorAlert("This will not do.",
-                "Woah! There was a problem logging out!",
-                "How can you logout if you aren't logged in?!");
+        if (Account.loadAccounts(importFile)){
+            GUIHelper.alert("Load me", "Data were loaded", "Loaded data successfully!", Alert.AlertType.INFORMATION);
+        } else {
+            GUIHelper.errorAlert("This will not do.", "Couldn't load data!", "There was an error loading that file!");
+        }
     }
 
     @FXML
@@ -84,20 +79,6 @@ public class LoginGUI {
                 "Copyright 2018",
                 "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel",
                 Alert.AlertType.INFORMATION);
-    }
-
-    @FXML
-    private void gotoAddEventPageTab() {
-        GUIHelper.errorAlert("This will not do.",
-                "Woah! There was a problem adding a new event!",
-                "How can you add events if you aren't logged in?!");
-    }
-
-    @FXML
-    private void openSettingsGUI() {
-        GUIHelper.errorAlert("This will not do.",
-                "Woah! There was a problem going to the settings page",
-                "How can you edit settings if you aren't logged in?!");
     }
 
     @FXML
@@ -180,12 +161,12 @@ public class LoginGUI {
             stage.setTitle("Reset Account");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(forgotLink.getScene().getWindow());
+            //root3.getStylesheets().add(this.getClass().getResource("mystyle.css").toExternalForm());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     private void tryResetAccount(ActionEvent event) {
@@ -264,5 +245,13 @@ public class LoginGUI {
                         "Account creation failed for an unknown reason.");
             }
         }
+    }
+
+    public Account getCurrentAccount() {
+        return currentAccount;
+    }
+
+    public void setCurrentAccount(Account currentAccount) {
+        this.currentAccount = currentAccount;
     }
 }

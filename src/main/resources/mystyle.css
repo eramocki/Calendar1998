@@ -1,0 +1,6 @@
+.button {
+        -fx-background-color: #7ba8f2;
+        -fx-background-radius: 6, 5;
+        -fx-background-insets: 0, 1;
+        -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+        }

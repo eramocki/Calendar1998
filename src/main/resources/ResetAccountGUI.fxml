@@ -3,6 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,9 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="685.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.LoginGUI">
+<AnchorPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.LoginGUI">
    <children>
-      <GridPane prefHeight="685.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane prefHeight="500.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -37,30 +40,50 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="userFieldReset" prefHeight="25.0" prefWidth="206.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="1" />
-            <PasswordField fx:id="sq1Reset" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="2" />
-            <PasswordField fx:id="sq2Reset" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="3" />
-            <PasswordField fx:id="sq3Reset" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="4" />
-            <PasswordField fx:id="passwordFieldReset" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="6" />
-            <PasswordField fx:id="passwordFieldReset_confirm" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="7" />
-            <Button fx:id="resetAccountButton" mnemonicParsing="false" onAction="#tryResetAccount" prefHeight="27.0" prefWidth="134.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
-            <Label text="Reset Account" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER">
+            <TextField fx:id="userFieldReset" prefHeight="40.0" prefWidth="240.0" promptText="Enter your username" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <PasswordField fx:id="sq1Reset" prefHeight="40.0" prefWidth="240.0" promptText="What is your favorite movie?" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+            <PasswordField fx:id="sq2Reset" prefHeight="40.0" prefWidth="240.0" promptText="What school did you go to for sixth grade?" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="4" GridPane.rowSpan="2" />
+            <PasswordField fx:id="sq3Reset" maxWidth="354.0" prefHeight="45.0" prefWidth="354.0" promptText="What was your childhood nickname?" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="5" GridPane.rowSpan="2" />
+            <PasswordField fx:id="passwordFieldReset" prefHeight="40.0" prefWidth="240.0" promptText="Enter new password" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <PasswordField fx:id="passwordFieldReset_confirm" prefHeight="40.0" prefWidth="240.0" promptText="Verify new password" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="8" />
+            <Button fx:id="resetAccountButton" mnemonicParsing="false" onAction="#tryResetAccount" prefHeight="40.0" prefWidth="240.0" text="Submit" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+            <Label prefHeight="27.0" prefWidth="207.0" text="Reset Account Password" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label text="User Name:" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-            <Label prefWidth="122.0" text="New Password:" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-            <Label text="Confirm New Password:" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7" />
-            <Label prefWidth="225.0" text="What is your favorite movie?" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-            <Label text="What school did you attend for sixth grade?" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="3" />
             <Label GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <Label prefWidth="225.0" text="What was your childhood nickname?" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="4" />
+             <MenuBar prefHeight="25.0" prefWidth="546.0" GridPane.columnSpan="10" GridPane.valignment="TOP">
+                 <menus>
+                     <Menu mnemonicParsing="false" text="File">
+                         <items>
+                             <MenuItem disable="true" mnemonicParsing="false" text="New User" />
+                             <MenuItem disable="true" mnemonicParsing="false" text="Import Data" />
+                             <MenuItem disable="true" mnemonicParsing="false" text="Export Data" />
+                             <MenuItem disable="true" mnemonicParsing="false" text="Save" />
+                             <MenuItem disable="true" mnemonicParsing="false" text="Logout" />
+                             <MenuItem mnemonicParsing="false" onAction="#exitApp" text="Exit" />
+                         </items>
+                     </Menu>
+                     <Menu mnemonicParsing="false" text="Edit">
+                         <items>
+                             <MenuItem disable="true" mnemonicParsing="false" text="Add Event" />
+                             <MenuItem disable="true" mnemonicParsing="false" text="Settings" />
+                         </items>
+                     </Menu>
+                     <Menu mnemonicParsing="false" text="Help">
+                         <items>
+                             <MenuItem mnemonicParsing="false" onAction="#aboutApp" text="About" />
+                         </items>
+                     </Menu>
+                 </menus>
+             </MenuBar>
          </children>
       </GridPane>
    </children>

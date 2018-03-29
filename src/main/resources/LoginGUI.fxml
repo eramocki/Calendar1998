@@ -50,16 +50,16 @@
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#openCreateAccountGUI" text="New User" />
                                 <MenuItem mnemonicParsing="false" onAction="#importData" text="Import Data" />
-                                <MenuItem mnemonicParsing="false" onAction="#exportData" text="Export Data" />
-                                <MenuItem mnemonicParsing="false" onAction="#saveData" text="Save" />
-                                <MenuItem mnemonicParsing="false" onAction="#logoutApp" text="Logout" />
+                                <MenuItem mnemonicParsing="false" disable="true" text="Export Data" />
+                                <MenuItem mnemonicParsing="false" disable="true" text="Save" />
+                                <MenuItem mnemonicParsing="false" disable="true" text="Logout" />
                                 <MenuItem mnemonicParsing="false" onAction="#exitApp" text="Exit" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Edit">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#gotoAddEventPageTab" text="Add Event" />
-                                <MenuItem mnemonicParsing="false" onAction="#openSettingsGUI" text="Settings" />
+                                <MenuItem mnemonicParsing="false" disable="true" text="Add Event" />
+                                <MenuItem mnemonicParsing="false" disable="true" text="Settings" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Help">
