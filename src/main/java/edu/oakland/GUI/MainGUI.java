@@ -80,7 +80,7 @@ public class MainGUI {
     private int[][] daylayout;
 
     @FXML
-    private CheckBox completeBox;
+    private ToggleButton toggleCompleted;
 
     @FXML
     private Button updateButton;
@@ -196,6 +196,7 @@ public class MainGUI {
             dummyEvent1.setCompleted(true);
 
             dummyEvents.forEach(getCurrentAccount().getCalendar()::addEvent);
+            toggleCompleted.setDisable(true);
         }
 
         viewMonth(ZonedDateTime.now());
@@ -425,7 +426,7 @@ public class MainGUI {
 
     @FXML
     private void eventCompletionStatus() {
-        if (completeBox.isSelected()) {
+        if (toggleCompleted.isSelected()) {
             currentEvent.setCompleted(true);
         } else {
             currentEvent.setCompleted(false);
@@ -478,11 +479,12 @@ public class MainGUI {
         temp.append("\nIs Complete? ").append(currentEvent.getCompleted());
         eventOutput.setText(temp.toString());
         eventOutput.setDisable(false);
+        toggleCompleted.setDisable(false);
 
         if (currentEvent.getCompleted()) {
-            completeBox.setSelected(true);
+            toggleCompleted.setSelected(true);
         } else {
-            completeBox.setSelected(false);
+            toggleCompleted.setSelected(false);
         }
 
         viewMonth(currentMonth);
@@ -532,6 +534,9 @@ public class MainGUI {
         if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
             eventOutput.setText("");
+            toggleCompleted.setDisable(true);
+            toggleCompleted.setSelected(false);
+
         } else {
             //If an event label was pressed we shouldn't overwrite the event it already displayed
             if (!(origSource instanceof Label)) {
