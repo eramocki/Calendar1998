@@ -559,6 +559,8 @@ public class MainGUI {
             toggleCompleted.setSelected(false);
             updateButton.setDisable(true);
             removeButton.setDisable(true);
+            leftArrow.setDisable(true);
+            rightArrow.setDisable(true);
 
         } else {
             //If an event label was pressed we shouldn't overwrite the event it already displayed
