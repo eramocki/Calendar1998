@@ -302,20 +302,9 @@
                                         <Insets />
                                     </opaqueInsets>
                                 </Label>
-                                <Label text="Completed Events" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2">
-                                    <font>
-                                        <Font name="System Bold" size="14.0" />
-                                    </font>
-                                    <padding>
-                                        <Insets left="10.0" />
-                                    </padding>
-                                    <GridPane.margin>
-                                        <Insets />
-                                    </GridPane.margin>
-                                </Label>
-                                <TextArea fx:id="completedEventsArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.rowSpan="7" />
-                                <Button fx:id="fetchCompletedButton" mnemonicParsing="false" onAction="#fetchCompleted" text="Fetch Completed" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                                <Button fx:id="fetchCompletedClear" mnemonicParsing="false" onAction="#clearCompleted" text="Clear List" GridPane.columnIndex="7" GridPane.rowIndex="2" />
+                                <TextArea fx:id="completedEventsArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="2" GridPane.rowSpan="8" />
+                                <Button fx:id="fetchCompletedButton" mnemonicParsing="false" onAction="#fetchCompleted" prefHeight="40.0" prefWidth="341.0" text="Fetch Completed" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                <Button fx:id="fetchCompletedClear" mnemonicParsing="false" onAction="#clearCompleted" prefHeight="40.0" prefWidth="295.0" text="Clear List" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                             </children>
                         </GridPane>
                     </content>
