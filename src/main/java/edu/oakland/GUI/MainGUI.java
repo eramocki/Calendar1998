@@ -582,6 +582,8 @@ public class MainGUI {
 
         if (dayEvents.isEmpty()) {
             eventOutput.setDisable(true);
+            leftArrow.setDisable(true);
+            rightArrow.setDisable(true);
             eventOutput.setText("");
             return;
         }
