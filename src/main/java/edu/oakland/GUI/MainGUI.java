@@ -84,7 +84,7 @@ public class MainGUI {
     private ToggleButton toggleCompleted;
 
     @FXML
-    private Button updateButton, removeButton;
+    private Button updateButton, removeButton, leftArrow, rightArrow;
 
     @FXML
     private GridPane calendarGridPane;
@@ -200,6 +200,8 @@ public class MainGUI {
         toggleCompleted.setDisable(true);
         updateButton.setDisable(true);
         removeButton.setDisable(true);
+        leftArrow.setDisable(true);
+        rightArrow.setDisable(true);
         viewMonth(ZonedDateTime.now());
     }
 
@@ -497,6 +499,8 @@ public class MainGUI {
         toggleCompleted.setDisable(false);
         updateButton.setDisable(false);
         removeButton.setDisable(false);
+        leftArrow.setDisable(false);
+        rightArrow.setDisable(false);
 
         if (currentEvent.getCompleted()) {
             toggleCompleted.setSelected(true);

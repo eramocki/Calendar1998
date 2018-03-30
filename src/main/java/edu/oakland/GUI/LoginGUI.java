@@ -35,10 +35,7 @@ public class LoginGUI {
     private PasswordField passwordField, passwordField_confirm, passwordFieldReset, passwordFieldReset_confirm;
 
     @FXML
-    private Button loginButton, resetAccountButton;
-
-    @FXML
-    private Hyperlink signupLink, forgotLink;
+    private Hyperlink pageLink;
 
     @FXML
     public void initialize() {
@@ -143,13 +140,12 @@ public class LoginGUI {
             stage.setScene(scene);
             stage.setTitle("Create Account");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(forgotLink.getScene().getWindow());
+            stage.initOwner(pageLink.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     public void openReset() {
@@ -169,7 +165,7 @@ public class LoginGUI {
             stage.setScene(scene);
             stage.setTitle("Reset Account");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(forgotLink.getScene().getWindow());
+            stage.initOwner(pageLink.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,7 +206,6 @@ public class LoginGUI {
             GUIHelper.errorAlert("Reset Failed", "Account Reset Failed", "Account doesn't exist");
         }
     }
-
 
     @FXML
     private void tryCreateAccount(ActionEvent event) {
@@ -255,11 +250,7 @@ public class LoginGUI {
         }
     }
 
-    public Account getCurrentAccount() {
-        return currentAccount;
-    }
+    public Account getCurrentAccount() { return currentAccount; }
 
-    public void setCurrentAccount(Account currentAccount) {
-        this.currentAccount = currentAccount;
-    }
+    public void setCurrentAccount(Account currentAccount) { this.currentAccount = currentAccount; }
 }
