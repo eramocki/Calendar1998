@@ -56,9 +56,10 @@ public class Calendar implements Serializable {
     private Set<Event> spawnEphemeralEvents(RecurrentEvent recurrentEvent, YearMonth yearMonth) {
         ZonedDateTime startOfEvent = recurrentEvent.getStart();
         ZonedDateTime endOfEvent = recurrentEvent.getEnd();
+        ZonedDateTime endOfRecurrence = recurrentEvent.getRecurrenceEnd().plusDays(1);
         Set<Event> ephemeralEvents = new HashSet<>();
         ZonedDateTime bound = yearMonth.plusMonths(1).atDay(1).atStartOfDay(ZoneId.systemDefault());
-        while (endOfEvent.isBefore(recurrentEvent.getRecurrenceEnd()) && endOfEvent.isBefore(bound)) {
+        while (endOfEvent.isBefore(endOfRecurrence) && endOfEvent.isBefore(bound)) {
             EphemeralEvent ee = new EphemeralEvent(startOfEvent, endOfEvent, recurrentEvent);
             switch (recurrentEvent.frequency) {
                 case DAILY:

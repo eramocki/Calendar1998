@@ -98,7 +98,7 @@ public class MainGUI {
     /* Add Event Page */
 
     @FXML
-    private DatePicker startDateField, endDateField;
+    private DatePicker startDateField, endDateField, recurrenceEndDate;
 
     @FXML
     private ComboBox startTimeDropdown, endTimeDropdown, recurField;
@@ -155,8 +155,7 @@ public class MainGUI {
         Set<SingularEvent> dummyEvents = new HashSet<>();
 
         if (getCurrentAccount().getUserName().equals("y")) {
-            getCurrentAccount().getCalendar().getMonthEvents(YearMonth.now())
-                    .forEach(getCurrentAccount().getCalendar()::removeEvent);
+            getCurrentAccount().setCalendar(new Calendar());
 
             SingularEvent dummyEvent1 = new SingularEvent(ZonedDateTime.now(),
                     ZonedDateTime.now().plusSeconds(120),
@@ -714,7 +713,8 @@ public class MainGUI {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("This will not do.");
                 alert.setHeaderText("Try again, friend.");
-                alert.setContentText("Your end time cannot be before your start time unless you adjust your dates " + "appropriately");
+                alert.setContentText("Your end time cannot be before your start time unless you adjust your dates "
+                        + "appropriately");
                 alert.showAndWait();
             } else if (eventNameField.getText().equals("")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -730,7 +730,9 @@ public class MainGUI {
                         event = new SingularEvent(start, end, eventNameField.getText(), freq);
                         break;
                     default:
-                        event = new RecurrentEvent(start, end, eventNameField.getText(), freq, start, end); //Todo fix end
+                        LocalDate d = recurrenceEndDate.getValue();
+                        ZonedDateTime recurEnd = ZonedDateTime.of(d, end.toLocalTime(), end.getZone());
+                        event = new RecurrentEvent(start, end, eventNameField.getText(), freq, start, recurEnd); //Todo fix end
                 }
                 event.setEventAllDay(allDay.isSelected());
                 if (allDay.isSelected()) {
