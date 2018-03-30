@@ -6,9 +6,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.URL;
 import java.util.logging.Logger;
 
 public class Main extends Application {
@@ -30,17 +32,18 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
-        if (resource == null) {
-            resource = getClass().getResource("LoginGUI.fxml");
+        URL resourceFXML = getClass().getClassLoader().getResource("LoginGUI.fxml");
+        URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+        if (resourceFXML == null || resourceCSS == null) {
+            System.out.println("Missing resource detected, ABORT!");
+            System.exit(-1);
         }
-        FXMLLoader fxmlLoader = new FXMLLoader(resource);
-        Parent root = fxmlLoader.load();
-        LoginGUI loginGUI = fxmlLoader.getController();
-        loginGUI.postInit();
-
+        Parent root = FXMLLoader.load(resourceFXML);
+        Scene scene = new Scene(root, 400, 400);
+        String css = resourceCSS.toExternalForm();
+        scene.getStylesheets().add(css);
+        primaryStage.setScene(scene);
         primaryStage.setTitle("Cadmium Calendar");
-        primaryStage.setScene(new Scene(root, 400, 400));
         primaryStage.show();
     }
 }

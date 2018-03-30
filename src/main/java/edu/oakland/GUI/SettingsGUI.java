@@ -1,6 +1,7 @@
 package edu.oakland.GUI;
 
 import edu.oakland.Account;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -26,6 +27,19 @@ public class SettingsGUI {
     @FXML
     public void initialize() {
 
+    }
+
+    @FXML
+    private void exitApp() {
+        Platform.exit();
+    }
+
+    @FXML
+    private void aboutApp() {
+        GUIHelper.alert("Cadmium Calendar",
+                "Copyright 2018",
+                "Created by:\nIsida Ndreu\nJustin Kur\nSean Ramocki\nEric Ramocki\nJosh Baird\nMichael Koempel",
+                Alert.AlertType.INFORMATION);
     }
 
     @FXML

@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,12 +45,6 @@ public class LoginGUI {
 
         //Dummy Account
         Account.createAccount("y", "y", "Test Account", new String[]{"1", "2", "3"});
-    }
-
-    public void postInit() {
-        loginButton.setStyle(
-                "-fx-background-color: #7ba8f2; -fx-background-radius: 6, 5; -fx-background-insets: 0, 1;\n" + "    " +
-                        "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );");
     }
 
     @FXML
@@ -88,12 +83,14 @@ public class LoginGUI {
         } else if (Account.accountExists(userField.getText())) {
             if (Account.checkCredentials(userField.getText(), passwordField.getText())) {
                 try {
-                    //Get resource for FXML file
-                    java.net.URL resource = getClass().getClassLoader().getResource("MainGUI.fxml");
-                    if (resource == null) {
-                        resource = getClass().getResource("MainGUI.fxml");
+                    Stage stage = new Stage();
+                    URL resourceFXML = getClass().getClassLoader().getResource("MainGUI.fxml");
+                    URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+                    if (resourceFXML == null || resourceCSS == null) {
+                        System.out.println("Missing resource detected, ABORT!");
+                        System.exit(-1);
                     }
-                    FXMLLoader fxmlLoader = new FXMLLoader(resource);
+                    FXMLLoader fxmlLoader = new FXMLLoader(resourceFXML);
                     Parent root = fxmlLoader.load();
 
                     //Get a reference to the instance of MainGUI
@@ -102,9 +99,11 @@ public class LoginGUI {
                     mainGUI.postInit();
 
                     //Create the window
-                    Stage stage = new Stage();
+                    Scene scene = new Scene(root, 880, 700);
+                    String css = resourceCSS.toExternalForm();
+                    scene.getStylesheets().add(css);
+                    stage.setScene(scene);
                     stage.setTitle(Account.getName(userField.getText()) + "'s Calendar");
-                    stage.setScene(new Scene(root));
                     stage.show();
 
                     //Hide login window
@@ -131,15 +130,20 @@ public class LoginGUI {
         Stage stage;
         try {
             stage = new Stage();
-            java.net.URL resource = getClass().getClassLoader().getResource("CreateAccountGUI.fxml");
-            if (resource == null) {
-                resource = getClass().getResource("CreateAccountGUI.fxml");
+            URL resourceFXML = getClass().getClassLoader().getResource("CreateAccountGUI.fxml");
+            URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+            if (resourceFXML == null || resourceCSS == null) {
+                System.out.println("Missing resource detected, ABORT!");
+                System.exit(-1);
             }
-            Parent root2 = FXMLLoader.load(resource);
-            stage.setScene(new Scene(root2));
+            Parent root = FXMLLoader.load(resourceFXML);
+            Scene scene = new Scene(root, 400, 600);
+            String css = resourceCSS.toExternalForm();
+            scene.getStylesheets().add(css);
+            stage.setScene(scene);
             stage.setTitle("Create Account");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(signupLink.getScene().getWindow());
+            stage.initOwner(forgotLink.getScene().getWindow());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,16 +156,20 @@ public class LoginGUI {
         Stage stage;
         try {
             stage = new Stage();
-            java.net.URL resource = getClass().getClassLoader().getResource("ResetAccountGUI.fxml");
-            if (resource == null) {
-                resource = getClass().getResource("ResetAccountGUI.fxml");
+            URL resourceFXML = getClass().getClassLoader().getResource("ResetAccountGUI.fxml");
+            URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+            if (resourceFXML == null || resourceCSS == null) {
+                System.out.println("Missing resource detected, ABORT!");
+                System.exit(-1);
             }
-            Parent root3 = FXMLLoader.load(resource);
-            stage.setScene(new Scene(root3));
+            Parent root = FXMLLoader.load(resourceFXML);
+            Scene scene = new Scene(root, 400, 500);
+            String css = resourceCSS.toExternalForm();
+            scene.getStylesheets().add(css);
+            stage.setScene(scene);
             stage.setTitle("Reset Account");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(forgotLink.getScene().getWindow());
-            //root3.getStylesheets().add(this.getClass().getResource("mystyle.css").toExternalForm());
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();

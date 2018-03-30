@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -268,12 +269,17 @@ public class MainGUI {
         Stage stage;
         try {
             stage = new Stage();
-            java.net.URL resource = getClass().getClassLoader().getResource("CreateAccountGUI.fxml");
-            if (resource == null) {
-                resource = getClass().getResource("CreateAccountGUI.fxml");
+            URL resourceFXML = getClass().getClassLoader().getResource("CreateAccountGUI.fxml");
+            URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+            if (resourceFXML == null || resourceCSS == null) {
+                System.out.println("Missing resource detected, ABORT!");
+                System.exit(-1);
             }
-            Parent root2 = FXMLLoader.load(resource);
-            stage.setScene(new Scene(root2));
+            Parent root = FXMLLoader.load(resourceFXML);
+            Scene scene = new Scene(root, 400, 600);
+            String css = resourceCSS.toExternalForm();
+            scene.getStylesheets().add(css);
+            stage.setScene(scene);
             stage.setTitle("Create Account");
             stage.initModality(Modality.APPLICATION_MODAL);
             Stage oldStage = (Stage) myMenuBar.getScene().getWindow();
@@ -335,19 +341,23 @@ public class MainGUI {
             return;
         }
         try {
-            java.net.URL resource = getClass().getClassLoader().getResource("LoginGUI.fxml");
-            if (resource == null) {
-                resource = getClass().getResource("LoginGUI.fxml");
+            URL resourceFXML = getClass().getClassLoader().getResource("LoginGUI.fxml");
+            URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+            if (resourceFXML == null || resourceCSS == null) {
+                System.out.println("Missing resource detected, ABORT!");
+                System.exit(-1);
             }
-            FXMLLoader fxmlLoader = new FXMLLoader(resource);
-            Parent root = fxmlLoader.load();
+            Parent root = FXMLLoader.load(resourceFXML);
             Stage oldStage = (Stage) myMenuBar.getScene().getWindow();
             oldStage.close();
             setCurrentAccount(null);
 
+            Scene scene = new Scene(root, 400, 400);
+            String css = resourceCSS.toExternalForm();
+            scene.getStylesheets().add(css);
             Stage newStage = new Stage();
             newStage.setTitle("Cadmium Calendar");
-            newStage.setScene(new Scene(root, 400, 400));
+            newStage.setScene(scene);
             newStage.show();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
@@ -365,15 +375,20 @@ public class MainGUI {
 
     @FXML
     private void openSettingsGUI() {
+        Stage stage;
         try {
-            java.net.URL resource = getClass().getClassLoader().getResource("SettingsGUI.fxml");
-            if (resource == null) {
-                resource = getClass().getResource("SettingsGUI.fxml");
+            stage = new Stage();
+            URL resourceFXML = getClass().getClassLoader().getResource("SettingsGUI.fxml");
+            URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+            if (resourceFXML == null || resourceCSS == null) {
+                System.out.println("Missing resource detected, ABORT!");
+                System.exit(-1);
             }
-            FXMLLoader fxmlLoader = new FXMLLoader(resource);
-            Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
+            Parent root = FXMLLoader.load(resourceFXML);
+            Scene scene = new Scene(root, 400, 400);
+            String css = resourceCSS.toExternalForm();
+            scene.getStylesheets().add(css);
+            stage.setScene(scene);
             stage.setTitle("Settings");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(tabPane.getScene().getWindow());
