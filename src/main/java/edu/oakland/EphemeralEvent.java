@@ -4,79 +4,83 @@ import java.time.ZonedDateTime;
 
 public class EphemeralEvent implements Event {
 
-    private RecurrentEvent e;
+    private RecurrentEvent parent;
     private ZonedDateTime startDateTime;
     private ZonedDateTime endDateTime;
 
     EphemeralEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, RecurrentEvent parent) {
-        e = parent;
+        this.parent = parent;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
     }
 
+    public RecurrentEvent getParent() {
+        return parent;
+    }
+
     @Override
     public String getEventName() {
-        return e.getEventName();
+        return parent.getEventName();
     }
 
     @Override
     public void setEventName(String eventName) {
-        e.setEventName(eventName);
+        parent.setEventName(eventName);
     }
 
     @Override
     public String getEventDesc() {
-        return e.getEventDesc();
+        return parent.getEventDesc();
     }
 
     @Override
     public void setEventDesc(String eventDesc) {
-        e.setEventDesc(eventDesc);
+        parent.setEventDesc(eventDesc);
     }
 
     @Override
     public String getEventLocation() {
-        return e.getEventLocation();
+        return parent.getEventLocation();
     }
 
     @Override
     public void setEventLocation(String eventLocation) {
-        e.setEventLocation(eventLocation);
+        parent.setEventLocation(eventLocation);
     }
 
     @Override
     public String getEventAttendees() {
-        return e.getEventAttendees();
+        return parent.getEventAttendees();
     }
 
     @Override
     public void setEventAttendees(String eventAttendees) {
-        e.setEventAttendees(eventAttendees);
+        parent.setEventAttendees(eventAttendees);
     }
 
     @Override
     public Boolean getEventAllDay() {
-        return e.getEventAllDay();
+        return parent.getEventAllDay();
     }
 
     @Override
     public void setEventAllDay(Boolean eventAllDay) {
-        e.setEventAllDay(eventAllDay);
+        parent.setEventAllDay(eventAllDay);
     }
 
     @Override
     public Boolean getHighPriority() {
-        return e.getHighPriority();
+        return parent.getHighPriority();
     }
 
     @Override
     public void setHighPriority(Boolean highPriority) {
-        e.setHighPriority(highPriority);
+        parent.setHighPriority(highPriority);
     }
 
     @Override
     public Frequency getFrequency() {
-        return e.getFrequency();
+        return parent.getFrequency();
     }
 
     @Override
@@ -106,11 +110,11 @@ public class EphemeralEvent implements Event {
 
     @Override
     public boolean getCompleted() {
-        return e.getCompleted();
+        return parent.getCompleted();
     }
 
     @Override
     public void setCompleted(boolean completed) {
-        e.setCompleted(completed);
+        parent.setCompleted(completed);
     }
 }

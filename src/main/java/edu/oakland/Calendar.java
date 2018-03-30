@@ -121,6 +121,8 @@ public class Calendar implements Serializable {
         if (event instanceof RecurrentEvent) {
             //Todo Finalize RecurrentEvent
             recurringEndingSet.remove(event);
+        } else if (event instanceof EphemeralEvent) {
+            recurringEndingSet.remove(((EphemeralEvent) event).getParent()); //Todo warn user
         } else {
             startingSet.remove(event);
             endingSet.remove(event);
@@ -138,7 +140,13 @@ public class Calendar implements Serializable {
     }
 
     private void updateCache(Event event) {
-        List<YearMonth> list = getMonthSpan(YearMonth.from(event.getStart()), YearMonth.from(event.getEnd()));
+        YearMonth end;
+        if (event instanceof RecurrentEvent) {
+            end = YearMonth.from(((RecurrentEvent) event).getRecurrenceEnd());
+        } else {
+            end = YearMonth.from(event.getEnd());
+        }
+        List<YearMonth> list = getMonthSpan(YearMonth.from(event.getStart()), end);
         for (YearMonth ym : list) {
             monthCache.remove(ym);
         }
