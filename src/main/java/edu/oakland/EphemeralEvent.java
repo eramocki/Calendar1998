@@ -1,5 +1,7 @@
 package edu.oakland;
 
+import javafx.scene.layout.Background;
+
 import java.time.ZonedDateTime;
 
 public class EphemeralEvent implements Event {
@@ -117,4 +119,7 @@ public class EphemeralEvent implements Event {
     public void setCompleted(boolean completed) {
         parent.setCompleted(completed);
     }
+
+    @Override
+    public Background getBackground(){return e.bg;}
 }

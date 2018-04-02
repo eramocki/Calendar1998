@@ -19,6 +19,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -41,6 +44,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Random;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -248,7 +252,7 @@ public class MainGUI {
                 if (currEvent.getHighPriority()) {
                     eventLabel.setStyle("-fx-background-color: OrangeRed;");
                 } else {
-                    eventLabel.setStyle("-fx-background-color: AntiqueWhite;");
+                    eventLabel.setBackground(currEvent.getBackground());
                 }
 
                 eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width

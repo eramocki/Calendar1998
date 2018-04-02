@@ -1,5 +1,7 @@
 package edu.oakland;
 
+import javafx.scene.layout.Background;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -63,4 +65,6 @@ public interface Event {
     boolean getCompleted();
 
     void setCompleted(boolean completed);
+
+    Background getBackground();
 }
