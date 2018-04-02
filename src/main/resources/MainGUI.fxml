@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
     <children>
         <GridPane prefHeight="700.0" prefWidth="880.0">
             <columnConstraints>
@@ -138,7 +138,7 @@
                                     <children>
                                         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#openUpdatePage" text="Update" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
                                         <Button fx:id="removeButton" mnemonicParsing="false" onAction="#deleteCurrentEvent" text="Remove" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
-                                        <TextArea fx:id="eventOutput" disable="true" editable="false" prefHeight="323.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowSpan="8" GridPane.valignment="CENTER">
+                                        <TextArea fx:id="eventOutput" disable="true" editable="false" prefHeight="323.0" prefWidth="200.0" wrapText="true" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowSpan="8" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="14.0" />
                                  </font></TextArea>
@@ -256,7 +256,7 @@
                            </GridPane.margin></CheckBox>
                                 <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="81.0" text="Recur Amount" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
                                 <ComboBox fx:id="recurField" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
-                                <TextArea fx:id="eventDescriptionField" prefHeight="200.0" prefWidth="200.0" promptText="Description" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="5" GridPane.rowSpan="4">
+                                <TextArea fx:id="eventDescriptionField" prefHeight="200.0" prefWidth="200.0" promptText="Description" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="5" GridPane.rowSpan="4">
                                     <tooltip>
                                         <Tooltip text="Event Description" />
                                     </tooltip>
