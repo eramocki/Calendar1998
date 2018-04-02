@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -702,11 +703,16 @@ public class MainGUI {
     @FXML
     private void fetchCompleted() {
         Set<Event> completedEvents = getCurrentAccount().getCalendar().getCompletedEvents();
+        Set<Event> totalEvents = getCurrentAccount().getCalendar().startingSet;
+        StringBuilder temp = new StringBuilder();
         for (Event currEvent : completedEvents) {
-            StringBuilder temp = new StringBuilder();
             temp.append("\n").append(currEvent.getEventName());
-            completedEventsArea.setText(temp.toString());
         }
+        DecimalFormat df = new DecimalFormat("#.##");
+        temp.append("\n\nCompleted " + completedEvents.size() + "/" + totalEvents.size());
+        temp.append(" (" + df.format((float)completedEvents.size()/totalEvents.size()*100.0) + " %)");
+        completedEventsArea.setText(temp.toString());
+
     }
 
     @FXML
