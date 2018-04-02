@@ -338,31 +338,36 @@ public class MainGUI {
 
     @FXML
     private void logoutApp() {
-        if (currentAccount == null) {
-            logger.warning("Wanted to logout but the current user was already null");
-            return;
-        }
-        try {
-            URL resourceFXML = getClass().getClassLoader().getResource("LoginGUI.fxml");
-            URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
-            if (resourceFXML == null || resourceCSS == null) {
-                System.out.println("Missing resource detected, ABORT!");
-                System.exit(-1);
-            }
-            Parent root = FXMLLoader.load(resourceFXML);
-            Stage oldStage = (Stage) myMenuBar.getScene().getWindow();
-            oldStage.close();
-            setCurrentAccount(null);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.showAndWait();
 
-            Scene scene = new Scene(root, 400, 400);
-            String css = resourceCSS.toExternalForm();
-            scene.getStylesheets().add(css);
-            Stage newStage = new Stage();
-            newStage.setTitle("Cadmium Calendar");
-            newStage.setScene(scene);
-            newStage.show();
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
+        if (alert.getResult() == ButtonType.YES) {
+            if (currentAccount == null) {
+                logger.warning("Wanted to logout but the current user was already null");
+                return;
+            }
+            try {
+                URL resourceFXML = getClass().getClassLoader().getResource("LoginGUI.fxml");
+                URL resourceCSS = getClass().getClassLoader().getResource("mystyle.css");
+                if (resourceFXML == null || resourceCSS == null) {
+                    System.out.println("Missing resource detected, ABORT!");
+                    System.exit(-1);
+                }
+                Parent root = FXMLLoader.load(resourceFXML);
+                Stage oldStage = (Stage) myMenuBar.getScene().getWindow();
+                oldStage.close();
+                setCurrentAccount(null);
+
+                Scene scene = new Scene(root, 400, 400);
+                String css = resourceCSS.toExternalForm();
+                scene.getStylesheets().add(css);
+                Stage newStage = new Stage();
+                newStage.setTitle("Cadmium Calendar");
+                newStage.setScene(scene);
+                newStage.show();
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Couldn't make a new loginGUI so can't logout", e);
+            }
         }
     }
 
@@ -634,15 +639,21 @@ public class MainGUI {
      */
     @FXML
     private void deleteCurrentEvent() {
+
         if (currentEvent != null) {
-            Event eventToDelete = currentEvent;
-            viewNextEvent();
-            getCurrentAccount().getCalendar().removeEvent(eventToDelete);
-            Account.saveAccounts();
-            if (!getCurrentAccount().getCalendar().getDayEvents(currentDate).contains(currentEvent)) {
-                currentEvent = null;
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + currentEvent.getEventName() + "?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.YES) {
+                Event eventToDelete = currentEvent;
+                viewNextEvent();
+                getCurrentAccount().getCalendar().removeEvent(eventToDelete);
+                Account.saveAccounts();
+                if (!getCurrentAccount().getCalendar().getDayEvents(currentDate).contains(currentEvent)) {
+                    currentEvent = null;
+                }
+                printToView();
             }
-            printToView();
         }
     }
 
