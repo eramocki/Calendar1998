@@ -454,8 +454,10 @@ public class MainGUI {
     private void eventCompletionStatus() {
         if (toggleCompleted.isSelected()) {
             currentEvent.setCompleted(true);
+            toggleCompleted.setText("Mark\nUncompleted");
         } else {
             currentEvent.setCompleted(false);
+            toggleCompleted.setText("Mark\nCompleted");
         }
         printToView();
     }
