@@ -133,13 +133,9 @@ public class Calendar implements Serializable {
         updateCache(event);
     }
 
-    public void updateEvent(SingularEvent oldEvent, SingularEvent newEvent){
-        //Todo update this
-//        startingSet.remove(oldEvent);
-//        startingSet.add(newEvent);
-//        endingSet.remove(oldEvent);
-//        endingSet.add(newEvent);
-        //Todo handle caching
+    public void updateEvent(Event oldEvent, SingularEvent newEvent) {
+        removeEvent(oldEvent);
+        addEvent(newEvent);
     }
 
     private void updateCache(Event event) {
