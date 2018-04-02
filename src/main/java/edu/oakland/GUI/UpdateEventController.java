@@ -27,7 +27,10 @@ public class UpdateEventController {
     private ComboBox startTimeDropdown, endTimeDropdown, recurField;
 
     @FXML
-    private TextField eventNameField, eventDescriptionField, eventLocationField, eventAttendeesField;
+    private TextField eventNameField, eventLocationField, eventAttendeesField;
+
+    @FXML
+    private TextArea eventDescriptionField;
 
     @FXML
     private CheckBox allDay, highPrior;
