@@ -96,13 +96,15 @@ public class Calendar implements Serializable {
 
     public SortedSet<Event> getCompletedEvents(){
         TreeSet<Event> completedSet = new TreeSet<>(StartComparator.INSTANCE);
-        Iterator<Event> ir = startingSet.iterator();
-        while (ir.hasNext()) {
-            Event currEvent = ir.next();
-            if (currEvent.getCompleted()) {
-                completedSet.add(currEvent);
-            }
-        }
+
+        completedSet.addAll(startingSet.stream()
+            .filter(Event::getCompleted)
+            .collect(Collectors.toSet()));
+
+        completedSet.addAll(recurringEndingSet.stream()
+                .filter(Event::getCompleted)
+                .collect(Collectors.toSet()));
+
         return completedSet;
     }
 

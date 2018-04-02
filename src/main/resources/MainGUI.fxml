@@ -314,9 +314,9 @@
                                         <Insets />
                                     </opaqueInsets>
                                 </Label>
-                                <TextArea fx:id="completedEventsArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="2" GridPane.rowSpan="8" />
-                                <Button fx:id="fetchCompletedButton" mnemonicParsing="false" onAction="#fetchCompleted" prefHeight="40.0" prefWidth="341.0" text="Fetch Completed" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                <Button fx:id="fetchCompletedClear" mnemonicParsing="false" onAction="#clearCompleted" prefHeight="40.0" prefWidth="295.0" text="Clear List" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                                <TextArea fx:id="completedEventsArea" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="2" GridPane.rowSpan="8" />
+                                <Button fx:id="fetchCompletedButton" mnemonicParsing="false" onAction="#fetchCompleted" prefHeight="40.0" prefWidth="341.0" text="Show Completed" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                <Button fx:id="fetchAllButton" mnemonicParsing="false" onAction="#fetchAll" prefHeight="40.0" prefWidth="295.0" text="Show All" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                             </children>
                         </GridPane>
                     </content>

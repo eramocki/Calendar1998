@@ -702,22 +702,33 @@ public class MainGUI {
 
     @FXML
     private void fetchCompleted() {
+        completedEventsArea.setText("");
         Set<Event> completedEvents = getCurrentAccount().getCalendar().getCompletedEvents();
-        Set<Event> totalEvents = getCurrentAccount().getCalendar().startingSet;
+
         StringBuilder temp = new StringBuilder();
         for (Event currEvent : completedEvents) {
-            temp.append("\n").append(currEvent.getEventName());
+            temp.append(currEvent.getEventName()).append("\n");
         }
         DecimalFormat df = new DecimalFormat("#.##");
-        temp.append("\n\nCompleted " + completedEvents.size() + "/" + totalEvents.size());
-        temp.append(" (" + df.format((float)completedEvents.size()/totalEvents.size()*100.0) + " %)");
+
+        int numEvents = getCurrentAccount().getCalendar().startingSet.size();
+        temp.append("\n\nCompleted " + completedEvents.size() + "/" + numEvents);
+        temp.append(" (" + df.format((float) completedEvents.size() / numEvents*100.0) + " %)");
         completedEventsArea.setText(temp.toString());
 
     }
 
     @FXML
-    private void clearCompleted() {
+    private void fetchAll() {
         completedEventsArea.setText("");
+
+        Set<Event> allEvents = getCurrentAccount().getCalendar().startingSet;
+
+        StringBuilder temp = new StringBuilder();
+        for (Event currEvent : allEvents) {
+            temp.append(currEvent.getEventName()).append("\n");
+        }
+        completedEventsArea.setText(temp.toString());
     }
 
     @FXML
