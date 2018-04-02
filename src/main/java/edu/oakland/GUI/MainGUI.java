@@ -208,6 +208,8 @@ public class MainGUI {
         leftArrow.setDisable(true);
         rightArrow.setDisable(true);
         viewMonth(ZonedDateTime.now());
+        eventDescriptionField.setWrapText(true);
+        eventOutput.setWrapText(true);
     }
 
 
