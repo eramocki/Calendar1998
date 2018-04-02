@@ -21,7 +21,7 @@ public class SingularEvent implements Serializable, Event {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        Random rand = new Random(System.currentTimeMillis());
+        Random rand = new Random();
         BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(50)*5.3,0.3,1),null,null);
         this.bg = new Background(fill);
     }
@@ -43,7 +43,7 @@ public class SingularEvent implements Serializable, Event {
     public SingularEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
         this(startDateTime, endDateTime, eventName, Frequency.NEVER);
         Random rand = new Random();
-        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(270)+1,0.3,1),null,null);
+        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(50)*5.3,0.3,1.0),null,null);
         this.bg = new Background(fill);
 
     }
@@ -54,7 +54,7 @@ public class SingularEvent implements Serializable, Event {
         this.eventName = eventName;
         this.frequency = frequency;
         Random rand = new Random();
-        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt()+1,0.3,1.0),null,null);
+        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(50)*5.3,0.3,1.0),null,null);
         this.bg = new Background(fill);
     }
 
