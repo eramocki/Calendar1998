@@ -4,6 +4,7 @@ import edu.oakland.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.time.LocalDate;
@@ -70,7 +71,7 @@ public class UpdateEventController {
     }
 
     @FXML
-    private void modifyEvent() {
+    private void modifyEvent(ActionEvent actionEvent) {
         LocalDate startDate = startDateField.getValue();
         LocalDate endDate = endDateField.getValue();
         String startingTime = startTimeDropdown.getSelectionModel().getSelectedItem().toString();
@@ -164,6 +165,8 @@ public class UpdateEventController {
                 alert.setHeaderText("Well done");
                 alert.setContentText("Your event has been added to the calendar");
                 alert.showAndWait();
+
+                ((Node) actionEvent.getSource()).getScene().getWindow().hide();
             }
         } catch (Exception e) { //Unable to parse start/end times
             e.printStackTrace();
