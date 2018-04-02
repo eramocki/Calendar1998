@@ -493,7 +493,6 @@ public class MainGUI {
         } else if (currentEvent.getFrequency().equals(Frequency.DAILY)) {
             temp.append("\nRecurs Daily");
         }
-        temp.append("\nIs Complete? ").append(currentEvent.getCompleted());
         eventOutput.setText(temp.toString());
         eventOutput.setDisable(false);
         toggleCompleted.setDisable(false);
