@@ -45,19 +45,12 @@ public class UpdateEventController {
             @Override
             public void run() {
 
-                ZonedDateTime st = mainGUI.getCurrentEvent().getStart();
-                ZonedDateTime end = mainGUI.getCurrentEvent().getEnd();
-                StringBuilder startTimeBuilder = new StringBuilder();
-                StringBuilder endTimeBuilder = new StringBuilder();
-                if (mainGUI.getCurrentEvent().getEventAllDay()) {
-                    startTimeBuilder.append("\n00:00");
-                    endTimeBuilder.append("\n00:00");
-                } else {
-                    startTimeBuilder.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nHH:mm")));
-                    endTimeBuilder.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nHH:mm")));
-                }
-                startTimeDropdown.setValue(startTimeBuilder.toString());
-                endTimeDropdown.setValue(endTimeBuilder.toString());
+                LocalTime startTime = mainGUI.getCurrentEvent().getStart().toLocalTime();
+                LocalTime endTime = mainGUI.getCurrentEvent().getEnd().toLocalTime();
+
+                startTimeDropdown.setValue(startTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+                endTimeDropdown.setValue(endTime.format(DateTimeFormatter.ofPattern("HH:mm")));
+
                 startDateField.setValue(mainGUI.getCurrentEvent().getStart().toLocalDate());
                 endDateField.setValue(mainGUI.getCurrentEvent().getEnd().toLocalDate());
 
