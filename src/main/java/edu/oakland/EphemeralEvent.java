@@ -121,5 +121,5 @@ public class EphemeralEvent implements Event {
     }
 
     @Override
-    public Background getBackground(){return e.bg;}
+    public Background getBackground(){return parent.bg;}
 }
