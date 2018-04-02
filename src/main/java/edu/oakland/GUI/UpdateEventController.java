@@ -1,16 +1,10 @@
 package edu.oakland.GUI;
 
-import edu.oakland.Account;
-import edu.oakland.SingularEvent;
-import edu.oakland.Frequency;
+import edu.oakland.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,7 +20,7 @@ public class UpdateEventController {
     public MainGUI mainGUI;
 
     @FXML
-    private DatePicker startDateField, endDateField;
+    private DatePicker startDateField, endDateField, recurrenceEndDate;
 
     @FXML
     private ComboBox startTimeDropdown, endTimeDropdown, recurField;
@@ -77,47 +71,107 @@ public class UpdateEventController {
 
     @FXML
     private void modifyEvent() {
-        LocalDate startDateUpdate = startDateField.getValue();
-        LocalDate endDateUpdate = endDateField.getValue();
-        String startingTimeUpdate = startTimeDropdown.getSelectionModel().getSelectedItem().toString();
-        String endingTimeUpdate = endTimeDropdown.getSelectionModel().getSelectedItem().toString();
+        LocalDate startDate = startDateField.getValue();
+        LocalDate endDate = endDateField.getValue();
+        String startingTime = startTimeDropdown.getSelectionModel().getSelectedItem().toString();
+        String endingTime = endTimeDropdown.getSelectionModel().getSelectedItem().toString();
+        String[] splitStartHM = startingTime.split(":");
+        String[] splitEndHM = endingTime.split(":");
+        try {
+            ZonedDateTime start = ZonedDateTime.of(startDate.getYear(),
+                    startDate.getMonthValue(),
+                    startDate.getDayOfMonth(),
+                    Integer.parseInt(splitStartHM[0]),
+                    Integer.parseInt(splitStartHM[1]),
+                    0,
+                    0,
+                    ZoneId.systemDefault());
+            ZonedDateTime end = ZonedDateTime.of(endDate.getYear(),
+                    endDate.getMonthValue(),
+                    endDate.getDayOfMonth(),
+                    Integer.parseInt(splitEndHM[0]),
+                    Integer.parseInt(splitEndHM[1]),
+                    0,
+                    0,
+                    ZoneId.systemDefault());
 
-        String[] splitStartHM = startingTimeUpdate.split(":");
-        String[] splitEndHM = endingTimeUpdate.split(":");
+            int dateCompare = endDate.compareTo(startDate);
+            if (dateCompare < 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Try again, friend.");
+                alert.setContentText("Your end date cannot be before your start date!");
+                alert.showAndWait();
+            } else if (dateCompare == 0 && end.compareTo(start) < 0) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Try again, friend.");
+                alert.setContentText("Your end time cannot be before your start time unless you adjust your dates "
+                        + "appropriately");
+                alert.showAndWait();
+            } else if (eventNameField.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("This will not do.");
+                alert.setHeaderText("Try again, friend.");
+                alert.setContentText("Your event name cannot be blank");
+                alert.showAndWait();
+            } else {
+                SingularEvent event;
+                Frequency freq = (Frequency) recurField.getSelectionModel().getSelectedItem();
+                switch (freq) {
+                    case NEVER:
+                        event = new SingularEvent(start, end, eventNameField.getText(), freq);
+                        break;
+                    default:
+                        LocalDate d = recurrenceEndDate.getValue();
+                        ZonedDateTime recurEnd = ZonedDateTime.of(d, end.toLocalTime(), end.getZone());
+                        event = new RecurrentEvent(start, end, eventNameField.getText(), freq, start, recurEnd); //Todo fix end
+                }
+                event.setEventAllDay(allDay.isSelected());
+                if (allDay.isSelected()) {
+                    ZonedDateTime min = ZonedDateTime.of(startDate.getYear(),
+                            startDate.getMonthValue(),
+                            startDate.getDayOfMonth(),
+                            LocalTime.MIN.getHour(),
+                            LocalTime.MIN.getMinute(),
+                            0,
+                            0,
+                            ZoneId.systemDefault());
+                    ZonedDateTime max = ZonedDateTime.of(startDate.getYear(),
+                            startDate.getMonthValue(),
+                            startDate.getDayOfMonth(),
+                            LocalTime.MAX.getHour(),
+                            LocalTime.MAX.getMinute(),
+                            0,
+                            0,
+                            ZoneId.systemDefault());
+                    event.setStart(min);
+                    event.setEnd(max);
+                }
+                event.setEventDesc(eventDescriptionField.getText());
+                event.setEventLocation(eventLocationField.getText());
+                event.setEventAttendees(eventAttendeesField.getText());
+                event.setHighPriority(highPrior.isSelected());
 
-        ZonedDateTime start = ZonedDateTime.of(startDateUpdate.getYear(), startDateUpdate.getMonthValue(), startDateUpdate.getDayOfMonth(), Integer.parseInt(splitStartHM[0]), Integer.parseInt(splitStartHM[1]), 0, 0, ZoneId.systemDefault());
-        ZonedDateTime end = ZonedDateTime.of(endDateUpdate.getYear(), endDateUpdate.getMonthValue(), endDateUpdate.getDayOfMonth(), Integer.parseInt(splitEndHM[0]), Integer.parseInt(splitEndHM[1]), 0, 0, ZoneId.systemDefault());
+                Event selectedEvent = mainGUI.getCurrentEvent();
+                mainGUI.getCurrentAccount().getCalendar().updateEvent(selectedEvent, event);
 
-        if (end.compareTo(start) < 0 || endingTimeUpdate.compareTo(startingTimeUpdate) < 0) {
+                Account.saveAccounts();
+
+                mainGUI.viewMonth(mainGUI.getCurrentMonth());
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Event was created!");
+                alert.setHeaderText("Well done");
+                alert.setContentText("Your event has been added to the calendar");
+                alert.showAndWait();
+            }
+        } catch (Exception e) { //Unable to parse start/end times
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("You can't have your end date/time happen in the past!");
-
+            alert.setTitle("Unable to Parse Time(s)");
+            alert.setHeaderText("Unable to Parse Start/End Times");
+            alert.setContentText("Please ensure that your times are valid and different from the original times.");
             alert.showAndWait();
-        } else if (eventNameField.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("This will not do.");
-            alert.setHeaderText("Try again, friend.");
-            alert.setContentText("Your event name cannot be blank");
-
-            alert.showAndWait();
-        } else {
-            SingularEvent updateEvent = new SingularEvent(start, end, eventNameField.getText());
-            updateEvent.setEventDesc(eventDescriptionField.getText());
-            updateEvent.setEventLocation(eventAttendeesField.getText());
-            updateEvent.setEventAttendees(eventAttendeesField.getText());
-            updateEvent.setEventAllDay(allDay.isSelected());
-            updateEvent.setHighPriority(highPrior.isSelected());
-            updateEvent.setFrequency(Frequency.valueOf(recurField.getSelectionModel().getSelectedItem().toString().toUpperCase()));
-            mainGUI.getCurrentAccount().getCalendar().addEvent(updateEvent);
-            mainGUI.viewMonth(mainGUI.getCurrentMonth());
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("SingularEvent was updated!.");
-            alert.setHeaderText("Well done");
-            alert.setContentText("Your event has been update on the calendar");
-            alert.showAndWait();
-            Account.saveAccounts();
         }
     }
 }
