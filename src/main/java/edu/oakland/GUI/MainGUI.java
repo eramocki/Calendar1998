@@ -515,8 +515,10 @@ public class MainGUI {
 
         if (currentEvent.getCompleted()) {
             toggleCompleted.setSelected(true);
+            toggleCompleted.setText("Mark\nUncompleted");
         } else {
             toggleCompleted.setSelected(false);
+            toggleCompleted.setText("Mark\nCompleted");
         }
 
         viewMonth(currentMonth);
