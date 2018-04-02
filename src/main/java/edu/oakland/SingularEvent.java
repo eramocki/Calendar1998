@@ -1,11 +1,14 @@
 package edu.oakland;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class SingularEvent implements Serializable, Event {
@@ -14,7 +17,28 @@ public class SingularEvent implements Serializable, Event {
     protected String eventName, eventDesc, eventLocation, eventAttendees;
     protected boolean eventAllDay, isHighPriority, isCompleted;
     protected Frequency frequency;
-    protected Background bg;
+    protected transient Background bg;
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        Random rand = new Random();
+        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(270)+1,0.3,1),null,null);
+        this.bg = new Background(fill);
+    }
+
+    public SingularEvent(Event e) {
+        start = e.getStart();
+        end = e.getEnd();
+        eventName = e.getEventName();
+        eventDesc = e.getEventDesc();
+        eventLocation = e.getEventLocation();
+        eventAttendees = e.getEventAttendees();
+        eventAllDay = e.getEventAllDay();
+        isHighPriority = e.getHighPriority();
+        isCompleted = e.getCompleted();
+        frequency = e.getFrequency();
+        bg = e.getBackground();
+    }
 
     public SingularEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
         this(startDateTime, endDateTime, eventName, Frequency.NEVER);
