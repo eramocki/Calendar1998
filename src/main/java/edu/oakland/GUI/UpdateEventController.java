@@ -163,6 +163,8 @@ public class UpdateEventController {
                 Account.saveAccounts();
 
                 mainGUI.viewMonth(mainGUI.getCurrentMonth());
+                mainGUI.setCurrentEvent(event);
+                mainGUI.printToView();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Event was created!");
                 alert.setHeaderText("Well done");

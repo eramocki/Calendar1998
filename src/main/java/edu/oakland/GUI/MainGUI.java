@@ -466,7 +466,7 @@ public class MainGUI {
     /**
      * Handles printing text to the side view of a selected event.
      */
-    private void printToView() {
+    public void printToView() {
         if (currentEvent == null) {
             eventOutput.setText("");
             eventOutput.setDisable(true);
@@ -872,6 +872,10 @@ public class MainGUI {
 
     public Event getCurrentEvent() {
         return currentEvent;
+    }
+
+    public void setCurrentEvent(Event event) {
+        currentEvent = event;
     }
 
     public ZonedDateTime getCurrentMonth() {
