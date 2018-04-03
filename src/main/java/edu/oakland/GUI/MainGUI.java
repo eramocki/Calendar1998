@@ -123,9 +123,18 @@ public class MainGUI {
 
     private LocalDate oldDateValue;
 
+    private Set<Color> eventColors = new HashSet<>();
+
     @FXML
     public void initialize() {
         //NB Only pure GUI setup! Others use postInit
+
+        //"good" colors for events that are next to each other
+//        eventColors.add(Color.web(""));
+        eventColors.add(Color.web("#D7FFF1"));
+        eventColors.add(Color.web("#A0DDE6"));
+        eventColors.add(Color.web("#80C2AF"));
+        eventColors.add(Color.web("#30C5FF"));
 
         //Create labels for day of week header
         int columnIndex = 0; //Which column to put the next label in
@@ -226,6 +235,7 @@ public class MainGUI {
         //YearMonth yearMonth = YearMonth.of(currentMonth.getYear(), currentMonth.getMonth());
         //Set<Event> monthEvents = getCurrentAccount().getCalendar().getMonthEvents(yearMonth);
 
+        Iterator<Color> goodColors = eventColors.iterator();
         LocalDate current = currentMonth.toLocalDate();
         while (current.getMonth() == currentMonth.getMonth()) { //For every day of month
             //When reached sunday (the first day of week) move down a row
@@ -259,6 +269,9 @@ public class MainGUI {
                 eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
                 eventLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, this::viewEventDetail);
                 eventsByLabel.put(eventLabel, currEvent);
+
+                if (!goodColors.hasNext()) goodColors = eventColors.iterator();
+                eventLabel.setBackground(new Background(new BackgroundFill(goodColors.next(), null, null)));
 
                 dayVBox.getChildren().add(eventLabel);
             }
