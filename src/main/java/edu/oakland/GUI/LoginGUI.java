@@ -79,7 +79,7 @@ public class LoginGUI {
     @FXML
     private void tryLogin(ActionEvent event) {
         if(userField.getText().equals("") || passwordField.getText().equals("")) {
-            GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", "You left the login fields blank!");
+            GUIHelper.errorAlert("Input Error", "Login Failed", "The login fields cannot be empty!");
         } else if (Account.accountExists(userField.getText())) {
             if (Account.checkCredentials(userField.getText(), passwordField.getText())) {
                 try {
@@ -111,15 +111,15 @@ public class LoginGUI {
 
                 } catch (IOException e) {
                     logger.log(Level.SEVERE, "Error logging in", e);
-                    GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", e.getMessage());
+                    GUIHelper.errorAlert("System Error", "Login Failed", e.getMessage());
                 }
             } else {
-                GUIHelper.errorAlert("This will not do.",
-                        "Try again, friend.",
+                GUIHelper.errorAlert("Input Error",
+                        "Login Failed",
                         "Incorrect username / password combination");
             }
         } else {
-            GUIHelper.errorAlert("This will not do.",
+            GUIHelper.errorAlert("Input Error",
                     "Account not found.",
                     "No such account found. You can create one using the button below.");
         }

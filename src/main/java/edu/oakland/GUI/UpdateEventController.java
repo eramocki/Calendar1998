@@ -165,9 +165,9 @@ public class UpdateEventController {
                 mainGUI.setCurrentEvent(event);
                 mainGUI.printToView();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Event was created!");
-                alert.setHeaderText("Well done");
-                alert.setContentText("Your event has been added to the calendar");
+                alert.setTitle("Success");
+                alert.setHeaderText("Event Updated");
+                alert.setContentText("Your event has been update on the calendar");
                 alert.showAndWait();
 
                 ((Node) actionEvent.getSource()).getScene().getWindow().hide();
@@ -175,7 +175,7 @@ public class UpdateEventController {
         } catch (Exception e) { //Unable to parse start/end times
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Unable to Parse Time(s)");
+            alert.setTitle("Error");
             alert.setHeaderText("Unable to Parse Start/End Times");
             alert.setContentText("Please ensure that your times are valid and different from the original times.");
             alert.showAndWait();

@@ -859,8 +859,8 @@ public class MainGUI {
 
                 viewMonth(currentMonth);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Event was created!");
-                alert.setHeaderText("Well done");
+                alert.setTitle("Success");
+                alert.setHeaderText("Event Created");
                 alert.setContentText("Your event has been added to the calendar");
                 alert.showAndWait();
                 SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
@@ -869,7 +869,7 @@ public class MainGUI {
             }
         } catch (Exception e) { //Unable to parse start/end times
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Unable to Parse Time(s)");
+            alert.setTitle("Error");
             alert.setHeaderText("Unable to Parse Start/End Times");
             alert.setContentText("Please ensure that your times are valid.");
             alert.showAndWait();

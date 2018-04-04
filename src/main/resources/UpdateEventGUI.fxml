@@ -47,12 +47,12 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="38.0" text="Name" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                <Label prefHeight="17.0" prefWidth="38.0" text="Name" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                 <TextField fx:id="eventNameField" GridPane.columnIndex="2" GridPane.columnSpan="7" GridPane.rowIndex="1" />
                 <TextField fx:id="eventLocationField" GridPane.columnIndex="2" GridPane.columnSpan="7" GridPane.rowIndex="1" GridPane.rowSpan="2" />
                 <TextField fx:id="eventAttendeesField" GridPane.columnIndex="2" GridPane.columnSpan="7" GridPane.rowIndex="2" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="49.0" text="Location" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="55.0" text="Attendees" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+                <Label prefHeight="17.0" prefWidth="73.0" text="Location" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+                <Label prefHeight="17.0" prefWidth="55.0" text="Attendees" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
                 <DatePicker fx:id="startDateField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                 <DatePicker fx:id="endDateField" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                 <CheckBox fx:id="allDay" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
@@ -61,11 +61,11 @@
                 <ComboBox fx:id="endTimeDropdown" editable="true" prefHeight="25.0" prefWidth="135.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                 <ComboBox fx:id="recurField" prefHeight="25.0" prefWidth="170.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                 <Button fx:id="updateSubmitButton" mnemonicParsing="false" onAction="#modifyEvent" prefHeight="25.0" prefWidth="141.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="9" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="54.0" text="Start Time" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="60.0" text="Stop Time" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="81.0" text="Recur Amount" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+                <Label prefHeight="17.0" prefWidth="69.0" text="Start Time" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.rowSpan="2" />
+                <Label prefHeight="17.0" prefWidth="60.0" text="Stop Time" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+                <Label prefHeight="17.0" prefWidth="81.0" text="Recur Amount" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                 <DatePicker fx:id="recurrenceEndDate" prefHeight="25.0" prefWidth="182.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                <Label alignment="CENTER" prefHeight="17.0" prefWidth="62.0" text="Recur End" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <Label prefHeight="17.0" prefWidth="62.0" text="Recur End" textAlignment="CENTER" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                 <TextArea fx:id="eventDescriptionField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="5" GridPane.rowSpan="4" />
             </children>
         </GridPane>
