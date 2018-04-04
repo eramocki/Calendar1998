@@ -65,6 +65,4 @@ public interface Event {
     boolean getCompleted();
 
     void setCompleted(boolean completed);
-
-    Background getBackground();
 }

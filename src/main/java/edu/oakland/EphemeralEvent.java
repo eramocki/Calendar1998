@@ -119,7 +119,4 @@ public class EphemeralEvent implements Event {
     public void setCompleted(boolean completed) {
         parent.setCompleted(completed);
     }
-
-    @Override
-    public Background getBackground(){return parent.bg;}
 }

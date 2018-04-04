@@ -17,13 +17,9 @@ public class SingularEvent implements Serializable, Event {
     protected String eventName, eventDesc, eventLocation, eventAttendees;
     protected boolean eventAllDay, isHighPriority, isCompleted;
     protected Frequency frequency;
-    protected transient Background bg;
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        Random rand = new Random();
-        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(50)*5.3,0.3,1),null,null);
-        this.bg = new Background(fill);
     }
 
     public SingularEvent(Event e) {
@@ -37,14 +33,10 @@ public class SingularEvent implements Serializable, Event {
         isHighPriority = e.getHighPriority();
         isCompleted = e.getCompleted();
         frequency = e.getFrequency();
-        bg = e.getBackground();
     }
 
     public SingularEvent(ZonedDateTime startDateTime, ZonedDateTime endDateTime, String eventName) {
         this(startDateTime, endDateTime, eventName, Frequency.NEVER);
-        Random rand = new Random();
-        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(50)*5.3,0.3,1.0),null,null);
-        this.bg = new Background(fill);
 
     }
 
@@ -53,9 +45,6 @@ public class SingularEvent implements Serializable, Event {
         end = endDateTime;
         this.eventName = eventName;
         this.frequency = frequency;
-        Random rand = new Random();
-        BackgroundFill fill = new BackgroundFill(Color.hsb(rand.nextInt(50)*5.3,0.3,1.0),null,null);
-        this.bg = new Background(fill);
     }
 
     public String getEventName() {
@@ -133,6 +122,4 @@ public class SingularEvent implements Serializable, Event {
     public boolean getCompleted() { return isCompleted; }
 
     public void setCompleted(boolean completed) { isCompleted = completed; }
-
-    public Background getBackground(){return this.bg;}
 }

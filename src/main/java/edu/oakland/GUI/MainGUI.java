@@ -263,7 +263,7 @@ public class MainGUI {
                 if (currEvent.getHighPriority()) {
                     eventLabel.setStyle("-fx-background-color: OrangeRed;");
                 } else {
-                    eventLabel.setBackground(currEvent.getBackground());
+                    eventLabel.setBackground(new Background(new BackgroundFill(goodColors.next(),null,null)));
                 }
 
                 eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
