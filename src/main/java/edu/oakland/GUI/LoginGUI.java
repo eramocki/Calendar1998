@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 public class LoginGUI {
 
     private static final Logger logger = Logger.getLogger(LoginGUI.class.getName());
-    private Account currentAccount;
 
     @FXML
     private TextField userField, userFieldReset, nameField, sq1, sq2, sq3, sq1Reset, sq2Reset, sq3Reset;
@@ -41,9 +40,13 @@ public class LoginGUI {
     public void initialize() {
 
         //Dummy Account
+        //TODO Delete
         Account.createAccount("y", "y", "Test Account", new String[]{"1", "2", "3"});
     }
 
+    /**
+     * Allows the user to import data from the menubar before logging in.
+     */
     @FXML
     private void importData() {
         FileChooser chooser = new FileChooser();
@@ -76,7 +79,7 @@ public class LoginGUI {
     @FXML
     private void tryLogin(ActionEvent event) {
         if(userField.getText().equals("") || passwordField.getText().equals("")) {
-            GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", "You left the login fields blank!");
+            GUIHelper.errorAlert("Input Error", "Login Failed", "The login fields cannot be empty!");
         } else if (Account.accountExists(userField.getText())) {
             if (Account.checkCredentials(userField.getText(), passwordField.getText())) {
                 try {
@@ -108,15 +111,15 @@ public class LoginGUI {
 
                 } catch (IOException e) {
                     logger.log(Level.SEVERE, "Error logging in", e);
-                    GUIHelper.errorAlert("This will not do.", "Woah! There was a problem logging in!", e.getMessage());
+                    GUIHelper.errorAlert("System Error", "Login Failed", e.getMessage());
                 }
             } else {
-                GUIHelper.errorAlert("This will not do.",
-                        "Try again, friend.",
+                GUIHelper.errorAlert("Input Error",
+                        "Login Failed",
                         "Incorrect username / password combination");
             }
         } else {
-            GUIHelper.errorAlert("This will not do.",
+            GUIHelper.errorAlert("Input Error",
                     "Account not found.",
                     "No such account found. You can create one using the button below.");
         }
@@ -249,8 +252,4 @@ public class LoginGUI {
             }
         }
     }
-
-    public Account getCurrentAccount() { return currentAccount; }
-
-    public void setCurrentAccount(Account currentAccount) { this.currentAccount = currentAccount; }
 }

@@ -53,40 +53,33 @@ public class MainGUI {
 
     private static final Logger logger = Logger.getLogger(MainGUI.class.getName());
 
+    /* Currently used account for the logged in user */
     private Account currentAccount;
 
+    /* Currently displayed month in the calendar */
     private ZonedDateTime currentMonth;
 
-    /**
-     * Currently displayed day in detail pane
-     */
+    /* Currently displayed day in detail pane */
     private LocalDate currentDate;
 
-    /**
-     * Currently selected event in detail pane
-     */
+    /* Currently selected event in detail pane */
     private Event currentEvent;
 
-    /**
-     * Each day in the calendar view has a VBox to put things in
-     */
+    /* Each day in the calendar view has a VBox to put things in */
     private HashMap<LocalDate, VBox> VBoxesByDay = new HashMap<>();
 
-    /**
-     * Each event has a label made for it
-     */
+    /* Each event has a label made for it */
     private HashMap<Label, Event> eventsByLabel = new HashMap<>();
 
-    @FXML
-    private TabPane tabPane;
+    /*
+        Calendar Page Objects
+    */
 
-    @FXML
-    private TextArea eventOutput;
-
+    /* Matrix used to return the selected date on click */
     private int[][] daylayout;
 
-    @FXML
-    private ToggleButton toggleCompleted;
+    private LocalDate oldDateValue;
+    private Set<Color> eventColors = new HashSet<>();
 
     @FXML
     private Button updateButton, removeButton, leftArrow, rightArrow;
@@ -100,11 +93,24 @@ public class MainGUI {
     @FXML
     private MenuBar myMenuBar;
 
+    @FXML
+    private TabPane tabPane;
 
-    /* Add Event Page */
+    @FXML
+    private TextArea eventOutput;
+
+    @FXML
+    private ToggleButton toggleCompleted;
+
+    /*
+        Add Event Page Objects
+    */
 
     @FXML
     private DatePicker startDateField, endDateField, recurrenceEndDate;
+
+    @FXML
+    private CheckBox allDay, highPrior;
 
     @FXML
     private ComboBox startTimeDropdown, endTimeDropdown, recurField;
@@ -113,24 +119,14 @@ public class MainGUI {
     private TextField eventNameField, eventLocationField, eventAttendeesField;
 
     @FXML
-    private TextArea eventDescriptionField;
-
-    @FXML
-    private CheckBox allDay, highPrior;
-
-    @FXML
-    private TextArea completedEventsArea;
-
-    private LocalDate oldDateValue;
-
-    private Set<Color> eventColors = new HashSet<>();
+    private TextArea eventDescriptionField, completedEventsArea;
 
     @FXML
     public void initialize() {
-        //NB Only pure GUI setup! Others use postInit
+        /*NB Only pure GUI setup! Others use postInit
+        "good" colors for events that are next to each other
+        eventColors.add(Color.web("")); */
 
-        //"good" colors for events that are next to each other
-//        eventColors.add(Color.web(""));
         eventColors.add(Color.web("#D7FFF1"));
         eventColors.add(Color.web("#A0DDE6"));
         eventColors.add(Color.web("#80C2AF"));
@@ -166,6 +162,10 @@ public class MainGUI {
         recurField.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Handles creation of dummy events for testing purposes
+     * TODO Delete
+     */
     public void postInit() {
         Set<SingularEvent> dummyEvents = new HashSet<>();
 
@@ -220,7 +220,10 @@ public class MainGUI {
 
     }
 
-
+    /**
+     * Initializes the calendar display to draw out the dates for each day of the week in that given month
+     * @param theMonth The input month which will be rendered
+     */
     public void viewMonth(ZonedDateTime theMonth) {
         calendarGridPane.getChildren().removeAll(VBoxesByDay.values());
         //todo cache?
@@ -283,6 +286,9 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Opens the create account GUI page
+     */
     @FXML
     private void openCreateAccountGUI() {
         Stage stage;
@@ -309,6 +315,9 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Allows the user to import data from the menubar
+     */
     @FXML
     private void importData() {
         FileChooser chooser = new FileChooser();
@@ -327,6 +336,9 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Allows the user to export data from the menubar
+     */
     @FXML
     private void exportData() {
         FileChooser chooser = new FileChooser();
@@ -398,6 +410,15 @@ public class MainGUI {
     }
 
     @FXML
+    private void gotoReportTab() {
+        SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
+        selector.select(2);
+    }
+
+    /**
+     * Opens the settings GUI page
+     */
+    @FXML
     private void openSettingsGUI() {
         Stage stage;
         try {
@@ -463,6 +484,9 @@ public class MainGUI {
         getCellData(event);
     }
 
+    /**
+     * Toggles the button's status to show if the event has been marked completed (or not)
+     */
     @FXML
     private void eventCompletionStatus() {
         if (toggleCompleted.isSelected()) {
@@ -835,8 +859,8 @@ public class MainGUI {
 
                 viewMonth(currentMonth);
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Event was created!");
-                alert.setHeaderText("Well done");
+                alert.setTitle("Success");
+                alert.setHeaderText("Event Created");
                 alert.setContentText("Your event has been added to the calendar");
                 alert.showAndWait();
                 SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
@@ -845,7 +869,7 @@ public class MainGUI {
             }
         } catch (Exception e) { //Unable to parse start/end times
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Unable to Parse Time(s)");
+            alert.setTitle("Error");
             alert.setHeaderText("Unable to Parse Start/End Times");
             alert.setContentText("Please ensure that your times are valid.");
             alert.showAndWait();
@@ -867,20 +891,11 @@ public class MainGUI {
 
     @FXML
     private void adjustEndDate() {
-        // added start date validation here before the adjustment in the else clause
         LocalDate startDate = startDateField.getValue();
-        if (LocalDate.now().isAfter(startDate)){
-            startDateField.setValue(LocalDate.now());
-            GUIHelper.alert("Validation", "Whoops...", "You chose a date that has already passed. " +
-                    "Instead of trying to pad your stats, try some new constructive activities.", Alert.AlertType.INFORMATION);
-        }
-        else {
-            long days = DAYS.between(oldDateValue, startDate);
+        long days = DAYS.between(oldDateValue, startDate);
 
-            endDateField.setValue(endDateField.getValue().plusDays(days));
-            oldDateValue = startDate;
-
-        }
+        endDateField.setValue(endDateField.getValue().plusDays(days));
+        oldDateValue = startDate;
     }
 
     @FXML
@@ -895,7 +910,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void validateREndDate(){
+    private void validateRecurrenceEndDate(){
         LocalDate RDate = recurrenceEndDate.getValue();
         LocalDate endDate = endDateField.getValue();
         if (endDate.isAfter(RDate)){
@@ -906,23 +921,13 @@ public class MainGUI {
     }
 
 
-    public Account getCurrentAccount() {
-        return currentAccount;
-    }
+    public Account getCurrentAccount() { return currentAccount; }
 
-    public void setCurrentAccount(Account currentAccount) {
-        this.currentAccount = currentAccount;
-    }
+    public void setCurrentAccount(Account currentAccount) { this.currentAccount = currentAccount; }
 
-    public Event getCurrentEvent() {
-        return currentEvent;
-    }
+    public Event getCurrentEvent() { return currentEvent; }
 
-    public void setCurrentEvent(Event event) {
-        currentEvent = event;
-    }
+    public void setCurrentEvent(Event event) { currentEvent = event; }
 
-    public ZonedDateTime getCurrentMonth() {
-        return currentMonth;
-    }
+    public ZonedDateTime getCurrentMonth() { return currentMonth; }
 }
