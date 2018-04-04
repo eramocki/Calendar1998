@@ -893,7 +893,7 @@ public class MainGUI {
     }
 
     @FXML
-    private void validateREndDate(){
+    private void validateRecurrenceEndDate(){
         LocalDate RDate = recurrenceEndDate.getValue();
         LocalDate endDate = endDateField.getValue();
         if (endDate.isAfter(RDate)){
