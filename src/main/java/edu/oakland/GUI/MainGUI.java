@@ -263,15 +263,13 @@ public class MainGUI {
                 if (currEvent.getHighPriority()) {
                     eventLabel.setStyle("-fx-background-color: OrangeRed;");
                 } else {
+                    if (!goodColors.hasNext()) goodColors = eventColors.iterator();
                     eventLabel.setBackground(new Background(new BackgroundFill(goodColors.next(),null,null)));
                 }
 
                 eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
                 eventLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, this::viewEventDetail);
                 eventsByLabel.put(eventLabel, currEvent);
-
-                if (!goodColors.hasNext()) goodColors = eventColors.iterator();
-                eventLabel.setBackground(new Background(new BackgroundFill(goodColors.next(), null, null)));
 
                 dayVBox.getChildren().add(eventLabel);
             }
