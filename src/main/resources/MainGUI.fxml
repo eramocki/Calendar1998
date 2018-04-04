@@ -256,7 +256,7 @@
                                         <Tooltip text="Confirm Event" />
                                     </tooltip>
                                 </Button>
-                        <DatePicker fx:id="recurrenceEndDate" onAction="#validateREndDate" prefHeight="25.0" prefWidth="182.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                        <DatePicker fx:id="recurrenceEndDate" onAction="#validateRecurrenceEndDate" prefHeight="25.0" prefWidth="182.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                         <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="81.0" text="Recur End" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                             </children>
                         </GridPane>
