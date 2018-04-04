@@ -24,17 +24,17 @@ public class UpdateEventController {
     private DatePicker startDateField, endDateField, recurrenceEndDate;
 
     @FXML
-    private ComboBox startTimeDropdown, endTimeDropdown, recurField;
+    private CheckBox allDay, highPrior;
 
     @FXML
-    private TextField eventNameField, eventLocationField, eventAttendeesField;
+    private ComboBox startTimeDropdown, endTimeDropdown, recurField;
 
     @FXML
     private TextArea eventDescriptionField;
 
     @FXML
-    private CheckBox allDay, highPrior;
-
+    private TextField eventNameField, eventLocationField, eventAttendeesField;
+    
     @FXML
     public void initialize() {
         GUIHelper.setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);
@@ -70,7 +70,6 @@ public class UpdateEventController {
                 }
             }
         });
-
     }
 
     @FXML
