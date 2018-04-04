@@ -25,7 +25,8 @@ public class SettingsGUI {
     private PasswordField verifyPasswordField;
 
     @FXML
-    public void initialize() { }
+    public void initialize() {
+    }
 
     @FXML
     private void exitApp() {
@@ -87,6 +88,8 @@ public class SettingsGUI {
     }
 
 
-    public Account getCurrentAccount() { return currentAccount; }
+    public Account getCurrentAccount() {
+        return currentAccount;
+    }
 
 }

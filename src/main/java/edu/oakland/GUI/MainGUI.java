@@ -53,29 +53,43 @@ public class MainGUI {
 
     private static final Logger logger = Logger.getLogger(MainGUI.class.getName());
 
-    /* Currently used account for the logged in user */
+    /**
+     * Currently used account for the logged in user
+     */
     private Account currentAccount;
 
-    /* Currently displayed month in the calendar */
+    /**
+     * Currently displayed month in the calendar
+     */
     private ZonedDateTime currentMonth;
 
-    /* Currently displayed day in detail pane */
+    /**
+     * Currently displayed day in detail pane
+     */
     private LocalDate currentDate;
 
-    /* Currently selected event in detail pane */
+    /**
+     * Currently selected event in detail pane
+     */
     private Event currentEvent;
 
-    /* Each day in the calendar view has a VBox to put things in */
+    /**
+     * Each day in the calendar view has a VBox to put things in
+     */
     private HashMap<LocalDate, VBox> VBoxesByDay = new HashMap<>();
 
-    /* Each event has a label made for it */
+    /**
+     * Each event has a label made for it
+     */
     private HashMap<Label, Event> eventsByLabel = new HashMap<>();
 
     /*
-        Calendar Page Objects
-    */
+     * Calendar Page Objects
+     */
 
-    /* Matrix used to return the selected date on click */
+    /**
+     * Matrix used to return the selected date on click
+     */
     private int[][] daylayout;
 
     private LocalDate oldDateValue;
@@ -103,8 +117,8 @@ public class MainGUI {
     private ToggleButton toggleCompleted;
 
     /*
-        Add Event Page Objects
-    */
+     *   Add Event Page Objects
+     */
 
     @FXML
     private DatePicker startDateField, endDateField, recurrenceEndDate;
@@ -123,10 +137,9 @@ public class MainGUI {
 
     @FXML
     public void initialize() {
-        /*NB Only pure GUI setup! Others use postInit
-        "good" colors for events that are next to each other
-        eventColors.add(Color.web("")); */
+        //NB Only pure GUI setup! Others use postInit
 
+        //"good" colors for events that are next to each other
         eventColors.add(Color.web("#D7FFF1"));
         eventColors.add(Color.web("#A0DDE6"));
         eventColors.add(Color.web("#80C2AF"));
@@ -222,6 +235,7 @@ public class MainGUI {
 
     /**
      * Initializes the calendar display to draw out the dates for each day of the week in that given month
+     *
      * @param theMonth The input month which will be rendered
      */
     public void viewMonth(ZonedDateTime theMonth) {
@@ -268,7 +282,7 @@ public class MainGUI {
                     eventLabel.setStyle("-fx-background-color: OrangeRed;");
                 } else {
                     if (!goodColors.hasNext()) goodColors = eventColors.iterator();
-                    eventLabel.setBackground(new Background(new BackgroundFill(goodColors.next(),null,null)));
+                    eventLabel.setBackground(new Background(new BackgroundFill(goodColors.next(), null, null)));
                 }
 
                 eventLabel.setMaxWidth(Double.MAX_VALUE); //So it fills the width
@@ -327,7 +341,7 @@ public class MainGUI {
 
         if (importFile == null) return;
 
-        if (Account.loadAccounts(importFile)){
+        if (Account.loadAccounts(importFile)) {
             setCurrentAccount(Account.getAccount(getCurrentAccount().getUserName())); //Refresh from what was loaded
             viewMonth(currentMonth);
             GUIHelper.alert("Load me", "Data were loaded", "Loaded data successfully!", Alert.AlertType.INFORMATION);
@@ -348,7 +362,7 @@ public class MainGUI {
 
         if (exportFile == null) return;
 
-        if (Account.saveAccounts(exportFile)){
+        if (Account.saveAccounts(exportFile)) {
             GUIHelper.alert("Save me", "Data were saved", "Exported data successfully!", Alert.AlertType.INFORMATION);
         } else {
             GUIHelper.errorAlert("This will not do.", "Couldn't save data!", "There was an error saving that file!");
@@ -367,7 +381,11 @@ public class MainGUI {
 
     @FXML
     private void logoutApp() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to logout?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Are you sure you want to logout?",
+                ButtonType.YES,
+                ButtonType.NO,
+                ButtonType.CANCEL);
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
@@ -401,7 +419,9 @@ public class MainGUI {
     }
 
     @FXML
-    private void exitApp() { Platform.exit(); }
+    private void exitApp() {
+        Platform.exit();
+    }
 
     @FXML
     private void gotoAddEventTab() {
@@ -454,10 +474,14 @@ public class MainGUI {
     }
 
     @FXML
-    private void viewMonthPrevious() { viewMonth(currentMonth.minusMonths(1)); }
+    private void viewMonthPrevious() {
+        viewMonth(currentMonth.minusMonths(1));
+    }
 
     @FXML
-    private void viewMonthNext() { viewMonth(currentMonth.plusMonths(1)); }
+    private void viewMonthNext() {
+        viewMonth(currentMonth.plusMonths(1));
+    }
 
     @FXML
     private void viewEventDetail(MouseEvent event) {
@@ -597,7 +621,8 @@ public class MainGUI {
         String dayWeek = new String(weekArray);
 
         StringBuilder output = new StringBuilder();
-        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(curdate);
+        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(
+                curdate);
         dateLabel.setText(output.toString());
         currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
         Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
@@ -686,7 +711,11 @@ public class MainGUI {
     private void deleteCurrentEvent() {
 
         if (currentEvent != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + currentEvent.getEventName() + "?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Are you sure you want to delete " + currentEvent.getEventName() + "?",
+                    ButtonType.YES,
+                    ButtonType.NO,
+                    ButtonType.CANCEL);
             alert.showAndWait();
 
             if (alert.getResult() == ButtonType.YES) {
@@ -751,7 +780,7 @@ public class MainGUI {
 
         int numEvents = getCurrentAccount().getCalendar().startingSet.size();
         temp.append("\n\nCompleted " + completedEvents.size() + "/" + numEvents);
-        temp.append(" (" + df.format((float) completedEvents.size() / numEvents*100.0) + " %)");
+        temp.append(" (" + df.format((float) completedEvents.size() / numEvents * 100.0) + " %)");
         completedEventsArea.setText(temp.toString());
 
     }
@@ -807,8 +836,7 @@ public class MainGUI {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("This will not do.");
                 alert.setHeaderText("Try again, friend.");
-                alert.setContentText("Your end time cannot be before your start time unless you adjust your dates "
-                        + "appropriately");
+                alert.setContentText("Your end time cannot be before your start time unless you adjust your dates appropriately");
                 alert.showAndWait();
             } else if (eventNameField.getText().equals("")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -899,35 +927,49 @@ public class MainGUI {
     }
 
     @FXML
-    private void validateEndDate(){
+    private void validateEndDate() {
         LocalDate startDate = startDateField.getValue();
         LocalDate endDate = endDateField.getValue();
-        if (startDate.isAfter(endDate)){
+        if (startDate.isAfter(endDate)) {
             endDateField.setValue(startDate);
-            GUIHelper.alert("Validation", "Whoops...", "You chose an end date that is earlier than" +
-                    " the selected start date. Time travel is strictly prohibited in this universe.", Alert.AlertType.INFORMATION);
+            GUIHelper.alert("Validation",
+                    "Whoops...",
+                    "You chose an end date that is earlier than the selected start date. Time travel is strictly prohibited in this universe.",
+                    Alert.AlertType.INFORMATION);
         }
     }
 
     @FXML
-    private void validateRecurrenceEndDate(){
+    private void validateRecurrenceEndDate() {
         LocalDate RDate = recurrenceEndDate.getValue();
         LocalDate endDate = endDateField.getValue();
-        if (endDate.isAfter(RDate)){
+        if (endDate.isAfter(RDate)) {
             recurrenceEndDate.setValue(endDate);
-            GUIHelper.alert("Validation", "Whoops...", "You chose to end recurrence before the end " +
-                    "of the event. You'll never get anything done if you don't try.", Alert.AlertType.INFORMATION);
+            GUIHelper.alert("Validation",
+                    "Whoops...",
+                    "You chose to end recurrence before the end of the event. You'll never get anything done if you don't try.",
+                    Alert.AlertType.INFORMATION);
         }
     }
 
 
-    public Account getCurrentAccount() { return currentAccount; }
+    public Account getCurrentAccount() {
+        return currentAccount;
+    }
 
-    public void setCurrentAccount(Account currentAccount) { this.currentAccount = currentAccount; }
+    public void setCurrentAccount(Account currentAccount) {
+        this.currentAccount = currentAccount;
+    }
 
-    public Event getCurrentEvent() { return currentEvent; }
+    public Event getCurrentEvent() {
+        return currentEvent;
+    }
 
-    public void setCurrentEvent(Event event) { currentEvent = event; }
+    public void setCurrentEvent(Event event) {
+        currentEvent = event;
+    }
 
-    public ZonedDateTime getCurrentMonth() { return currentMonth; }
+    public ZonedDateTime getCurrentMonth() {
+        return currentMonth;
+    }
 }
