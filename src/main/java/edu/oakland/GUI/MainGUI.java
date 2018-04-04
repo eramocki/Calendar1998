@@ -869,10 +869,28 @@ public class MainGUI {
     @FXML
     private void adjustEndDate() {
         LocalDate startDate = startDateField.getValue();
-        long days = DAYS.between(oldDateValue, startDate);
+        if (LocalDate.now().isAfter(startDate)){
+            startDateField.setValue(LocalDate.now());
+            GUIHelper.alert("Validation", "Whoops...", "You chose a date that has already passed. " +
+                    "Instead of trying to pad your stats, try some new constructive activities.", Alert.AlertType.INFORMATION);
+        }
+        else {
+            long days = DAYS.between(oldDateValue, startDate);
 
-        endDateField.setValue(endDateField.getValue().plusDays(days));
-        oldDateValue = startDate;
+            endDateField.setValue(endDateField.getValue().plusDays(days));
+            oldDateValue = startDate;
+        }
+    }
+
+    @FXML
+    private void validateEndDate(){
+        LocalDate startDate = startDateField.getValue();
+        LocalDate endDate = endDateField.getValue();
+        if (startDate.isAfter(endDate)){
+            endDateField.setValue(startDate);
+            GUIHelper.alert("Validation", "Whoops...", "You chose an end date that is earlier than" +
+                    " the selected start date. Time travel is strictly prohibited in this universe.", Alert.AlertType.INFORMATION);
+        }
     }
 
     public Account getCurrentAccount() {
