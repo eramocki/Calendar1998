@@ -867,18 +867,11 @@ public class MainGUI {
 
     @FXML
     private void adjustEndDate() {
-        //Also validate start date here before the adjustment
         LocalDate startDate = startDateField.getValue();
-        if (LocalDate.now().isAfter(startDate)){
-            startDateField.setValue(LocalDate.now());
-            GUIHelper.alert("Validation", "Whoops...", "You chose a date that has already passed. " +
-                    "Instead of trying to pad your stats, try some new constructive activities.", Alert.AlertType.INFORMATION);
-        } else {
-            long days = DAYS.between(oldDateValue, startDate);
+        long days = DAYS.between(oldDateValue, startDate);
 
-            endDateField.setValue(endDateField.getValue().plusDays(days));
-            oldDateValue = startDate;
-        }
+        endDateField.setValue(endDateField.getValue().plusDays(days));
+        oldDateValue = startDate;
     }
 
     @FXML
