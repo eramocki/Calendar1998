@@ -42,6 +42,11 @@
                           <MenuItem mnemonicParsing="false" onAction="#openSettingsGUI" text="Settings" />
                       </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="View">
+                      <items>
+                          <MenuItem mnemonicParsing="false" onAction="#gotoReportTab" text="View Reports" />
+                      </items>
+                  </Menu>
                   <Menu mnemonicParsing="false" text="Help">
                       <items>
                           <MenuItem mnemonicParsing="false" onAction="#aboutApp" text="About" />

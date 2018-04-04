@@ -409,6 +409,12 @@ public class MainGUI {
         selector.select(1);
     }
 
+    @FXML
+    private void gotoReportTab() {
+        SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
+        selector.select(2);
+    }
+
     /**
      * Opens the settings GUI page
      */

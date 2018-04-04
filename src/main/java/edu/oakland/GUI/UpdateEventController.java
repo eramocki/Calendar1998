@@ -34,7 +34,7 @@ public class UpdateEventController {
 
     @FXML
     private TextField eventNameField, eventLocationField, eventAttendeesField;
-    
+
     @FXML
     public void initialize() {
         GUIHelper.setupTimeCombobox(startTimeDropdown, LocalTime.MIDNIGHT);

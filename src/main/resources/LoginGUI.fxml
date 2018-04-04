@@ -62,6 +62,11 @@
                                 <MenuItem disable="true" mnemonicParsing="false" text="Settings" />
                             </items>
                         </Menu>
+                        <Menu mnemonicParsing="false" text="View">
+                            <items>
+                                <MenuItem mnemonicParsing="false" disable="true" text="View Reports" />
+                            </items>
+                        </Menu>
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#aboutApp" text="About" />
