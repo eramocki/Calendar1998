@@ -226,13 +226,13 @@
                                 </TextField>
                                 <Label text="Start Time" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
                                 <DatePicker fx:id="startDateField" onAction="#adjustEndDate" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
-                                <ComboBox fx:id="startTimeDropdown" prefHeight="25.0" prefWidth="142.0" promptText="00:00" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                                <ComboBox fx:id="startTimeDropdown" editable="true" prefHeight="25.0" prefWidth="142.0" promptText="00:00" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin></ComboBox>
                                 <Label text="End Time" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                                 <DatePicker fx:id="endDateField" onAction="#validateEndDate" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
-                                <ComboBox fx:id="endTimeDropdown" prefHeight="25.0" prefWidth="142.0" promptText="00:00" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                                <ComboBox fx:id="endTimeDropdown" editable="true" prefHeight="25.0" prefWidth="142.0" promptText="00:00" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin></ComboBox>
