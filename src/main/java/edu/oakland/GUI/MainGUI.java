@@ -621,8 +621,7 @@ public class MainGUI {
         String dayWeek = new String(weekArray);
 
         StringBuilder output = new StringBuilder();
-        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(
-                curdate);
+        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(curdate);
         dateLabel.setText(output.toString());
         currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
         Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
