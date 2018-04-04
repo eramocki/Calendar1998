@@ -26,6 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.xml.bind.annotation.XmlList;
 import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -45,7 +46,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Random;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -217,6 +217,7 @@ public class MainGUI {
         leftArrow.setDisable(true);
         rightArrow.setDisable(true);
         viewMonth(ZonedDateTime.now());
+
     }
 
 
@@ -866,6 +867,7 @@ public class MainGUI {
 
     @FXML
     private void adjustEndDate() {
+        // added start date validation here before the adjustment in the else clause
         LocalDate startDate = startDateField.getValue();
         if (LocalDate.now().isAfter(startDate)){
             startDateField.setValue(LocalDate.now());
@@ -877,6 +879,7 @@ public class MainGUI {
 
             endDateField.setValue(endDateField.getValue().plusDays(days));
             oldDateValue = startDate;
+
         }
     }
 
@@ -890,6 +893,18 @@ public class MainGUI {
                     " the selected start date. Time travel is strictly prohibited in this universe.", Alert.AlertType.INFORMATION);
         }
     }
+
+    @FXML
+    private void validateREndDate(){
+        LocalDate RDate = recurrenceEndDate.getValue();
+        LocalDate endDate = endDateField.getValue();
+        if (endDate.isAfter(RDate)){
+            recurrenceEndDate.setValue(endDate);
+            GUIHelper.alert("Validation", "Whoops...", "You chose to end recurrence before the end " +
+                    "of the event. You'll never get anything done if you don't try.", Alert.AlertType.INFORMATION);
+        }
+    }
+
 
     public Account getCurrentAccount() {
         return currentAccount;
