@@ -574,12 +574,17 @@ public class MainGUI {
         if (currentEvent.getEventDesc() != null) {
             temp.append("\nDescription:").append("\n\t").append(currentEvent.getEventDesc()).append("\n");
         }
-        if (currentEvent.getFrequency().equals(Frequency.WEEKLY)) {
-            temp.append("\nRecurs Weekly");
-        } else if (currentEvent.getFrequency().equals(Frequency.MONTHLY)) {
-            temp.append("\nRecurs Monthly");
-        } else if (currentEvent.getFrequency().equals(Frequency.DAILY)) {
-            temp.append("\nRecurs Daily");
+        if(!(currentEvent instanceof SingularEvent)) {
+            if (currentEvent.getFrequency().equals(Frequency.WEEKLY)) {
+                temp.append("\nRecurs Weekly");
+            } else if (currentEvent.getFrequency().equals(Frequency.MONTHLY)) {
+                temp.append("\nRecurs Monthly");
+            } else if (currentEvent.getFrequency().equals(Frequency.DAILY)) {
+                temp.append("\nRecurs Daily");
+            }
+            temp.append("\n").append("Recurrence ends on:\n\t");
+            //TODO classCastException
+            //temp.append(((RecurrentEvent) currentEvent).getRecurrenceEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm\n")));
         }
         eventOutput.setText(temp.toString());
         eventOutput.setDisable(false);
