@@ -95,10 +95,10 @@
                                             </font></Label>
                                         <Button mnemonicParsing="false" onAction="#viewMonthNext" text="&gt;" GridPane.columnIndex="13" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                             <GridPane.margin>
-                                                <Insets right="10.0" />
+                                                <Insets />
                                             </GridPane.margin>
                                         </Button>
-                                        <Label fx:id="dateLabel" prefHeight="17.0" prefWidth="174.0" text="No Date Selected" textAlignment="CENTER" GridPane.columnIndex="12" GridPane.columnSpan="5" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                                        <Label fx:id="dateLabel" prefHeight="17.0" prefWidth="174.0" text="No Date Selected" textAlignment="CENTER" GridPane.columnIndex="12" GridPane.columnSpan="5" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                             <font>
                                                 <Font size="14.0" />
                                             </font></Label>

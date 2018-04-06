@@ -546,7 +546,7 @@ public class MainGUI {
         }
 
         StringBuilder temp = new StringBuilder();
-        temp.append("Event Name: ").append("\n\t").append(currentEvent.getEventName()).append("\n");
+        temp.append("\nEvent Name: ").append("\n\t").append(currentEvent.getEventName()).append("\n");
         ZonedDateTime st = currentEvent.getStart();
         ZonedDateTime end = currentEvent.getEnd();
         if (currentEvent.getEventLocation() != null) {
