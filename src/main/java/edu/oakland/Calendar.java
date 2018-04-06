@@ -14,9 +14,8 @@ public class Calendar implements Serializable {
     private transient static final Logger logger = Logger.getLogger(Calendar.class.getName());
 
     public transient HashMap<YearMonth, Set<Event>> monthCache;
-
-    public TreeSet<Event> startingSet;
-    public TreeSet<Event> endingSet;
+    private TreeSet<Event> startingSet;
+    private TreeSet<Event> endingSet;
     private TreeSet<RecurrentEvent> recurringEndingSet;
 
     public Calendar() {
@@ -217,5 +216,17 @@ public class Calendar implements Serializable {
                 return o1.getEventName().compareToIgnoreCase(o2.getEventName());
             }
         }
+    }
+
+    public SortedSet<Event> getStartingSet() {
+        return startingSet;
+    }
+
+    public SortedSet<Event> getEndingSet() {
+        return endingSet;
+    }
+
+    public SortedSet<RecurrentEvent> getRecurringEndingSet() {
+        return recurringEndingSet;
     }
 }

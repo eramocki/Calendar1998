@@ -797,7 +797,7 @@ public class MainGUI {
         }
         DecimalFormat df = new DecimalFormat("#.##");
 
-        int numEvents = getCurrentAccount().getCalendar().startingSet.size();
+        int numEvents = getCurrentAccount().getCalendar().getStartingSet().size();
         temp.append("\n\nCompleted " + completedEvents.size() + "/" + numEvents);
         temp.append(" (" + df.format((float) completedEvents.size() / numEvents * 100.0) + " %)");
         completedEventsArea.setText(temp.toString());
@@ -807,12 +807,14 @@ public class MainGUI {
     @FXML
     private void fetchAll() {
         completedEventsArea.setText("");
-
-        Set<Event> allEvents = getCurrentAccount().getCalendar().startingSet;
-
+        SortedSet<RecurrentEvent> allEventsRec = getCurrentAccount().getCalendar().getRecurringEndingSet();
+        SortedSet<Event> allEvents = getCurrentAccount().getCalendar().getStartingSet();
         StringBuilder temp = new StringBuilder();
         for (Event currEvent : allEvents) {
             temp.append(currEvent.getEventName()).append("\n");
+        }
+        for (RecurrentEvent currRecEvent : allEventsRec) {
+            temp.append(currRecEvent.getEventName()).append("\n");
         }
         completedEventsArea.setText(temp.toString());
     }
