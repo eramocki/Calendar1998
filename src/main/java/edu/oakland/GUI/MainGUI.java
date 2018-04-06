@@ -636,8 +636,12 @@ public class MainGUI {
         weekArray[0] = Character.toUpperCase(weekArray[0]);
         String dayWeek = new String(weekArray);
 
+        String[] dateSuffix = {"th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"};
+        int dateMod = curdate % 100;
+        String correctedDate = String.valueOf(curdate) + dateSuffix[(dateMod > 3 && dateMod < 21) ? 0 : (dateMod % 10)];
+
         StringBuilder output = new StringBuilder();
-        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(curdate);
+        output.append(dayWeek).append(", ").append(currentMonth.format(DateTimeFormatter.ofPattern("MMMM"))).append(" ").append(correctedDate);
         dateLabel.setText(output.toString());
         currentDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), curdate);
         Set<Event> dayEvents = getCurrentAccount().getCalendar().getDayEvents(currentDate);
