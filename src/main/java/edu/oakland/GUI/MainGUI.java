@@ -583,8 +583,7 @@ public class MainGUI {
                 temp.append("\nRecurs Daily");
             }
             temp.append("\n").append("Recurrence ends on:\n\t");
-            //TODO classCastException
-            //temp.append(((RecurrentEvent) currentEvent).getRecurrenceEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm\n")));
+            temp.append(((EphemeralEvent) currentEvent).getParent().getRecurrenceEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm\n")));
         }
         eventOutput.setText(temp.toString());
         eventOutput.setDisable(false);
