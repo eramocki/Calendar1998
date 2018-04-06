@@ -546,28 +546,33 @@ public class MainGUI {
         }
 
         StringBuilder temp = new StringBuilder();
-        temp.append(currentEvent.getEventName());
+        temp.append("Event Name: ").append("\n\t").append(currentEvent.getEventName()).append("\n");
         ZonedDateTime st = currentEvent.getStart();
         ZonedDateTime end = currentEvent.getEnd();
-        if (currentEvent.getEventDesc() != null) {
-            temp.append("\n").append(currentEvent.getEventDesc());
-        }
         if (currentEvent.getEventLocation() != null) {
-            temp.append("\n").append(currentEvent.getEventLocation());
+            temp.append("\nLocation: ").append("\n\t").append(currentEvent.getEventLocation()).append("\n");
         }
         if (currentEvent.getEventAttendees() != null) {
-            temp.append("\n").append(currentEvent.getEventAttendees());
+            temp.append("\nAttendees:").append("\n\t").append(currentEvent.getEventAttendees()).append("\n");
         }
+
         if (!currentEvent.getEventAllDay()) {
-            temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
-            temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd HH:mm")));
+            temp.append("\nStart time:").append("\n\t");
+            temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm\n")));
+            temp.append("\nEnd time:").append("\n\t");
+            temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm\n")));
         } else {
-            temp.append("\nAll Day SingularEvent");
-            temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
-            temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("\nyyyy-MM-dd")));
+            temp.append("\nAll Day event\n\n");
+            temp.append("Start time:").append("\n\t");
+            temp.append(st.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd\n")));
+            temp.append("End time:").append("\n\t");
+            temp.append(end.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd\n")));
         }
         if (currentEvent.getHighPriority()) {
-            temp.append("\nHigh Priority");
+            temp.append("\nEvent marked High Priority\n");
+        }
+        if (currentEvent.getEventDesc() != null) {
+            temp.append("\nDescription:").append("\n\t").append(currentEvent.getEventDesc()).append("\n");
         }
         if (currentEvent.getFrequency().equals(Frequency.WEEKLY)) {
             temp.append("\nRecurs Weekly");
@@ -925,6 +930,8 @@ public class MainGUI {
         endDateField.setValue(LocalDate.now());
         startTimeDropdown.getSelectionModel().selectFirst();
         endTimeDropdown.getSelectionModel().selectFirst();
+        recurField.getSelectionModel().selectFirst();
+        recurrenceEndDate.setValue(LocalDate.now());
     }
 
     @FXML
