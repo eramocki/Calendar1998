@@ -22,38 +22,38 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.oakland.GUI.MainGUI">
     <children>
-          <MenuBar fx:id="myMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <menus>
-                  <Menu mnemonicParsing="false" text="File">
-                      <items>
-                          <MenuItem mnemonicParsing="false" onAction="#openCreateAccountGUI" text="New User" />
-                          <MenuItem mnemonicParsing="false" onAction="#importData" text="Import Data" />
-                          <MenuItem mnemonicParsing="false" onAction="#exportData" text="Export Data" />
-                          <MenuItem mnemonicParsing="false" onAction="#saveData" text="Save" />
-                          <MenuItem mnemonicParsing="false" onAction="#logoutApp" text="Logout" />
-                          <MenuItem mnemonicParsing="false" onAction="#exitApp" text="Exit" />
-                      </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Edit">
-                      <items>
-                          <MenuItem mnemonicParsing="false" onAction="#gotoAddEventTab" text="Add Event" />
-                          <MenuItem mnemonicParsing="false" onAction="#openSettingsGUI" text="Settings" />
-                      </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="View">
-                      <items>
-                          <MenuItem mnemonicParsing="false" onAction="#gotoReportTab" text="View Reports" />
-                      </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Help">
-                      <items>
-                          <MenuItem mnemonicParsing="false" onAction="#aboutApp" text="About" />
-                      </items>
-                  </Menu>
-              </menus>
-          </MenuBar>
+        <MenuBar fx:id="myMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#openCreateAccountGUI" text="New User" />
+                        <MenuItem mnemonicParsing="false" onAction="#importData" text="Import Data" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportData" text="Export Data" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveData" text="Save" />
+                        <MenuItem mnemonicParsing="false" onAction="#logoutApp" text="Logout" />
+                        <MenuItem mnemonicParsing="false" onAction="#exitApp" text="Exit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#gotoAddEventTab" text="Add Event" />
+                        <MenuItem mnemonicParsing="false" onAction="#openSettingsGUI" text="Settings" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="View">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#gotoReportTab" text="View Reports" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#aboutApp" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
         <TabPane fx:id="tabPane" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
             <tabs>
                 <Tab text="Calendar">
@@ -66,19 +66,19 @@
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints />
+                                        <ColumnConstraints />
+                                        <ColumnConstraints />
+                                        <ColumnConstraints />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
                                     </columnConstraints>
                                     <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -90,18 +90,18 @@
                                             </GridPane.margin>
                                         </Button>
                                         <Label fx:id="calendarHeaderLabel" text="Month" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></Label>
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font></Label>
                                         <Button mnemonicParsing="false" onAction="#viewMonthNext" text="&gt;" GridPane.columnIndex="13" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                             <GridPane.margin>
                                                 <Insets right="10.0" />
                                             </GridPane.margin>
                                         </Button>
                                         <Label fx:id="dateLabel" prefHeight="17.0" prefWidth="174.0" text="No Date Selected" textAlignment="CENTER" GridPane.columnIndex="12" GridPane.columnSpan="5" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font></Label>
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font></Label>
                                     </children>
                                 </GridPane>
                             </top>
@@ -131,15 +131,15 @@
                                         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#openUpdatePage" text="Update" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
                                         <Button fx:id="removeButton" mnemonicParsing="false" onAction="#deleteCurrentEvent" text="Remove" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
                                         <TextArea fx:id="eventOutput" disable="true" editable="false" prefHeight="323.0" prefWidth="200.0" wrapText="true" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowSpan="8" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font></TextArea>
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font></TextArea>
                                         <Button fx:id="leftArrow" mnemonicParsing="false" onAction="#viewPreviousEvent" text="&lt;" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
                                         <Button fx:id="rightArrow" mnemonicParsing="false" onAction="#viewNextEvent" text="&gt;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
-                              <ToggleButton fx:id="toggleCompleted" mnemonicParsing="false" onAction="#eventCompletionStatus" text="Mark&#10;Completed" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font></ToggleButton>
+                                        <ToggleButton fx:id="toggleCompleted" mnemonicParsing="false" onAction="#eventCompletionStatus" text="Mark&#10;Completed" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font></ToggleButton>
                                     </children>
                                     <BorderPane.margin>
                                         <Insets left="10.0" right="10.0" />
@@ -200,7 +200,7 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints />
+                                <RowConstraints />
                             </rowConstraints>
                             <children>
                                 <Label alignment="CENTER" contentDisplay="TOP" text="Add Event" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.halignment="CENTER">
@@ -232,37 +232,37 @@
                                 <Label text="Start Time" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
                                 <DatePicker fx:id="startDateField" onAction="#adjustEndDate" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2" />
                                 <ComboBox fx:id="startTimeDropdown" editable="true" prefHeight="25.0" prefWidth="142.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.rowSpan="2">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin></ComboBox>
+                                    <GridPane.margin>
+                                        <Insets left="10.0" />
+                                    </GridPane.margin></ComboBox>
                                 <Label text="End Time" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                                 <DatePicker fx:id="endDateField" onAction="#validateEndDate" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                                 <ComboBox fx:id="endTimeDropdown" editable="true" prefHeight="25.0" prefWidth="142.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin></ComboBox>
+                                    <GridPane.margin>
+                                        <Insets left="10.0" />
+                                    </GridPane.margin></ComboBox>
                                 <CheckBox fx:id="allDay" mnemonicParsing="false" text="All Day Event" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                                 <CheckBox fx:id="highPrior" mnemonicParsing="false" text="High Priority" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin></CheckBox>
+                                    <GridPane.margin>
+                                        <Insets />
+                                    </GridPane.margin></CheckBox>
                                 <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="81.0" text="Recur Amount" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
                                 <ComboBox fx:id="recurField" prefHeight="25.0" prefWidth="172.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
                                 <TextArea fx:id="eventDescriptionField" prefHeight="200.0" prefWidth="200.0" promptText="Description" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="5" GridPane.rowSpan="4">
                                     <tooltip>
                                         <Tooltip text="Event Description" />
                                     </tooltip>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
                                 </TextArea>
                                 <Button fx:id="addEventSubmitButton" mnemonicParsing="false" onAction="#submitEvent" prefHeight="25.0" prefWidth="121.0" text="Submit" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                                     <tooltip>
                                         <Tooltip text="Confirm Event" />
                                     </tooltip>
                                 </Button>
-                        <DatePicker fx:id="recurrenceEndDate" onAction="#validateRecurrenceEndDate" prefHeight="25.0" prefWidth="182.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-                        <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="81.0" text="Recur End" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                                <DatePicker fx:id="recurrenceEndDate" onAction="#validateRecurrenceEndDate" prefHeight="25.0" prefWidth="182.0" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                                <Label contentDisplay="RIGHT" prefHeight="17.0" prefWidth="81.0" text="Recur End" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                             </children>
                         </GridPane>
                     </content>
@@ -309,6 +309,8 @@
                                 <TextArea fx:id="completedEventsArea" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="10" GridPane.rowIndex="2" GridPane.rowSpan="8" />
                                 <Button fx:id="fetchCompletedButton" mnemonicParsing="false" onAction="#fetchCompleted" prefHeight="40.0" prefWidth="341.0" text="Show Completed" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                                 <Button fx:id="fetchAllButton" mnemonicParsing="false" onAction="#fetchAll" prefHeight="40.0" prefWidth="295.0" text="Show All" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                                <TextField fx:id="searchBox" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="1" />
+                                <Button mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="28.0" text="🔍" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                             </children>
                         </GridPane>
                     </content>

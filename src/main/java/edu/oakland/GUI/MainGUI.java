@@ -130,7 +130,7 @@ public class MainGUI {
     private ComboBox startTimeDropdown, endTimeDropdown, recurField;
 
     @FXML
-    private TextField eventNameField, eventLocationField, eventAttendeesField;
+    private TextField eventNameField, eventLocationField, eventAttendeesField, searchBox;
 
     @FXML
     private TextArea eventDescriptionField, completedEventsArea;
@@ -433,6 +433,17 @@ public class MainGUI {
     private void gotoReportTab() {
         SingleSelectionModel<Tab> selector = tabPane.getSelectionModel();
         selector.select(2);
+    }
+
+    @FXML
+    private void search() {
+        completedEventsArea.setText("");
+        SortedSet<Event> list = getCurrentAccount().getCalendar().searchEvents(searchBox.getText());
+        StringBuilder outputText = new StringBuilder();
+        for (Event currEvent : list) {
+            outputText.append(currEvent.getEventName() + "\n");
+        }
+        completedEventsArea.setText(outputText.toString());
     }
 
     /**

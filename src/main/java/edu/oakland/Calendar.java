@@ -168,6 +168,17 @@ public class Calendar implements Serializable {
         return list;
     }
 
+    public SortedSet<Event> searchEvents(String input) {
+        TreeSet<Event> searchSet = new TreeSet<>(StartComparator.INSTANCE);
+        searchSet.addAll(startingSet.stream()
+                .filter(x -> x.getEventName().contains(input))
+                .collect(Collectors.toSet()));
+        searchSet.addAll(recurringEndingSet.stream()
+                .filter(x -> x.getEventName().contains(input))
+                .collect(Collectors.toSet()));
+        return searchSet;
+    }
+
     //You can ignore these enums. They're a workaround to serialize lambdas.
     private enum StartComparator implements Comparator<Event> {
         INSTANCE;
